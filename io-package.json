@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "wallpanel",
-		"version": "0.0.1",
+		"version": "0.0.2",
 		"news": {
+		  "0.0.2": {
+			"en": "first Beta",
+			"de": "erste Beta",
+			"ru": "первая бета",
+			"pt": "primeiro beta",
+			"nl": "eerste Beta",
+			"fr": "première bêta",
+			"it": "prima Beta",
+			"es": "primera Beta",
+			"pl": "pierwsza Beta",
+			"zh-cn": "第一个Beta"
+		  },
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
@@ -18,28 +30,11 @@
 		},
 		"title": "Wallpanel",
 		"titleLang": {
-			"en": "Wallpanel",
-			"de": "Wandplatte",
-			"ru": "Настенная панель",
-			"pt": "Painel de parede",
-			"nl": "Wandpaneel",
-			"fr": "Panneau mural",
-			"it": "Wallpanel",
-			"es": "Panel de pared",
-			"pl": "Panel ścienny",
-			"zh-cn": "墙板"
+			"en": "Wallpanel"
 		},
 		"desc": {
-			"en": "wallpanel",
-			"de": "Wandplatte",
-			"ru": "настенная панель",
-			"pt": "painel de parede",
-			"nl": "wandpaneel",
-			"fr": "panneau mural",
-			"it": "wallpanel",
-			"es": "panel de pared",
-			"pl": "panel ścienny",
-			"zh-cn": "墙板"
+			"en": "wallpanel"
+
 		},
 		"authors": [
 			"xXBJXx <alienware.games@gmail.com>"
@@ -55,7 +50,7 @@
 		"main": "main.js",
 		"icon": "wallpanel.png",
 		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
+		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/media/wallpanel.png",
 		"readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
 		"loglevel": "info",
 		"mode": "daemon",
@@ -64,15 +59,20 @@
 		"connectionType": "local",
 		"dataSource": "poll",
 		"materialize": true,
+		"plugins": {
+			"sentry": {
+				"dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
+			}
+		},
 		"dependencies": [
 			{
-				"js-controller": ">=1.4.2"
+				"js-controller": ">=2.0.0"
 			}
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"interval": 30,
+		"devices": []
 	},
 	"objects": [],
 	"instanceObjects": [

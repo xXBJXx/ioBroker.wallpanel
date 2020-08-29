@@ -7,9 +7,28 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
-
 // Load your modules here, e.g.:
-// const fs = require("fs");
+const {default: axios} = require('axios');
+
+
+let requestTimeout = null;
+let interval = null;
+const ip = [];
+const port = [];
+const tabletName = [];
+const requestUrl = [];
+const sendUrl = [];
+const logMessage = [];
+const deviceEnabled = [];
+const logMessageTimer = [];
+const commandStates = [`clearCache`, `relaunch`, `reload`, `wake`, `camera`, `brightness`, `volume`, `url`,
+	`urlAudio`, `speak`, `eval`];
+const commandStatesRole = [`button`, `button`, `button`, `button`, `button`, `level.dimmer`, `level.volume`,
+	`level.timer`, `url`, `url.audio`, `media.tts`, `json`];
+const commandStatesDef = [true, true, true, true, true, 0, 0, 0, ``, ``, ``];
+const commandStatesType = [`boolean`, `boolean`, `boolean`, `boolean`, `boolean`, `number`, `number`,
+	`string`, `string`, `string`, `string`];
+
 
 class Wallpanel extends utils.Adapter {
 
@@ -19,7 +38,7 @@ class Wallpanel extends utils.Adapter {
 	constructor(options) {
 		super({
 			...options,
-			name: 'wallpanel',
+			name: 'wallpanel'
 		});
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
@@ -32,61 +51,596 @@ class Wallpanel extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
-		// Initialize your adapter here
 
 		// Reset the connection indicator during startup
 		this.setState('info.connection', false, true);
 
-		// The adapters config (in the instance object everything under the attribute "native") is accessible via
-		// this.config:
-		this.log.info('config option1: ' + this.config.option1);
-		this.log.info('config option2: ' + this.config.option2);
+		// Initialize your adapter here
+		await this.initialization();
+		this.setState('info.connection', true, true);
+		await this.request();
 
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		await this.setObjectNotExistsAsync('testVariable', {
-			type: 'state',
-			common: {
-				name: 'testVariable',
-				type: 'boolean',
-				role: 'indicator',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-
-		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		this.subscribeStates('testVariable');
-		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-		// this.subscribeStates('lights.*');
-		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates('*');
-
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		await this.setStateAsync('testVariable', true);
-
-		// same thing, but the value is flagged "ack"
-		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setStateAsync('testVariable', { val: true, ack: true });
-
-		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
-
-		// examples for the checkPassword/checkGroup functions
-		let result = await this.checkPasswordAsync('admin', 'iobroker');
-		this.log.info('check user admin pw iobroker: ' + result);
-
-		result = await this.checkGroupAsync('admin', 'admin');
-		this.log.info('check group user admin group admin: ' + result);
 	}
+
+	async initialization() {
+		try {
+
+			this.log.debug(`prepare adapter for initialization`);
+			// polling min 10 sec.
+			interval = this.config.interval * 1000;
+			if (interval < 10000) {
+				interval = 10000;
+			}
+			this.log.debug(`Adapter config for interval readout --> ${interval} ms`);
+
+
+			// ip and port
+			const devices = this.config.devices;
+			if (!devices && devices.length !== 0 || devices !== [] && devices.length !== 0) {
+				for (const i in devices) {
+
+					ip[i] = devices[i].ip;
+					port[i] = devices[i].port;
+					deviceEnabled[i] = devices[i].enabled;
+
+					const Name = devices[i].name;
+					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
+					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
+
+					this.log.debug(`initialization Ip: ${JSON.stringify(ip)}`);
+					this.log.debug(`initialization port: ${JSON.stringify(port)}`);
+					this.log.debug(`initialization deviceEnabled: ${JSON.stringify(deviceEnabled)}`);
+					this.log.debug(`initialization tabletName: ${Name}`);
+					this.log.debug(`initialization requestUrl: ${JSON.stringify(requestUrl)}`);
+					this.log.debug(`initialization sendUrl: ${JSON.stringify(sendUrl)}`);
+
+					this.log.debug(`Check whether the IP address is available for the ${Name}`)
+					deviceEnabled[i] = ip[i] !== '';
+					this.log.debug(`${Name} has no ip address device is not queried`)
+
+					this.log.debug(`it is checked whether the name of the device is entered`)
+					// Prepare tablet name
+					if (Name !== '') {
+						this.log.debug(`the name of the device is entered and is used --> ${Name}`)
+						tabletName[i] = await this.replaceFunction(Name);
+					}
+					else if (deviceEnabled[i]) {
+						this.log.debug(`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`)
+						tabletName[i] = await this.replaceFunction(ip[i]);
+
+					}
+
+
+					this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
+
+				}
+				this.log.debug(`Adapter has been fully initialized`);
+			}
+			else {
+				deviceEnabled[1] = false
+			}
+		}
+		catch (error) {
+			this.log.error(`initialization has a problem: ${error.message}, stack: ${error.stack}`);
+		}
+	}
+
+	async request() {
+		if (requestTimeout) clearTimeout(requestTimeout);
+		if (!requestUrl && requestUrl.length !== 0 || requestUrl !== [] && requestUrl.length !== 0) {
+			for (const i in requestUrl) {
+
+				if (deviceEnabled[i]) {
+
+					this.log.debug(`device: ${tabletName[i]} enabled`);
+
+
+					let apiResult = null;
+
+					try {
+						this.log.debug(`API request started ...`);
+
+						// Try to reach API and receive data
+						apiResult = await axios.get(requestUrl[i]);
+
+						if (apiResult['status'] === 200) {
+							this.log.debug(`API request ended successfully --> result from api Request: ${JSON.stringify(apiResult['data'])}`);
+
+							this.log.debug(`State Create is now running ...`);
+							await this.create_State(apiResult);
+							this.log.debug(`State Create was carried out`);
+
+							this.log.debug(`States are now written`);
+							await this.state_write(apiResult, i);
+
+							//set is Wallpanel Alive to true if the request was successful
+							this.setState(`${tabletName[i]}.info.isWallpanelAlive`, {val: true, ack: true});
+							this.log.debug(`states were written`);
+
+							// clear log message timer
+							if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
+							this.log.debug(`logMessageTimer for ${tabletName[i]} will be deleted`);
+
+							logMessage[i] = false;
+
+							this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
+
+						}
+
+					}
+					catch (error) {
+
+						if (!logMessage[i]) {
+
+							logMessage[i] = true;
+							this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
+
+							this.log.error(`[Request] ${tabletName[i]} Unable to contact: ${error} | ${error}`);
+						}
+						else if (!logMessageTimer[i]) {
+
+							if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
+							this.log.debug(`logMessageTimer for ${tabletName[i]} will be deleted`);
+
+							this.log.debug(`set logMessageTimer for ${tabletName[i]} to ${3600000 / 60000} min`);
+							logMessageTimer[i] = setTimeout(async () => {
+
+								logMessage[i] = false;
+								this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
+
+							}, 3600000);
+						}
+
+						this.setState(`${tabletName[i]}.info.isWallpanelAlive`, {val: false, ack: true});
+						this.log.debug(`set isWallpanelAlive to false for ${tabletName[i]}`);
+					}
+				}
+				this.setState(`${tabletName[i]}.lastInfoUpdate`, {val: Date.now(), ack: true});
+				this.log.debug(`The last update of the state was on: ${Date.now()}`);
+			}
+			this.log.debug(`set requestTimeout to ${interval / 1000} sec`);
+			requestTimeout = setTimeout(async () => {
+
+				this.log.debug(`request is restarted`);
+				await this.request();
+
+			}, interval);
+		}
+	}
+
+	async state_write(res, index) {
+		try {
+
+			this.log.debug(`Preparation for the state write....`);
+			const requestStates = Object.keys(res['data']);
+
+			this.log.debug(`stats are written now`)
+			for (const r in requestStates) {
+
+				const result = Object.values(res['data'])[r];
+				await this.setStateAsync(`${tabletName[index]}.${requestStates[r]}`, {val: result, ack: true});
+
+			}
+		}
+		catch (error) {
+			this.log.error(`state_write has a problem: ${error.message}, stack: ${error.stack}`);
+		}
+	}
+
+	async sendCommand(id, state, index, cmd) {
+		try {
+			let result = null;
+
+			let value = state.val;
+
+			switch (cmd) {
+
+				case `${commandStates[0]}`:
+
+					if (value === false) {
+						value = true;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+						this.log.debug(`command [ volume ] is being sent with value: ${value}`);
+						result = await axios.post(sendUrl[index], {'clearCache': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ clearCache ] command was sent successfully Status: ${result['statusText']}`);
+
+						}
+
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ clearCache ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[1]}`:
+
+					if (value === false) {
+						value = true;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ relaunch ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'relaunch': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ relaunch ] command was sent successfully Status: ${result['statusText']}`);
+
+						}
+
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ relaunch ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[2]}`:
+
+					if (value === false) {
+						value = true;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ reload ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'reload': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ reload ] command was sent successfully Status: ${result['statusText']}`);
+
+						}
+
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ reload ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[3]}`:
+
+					if (value === false) {
+						value = true;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ wake ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'wake': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ wake ] command was sent successfully Status: ${result['statusText']}`);
+
+						}
+
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ wake ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[4]}`:
+
+					if (value === false) {
+						value = true;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ camera ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'camera': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ wake ] command was sent successfully Status: ${result['statusText']}`);
+
+						}
+
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ camera ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[5]}`:
+
+					if (value === 0) {
+						value = 1;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ brightness ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'brightness': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ brightness ] command was sent successfully Status: ${result['statusText']}`);
+							await this.setState(id, value, true);
+						}
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ brightness ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[6]}`:
+
+					if (value >= 100) {
+						value = 100;
+					}
+					else if (value <= 0) {
+						value = 0;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ volume ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'volume': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ volume ] command was sent successfully Status: ${result['statusText']}`);
+							await this.setState(id, value, true);
+						}
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ volume ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[7]}`:
+
+					if (value === 0) {
+						value = 1;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ url ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'url': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ url ] command was sent successfully Status: ${result['statusText']}`);
+							await this.setState(id, '', true);
+						}
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ url ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[8]}`:
+
+					if (value === 0) {
+						value = 1;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ urlAudio ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'audio': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ urlAudio ] command was sent successfully Status: ${result['statusText']}`);
+							await this.setState(id, '', true);
+						}
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ urlAudio ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[9]}`:
+
+					if (value === 0) {
+						value = 1;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ speak ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'speak': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ speak ] command was sent successfully Status: ${result['statusText']}`);
+							await this.setState(id, '', true);
+						}
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ speak ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+				case `${commandStates[10]}`:
+
+					if (value === 0) {
+						value = 1;
+					}
+					else {
+						value = state.val;
+					}
+
+					try {
+
+						this.log.debug(`command [ eval ] is being sent with value: ${value}`);
+
+						result = await axios.post(sendUrl[index], {'eval': value});
+
+						if (result['status'] === 200) {
+
+							this.log.debug(`[ eval ] command was sent successfully Status: ${result['statusText']}`);
+							await this.setState(id, '', true);
+						}
+					}
+					catch (error) {
+						this.log.error(`sendCommand has a problem sending [ eval ] command: ${error.message}, stack: ${error.stack}`);
+					}
+					break;
+
+			}
+
+
+		}
+		catch (error) {
+			this.log.error(`sendCommand has a problem: ${error.message}, stack: ${error.stack}`);
+		}
+	}
+
+
+	async create_State(res) {
+		try {
+			this.log.debug(`preparation for the statesCreate...`);
+
+			const requestStatesType = [];
+
+			const requestStates = Object.keys(res['data']);
+
+			this.log.debug(`Read the state name from the apiResult: ${requestStates}`);
+
+			for (const t in requestStates) {
+				requestStatesType[t] = typeof Object.values(res['data'])[t];
+			}
+			this.log.debug(`Read the state Type from the apiResult: ${requestStatesType}`);
+
+			this.log.debug(`Start the stateCreate for the requestStates`);
+			this.log.debug(`Start the stateCreate for the commandStates`);
+			for (const d in tabletName) {
+
+				await this.setObjectNotExistsAsync(`${tabletName[d]}.info.isWallpanelAlive`, {
+					type: 'state',
+					common: {
+						type: 'boolean',
+						role: 'indicator.connected',
+						def: false,
+						read: true,
+						write: false
+					},
+					native: {}
+				});
+
+				await this.extendObjectAsync(`${tabletName[d]}.lastInfoUpdate`, {
+					type: 'state',
+					common: {
+						name: `lastInfoUpdate`,
+						type: 'number',
+						role: 'value.time',
+						read: true,
+						write: false
+					},
+					native: {}
+				});
+
+				for (const r in requestStates) {
+
+					await this.setObjectNotExistsAsync(`${tabletName[d]}.${requestStates[r]}`, {
+						type: 'state',
+						common: {
+							name: `${requestStates[r]}`,
+							type: requestStatesType[r],
+							role: `state`,
+							read: true,
+							write: false
+						},
+						native: {}
+					});
+				}
+
+				for (const c in commandStates) {
+
+					await this.setObjectNotExistsAsync(`${tabletName[d]}.command.${commandStates[c]}`, {
+						type: 'state',
+						common: {
+							name: `${commandStates[c]}`,
+							type: `${commandStatesType[c]}`,
+							role: `${commandStatesRole[c]}`,
+							def: `${commandStatesDef[c]}`,
+							read: true,
+							write: true
+						},
+						native: {}
+					});
+
+					this.subscribeStates(`${tabletName[d]}.command.${commandStates[c]}`);
+
+				}
+				this.log.debug(`subscribe to all stats in the command folder for ${tabletName[d]}`);
+
+			}
+		}
+		catch (error) {
+			this.log.error(`stateCreate has a problem: ${error.message}, stack: ${error.stack}`);
+		}
+	}
+
+	/**
+	 * Replaces text in a string, using an object that supports replacement within a string.
+	 * @param {string} str
+	 */
+	async replaceFunction(str) {
+		if (str) {
+			str = str.replace(/ü/g, 'ue');
+			str = str.replace(/Ü/g, 'Ue');
+			str = str.replace(/ö/g, 'oe');
+			str = str.replace(/Ö/g, 'Oe');
+			str = str.replace(/Ä/g, 'Ae');
+			str = str.replace(/ä/g, 'ae');
+			str = str.replace(/\.*\./gi, '_');
+			str = str.replace(/ /gi, '_');
+			str = str.toLowerCase();
+			return str;
+		}
+	}
+
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -95,33 +649,25 @@ class Wallpanel extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
-			// clearInterval(interval1);
+
+			if (requestTimeout) clearTimeout(requestTimeout);
+
+			for (const Unl in tabletName) {
+				if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
+				this.setState(`${tabletName[Unl]}.info.isWallpanelAlive`, {val: false, ack: true});
+
+			}
+			this.log.debug(`set isWallpanelAlive to false for all tablets because the adapter is off`);
+			this.log.debug(`All timers are canceled because the adapter has been switched off`);
+
+			this.setState('info.connection', false, true);
 
 			callback();
-		} catch (e) {
+		}
+		catch (e) {
 			callback();
 		}
 	}
-
-	// If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-	// You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-	// /**
-	//  * Is called if a subscribed object changes
-	//  * @param {string} id
-	//  * @param {ioBroker.Object | null | undefined} obj
-	//  */
-	// onObjectChange(id, obj) {
-	// 	if (obj) {
-	// 		// The object was changed
-	// 		this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-	// 	} else {
-	// 		// The object was deleted
-	// 		this.log.info(`object ${id} deleted`);
-	// 	}
-	// }
 
 	/**
 	 * Is called if a subscribed state changes
@@ -129,33 +675,39 @@ class Wallpanel extends utils.Adapter {
 	 * @param {ioBroker.State | null | undefined} state
 	 */
 	onStateChange(id, state) {
-		if (state) {
-			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-		} else {
-			// The state was deleted
-			this.log.info(`state ${id} deleted`);
+		try {
+
+			if (state) {
+				// The state was changed
+				// this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+
+				for (const change in tabletName) {
+
+					if (deviceEnabled[change] && !state.ack) {
+
+						for (const i in commandStates) {
+
+							if (id === `${this.namespace}.${tabletName[change]}.command.${commandStates[i]}`) {
+
+								this.log.debug(`state ${id} changed: ${state.val} from: ${this.namespace}`);
+
+								this.sendCommand(id, state, change, commandStates[i]);
+
+								break;
+							}
+						}
+					}
+				}
+			}
+			else {
+				// The state was deleted
+				this.log.debug(`state ${id} deleted`);
+			}
+		}
+		catch (error) {
+			this.log.error(`[onStateChane ${id}] error: ${error.message}, stack: ${error.stack}`);
 		}
 	}
-
-	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-	// /**
-	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	//  * Using this method requires "common.message" property to be set to true in io-package.json
-	//  * @param {ioBroker.Message} obj
-	//  */
-	// onMessage(obj) {
-	// 	if (typeof obj === 'object' && obj.message) {
-	// 		if (obj.command === 'send') {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info('send command');
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-	// 		}
-	// 	}
-	// }
-
 }
 
 // @ts-ignore parent is a valid property on module
@@ -165,7 +717,8 @@ if (module.parent) {
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
 	 */
 	module.exports = (options) => new Wallpanel(options);
-} else {
+}
+else {
 	// otherwise start the instance directly
 	new Wallpanel();
 }
