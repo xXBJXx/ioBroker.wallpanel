@@ -1,4 +1,4 @@
-![Logo](admin/media/wallpanel.png)
+![Logo](admin/wallpanel.png)
 # ioBroker.wallpanel
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.wallpanel.svg)](https://www.npmjs.com/package/iobroker.wallpanel)

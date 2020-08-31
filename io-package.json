@@ -62,7 +62,7 @@
 		"main": "main.js",
 		"icon": "wallpanel.png",
 		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/media/wallpanel.png",
+		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
 		"readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
 		"loglevel": "info",
 		"mode": "daemon",
