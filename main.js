@@ -292,16 +292,16 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ clearCache ] is being sent with value: ${value}`);
+				this.log.debug(`command [clearCache] is being sent with value: ${value}`);
 				await axios.post(sendUrl[index], {'clearCache': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ clearCache ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[clearCache] command was sent successfully Status: ${result['statusText']}`);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ clearCache ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [clearCache] command: ${error.message}, stack: ${error.stack}`);
 					})
 				break;
 
@@ -314,17 +314,17 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ relaunch ] is being sent with value: ${value}`);
+				this.log.debug(`command [relaunch] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'relaunch': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ relaunch ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[relaunch] command was sent successfully Status: ${result['statusText']}`);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ relaunch ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [relaunch] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -338,41 +338,35 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ reload ] is being sent with value: ${value}`);
+				this.log.debug(`command [reload] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'reload': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ reload ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[reload] command was sent successfully Status: ${result['statusText']}`);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ reload ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [reload] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
 
 			case `${commandStates[3]}`:
 
-				if (value === false) {
-					value = true;
-				}
-				else {
-					value = state.val;
-				}
-
-				this.log.debug(`command [ wake ] is being sent with value: ${value}`);
+				this.log.debug(`command [wake] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'wake': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ wake ] command was sent successfully Status: ${result['statusText']}`);
-
+							this.log.debug(`[wake] command was sent successfully Status: ${result['statusText']}`);
+							await this.request();
+							await this.setState(id, value, true);
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ wake ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [wake] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -392,11 +386,11 @@ class Wallpanel extends utils.Adapter {
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ camera ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[camera] command was sent successfully Status: ${result['statusText']}`);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ camera ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [camera] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -414,18 +408,18 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ brightness ] is being sent with value: ${value}`);
+				this.log.debug(`command [brightness] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'brightness': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ brightness ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[brightness] command was sent successfully Status: ${result['statusText']}`);
 							await this.request();
 							await this.setState(id, value, true);
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ brightness ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [brightness] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -442,17 +436,17 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ volume ] is being sent with value: ${value}`);
+				this.log.debug(`command [volume] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'volume': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ volume ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[volume] command was sent successfully Status: ${result['statusText']}`);
 							await this.setState(id, value, true);
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ volume ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [volume] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -466,17 +460,17 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ url ] is being sent with value: ${value}`);
+				this.log.debug(`command [url] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'url': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ url ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[url] command was sent successfully Status: ${result['statusText']}`);
 							await this.setState(id, '', true);
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ url ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [url] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -490,18 +484,18 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ urlAudio ] is being sent with value: ${value}`);
+				this.log.debug(`command [urlAudio] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'audio': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ urlAudio ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[urlAudio] command was sent successfully Status: ${result['statusText']}`);
 							await this.setState(id, '', true);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ urlAudio ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [urlAudio] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -515,18 +509,18 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ speak ] is being sent with value: ${value}`);
+				this.log.debug(`command [speak] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'speak': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ speak ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[speak] command was sent successfully Status: ${result['statusText']}`);
 							await this.setState(id, '', true);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ speak ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [speak] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;
@@ -540,18 +534,18 @@ class Wallpanel extends utils.Adapter {
 					value = state.val;
 				}
 
-				this.log.debug(`command [ eval ] is being sent with value: ${value}`);
+				this.log.debug(`command [eval] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'eval': value})
 					.then(async result => {
 						if (result['status'] === 200) {
 
-							this.log.debug(`[ eval ] command was sent successfully Status: ${result['statusText']}`);
+							this.log.debug(`[eval] command was sent successfully Status: ${result['statusText']}`);
 							await this.setState(id, '', true);
 
 						}
 					}).catch(async error => {
-						this.log.error(`sendCommand has a problem sending [ eval ] command: ${error.message}, stack: ${error.stack}`);
+						this.log.error(`sendCommand has a problem sending [eval] command: ${error.message}, stack: ${error.stack}`);
 					})
 
 				break;

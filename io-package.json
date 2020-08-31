@@ -4,16 +4,16 @@
 		"version": "0.1.1",
 		"news": {
 		  "0.1.1": {
-			"en": "added IP address datapoint",
-			"de": "IP-Adressdatenpunkt hinzugefügt",
-			"ru": "добавлена точка данных IP-адреса",
-			"pt": "adicionado ponto de dados do endereço IP",
-			"nl": "IP-adres datapunt toegevoegd",
-			"fr": "point de données d'adresse IP ajouté",
-			"it": "aggiunto datapoint indirizzo IP",
-			"es": "punto de datos de dirección IP agregado",
-			"pl": "dodany punkt danych adresu IP",
-			"zh-cn": "添加的IP地址数据点"
+			"en": "added IP address datapoint\nwake state edit",
+			"de": "IP-Adressdatenpunkt hinzugefügt\nwake state bearbeiten",
+			"ru": "добавлена точка данных IP-адреса\nсостояние пробуждения править",
+			"pt": "adicionado ponto de dados do endereço IP\nedição do estado de vigília",
+			"nl": "IP-adres datapunt toegevoegd\nwake state bewerken",
+			"fr": "point de données d'adresse IP ajouté\nétat de veille modifier",
+			"it": "aggiunto datapoint indirizzo IP\nmodifica dello stato di riattivazione",
+			"es": "punto de datos de dirección IP agregado\nestado de activación editar",
+			"pl": "dodany punkt danych adresu IP\nedytuj stan uśpienia",
+			"zh-cn": "添加的IP地址数据点\n唤醒状态"
 		  },
 		  "0.1.0": {
 			"en": "Revised code\nDocumentation added\nlastInfoUpdate state added",

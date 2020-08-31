@@ -67,6 +67,7 @@ Hier eine Übersicht über die Stats.
 
 ### 0.1.1
 * (xXBJXx) added IP address datapoint
+* (xXBJXx) wake state edit
 
 ### 0.1.0
 * (xXBJXx) Revised code
