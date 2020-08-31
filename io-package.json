@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "wallpanel",
-		"version": "0.1.0",
+		"version": "0.1.1",
 		"news": {
+		  "0.1.1": {
+			"en": "added IP address datapoint",
+			"de": "IP-Adressdatenpunkt hinzugefügt",
+			"ru": "добавлена точка данных IP-адреса",
+			"pt": "adicionado ponto de dados do endereço IP",
+			"nl": "IP-adres datapunt toegevoegd",
+			"fr": "point de données d'adresse IP ajouté",
+			"it": "aggiunto datapoint indirizzo IP",
+			"es": "punto de datos de dirección IP agregado",
+			"pl": "dodany punkt danych adresu IP",
+			"zh-cn": "添加的IP地址数据点"
+		  },
 		  "0.1.0": {
 			"en": "Revised code\nDocumentation added\nlastInfoUpdate state added",
 			"de": "Überarbeiteter Code\nDokumentation hinzugefügt\nlastInfoUpdate-Status hinzugefügt",

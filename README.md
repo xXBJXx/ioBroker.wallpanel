@@ -57,12 +57,16 @@ Hier eine Übersicht über die Stats.
 #### Abfrage der states
 * brightness ===> aktueller Helligkeitswert des Bildschirms.
 * currentUrl ===> Aktuelle URL, die angezeigt wird.
+* ip ===> Ip Adresse vom dem Device.
 * isWallpanelAlive ===> kommt vom Adapter und zeigt an, ob das Devise erreichbar ist.
 * lastInfoUpdate ===> kommt vom Adapter und zeigt an, wann die letzte Aktualisierung der states war.
 * screenOn ===> zeigt an ob der Bildschirm grade an ist
 
 
 ## Changelog
+
+### 0.1.1
+* (xXBJXx) added IP address datapoint
 
 ### 0.1.0
 * (xXBJXx) Revised code

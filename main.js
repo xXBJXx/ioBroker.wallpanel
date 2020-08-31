@@ -94,7 +94,7 @@ class Wallpanel extends utils.Adapter {
 
 					this.log.debug(`Check whether the IP address is available for the ${Name}`)
 					deviceEnabled[i] = ip[i] !== '' && deviceEnabled[i];
-					this.log.debug(`${Name} has no ip address device is not queried`)
+					if (ip[i] === '') this.log.debug(`${Name} has no ip address device is not queried`)
 
 					this.log.debug(`it is checked whether the name of the device is entered`)
 					// Prepare tablet name
@@ -264,10 +264,13 @@ class Wallpanel extends utils.Adapter {
 			this.log.debug(`stats are written now`)
 			for (const r in requestStates) {
 
-				const result = Object.values(res['data'])[r];
+				let result = Object.values(res['data'])[r];
+
 				await this.setStateAsync(`${tabletName[index]}.${requestStates[r]}`, {val: result, ack: true});
 
 			}
+			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[2]}`, {val: ip[index], ack: true});
+
 		}
 		catch (error) {
 			this.log.error(`state_write has a problem: ${error.message}, stack: ${error.stack}`);
