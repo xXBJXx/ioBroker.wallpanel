@@ -2,6 +2,30 @@
 'use strict';
 
 systemDictionary = {
+	"when activated the states are automatically deleted when a device has been deleted": {
+		"en": "when activated the states are automatically deleted when a device has been deleted",
+		"de": "Bei Aktivierung werden die Zustände automatisch gelöscht, wenn ein Gerät gelöscht wurde",
+		"ru": "при активации состояния автоматически удаляются при удалении устройства",
+		"pt": "quando ativado, os estados são excluídos automaticamente quando um dispositivo é excluído",
+		"nl": "indien geactiveerd, worden de statussen automatisch verwijderd wanneer een apparaat is verwijderd",
+		"fr": "lorsqu'il est activé, les états sont automatiquement supprimés lorsqu'un appareil a été supprimé",
+		"it": "all'attivazione gli stati vengono cancellati automaticamente quando un dispositivo è stato cancellato",
+		"es": "cuando se activa, los estados se eliminan automáticamente cuando se elimina un dispositivo",
+		"pl": "po włączeniu stany są automatycznie usuwane po usunięciu urządzenia",
+		"zh-cn": "激活后，删除设备后状态会自动删除"
+	},
+	"Caution": {
+		"en": "Caution",
+		"de": "Vorsicht",
+		"ru": "осторожность",
+		"pt": "Cuidado",
+		"nl": "voorzichtigheid",
+		"fr": "mise en garde",
+		"it": "attenzione",
+		"es": "precaución",
+		"pl": "Uwaga",
+		"zh-cn": "警告"
+	},
 	'wallpanel adapter settings': {
 		'en': 'Adapter settings for wallpanel',
 		'de': 'Adaptereinstellungen für wallpanel',

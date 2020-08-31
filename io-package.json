@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "wallpanel",
-		"version": "0.0.2",
+		"version": "0.1.0",
 		"news": {
+		  "0.1.0": {
+			"en": "Revised code\nDocumentation added\nlastInfoUpdate state added",
+			"de": "Überarbeiteter Code\nDokumentation hinzugefügt\nlastInfoUpdate-Status hinzugefügt",
+			"ru": "Исправленный код\nДобавлена документация\nСостояние lastInfoUpdate добавлено",
+			"pt": "Código revisado\nDocumentação adicionada\nestado lastInfoUpdate adicionado",
+			"nl": "Herziene code\nDocumentatie toegevoegd\nlastInfoUpdate-status toegevoegd",
+			"fr": "Code révisé\nDocumentation ajoutée\nÉtat lastInfoUpdate ajouté",
+			"it": "Codice rivisto\nDocumentazione aggiunta\nstato aggiunto lastInfoUpdate",
+			"es": "Código revisado\nDocumentación agregada\nlastInfoUpdate estado agregado",
+			"pl": "Poprawiony kod\nDokumentacja została dodana\nDodano stan lastInfoUpdate",
+			"zh-cn": "修改后的代码\n已添加文档\n添加了lastInfoUpdate状态"
+		  },
 		  "0.0.2": {
 			"en": "first Beta",
 			"de": "erste Beta",
@@ -72,7 +84,8 @@
 	},
 	"native": {
 		"interval": 30,
-		"devices": []
+		"devices": [],
+	  	"delete": false
 	},
 	"objects": [],
 	"instanceObjects": [

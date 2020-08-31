@@ -1,70 +1,68 @@
 <html>
 
 <head>
-
+    
     <!-- Load ioBroker scripts and styles-->
     <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
     <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
-
+    
     <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
-
+    
     <script type="text/javascript" src="../../js/translate.js"></script>
     <script type="text/javascript" src="../../lib/js/materialize.js"></script>
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
-
+    
     <!-- Load our own files -->
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <script type="text/javascript" src="words.js"></script>
-
+    
     <script type="text/javascript">
-		// This will be called by the admin adapter when the settings page loads
-		var devices = [];
+        // This will be called by the admin adapter when the settings page loads
+        let devices = [];
 
-		function load(settings, onChange) {
-			// example: select elements with id=key and class=value and insert value
-			if (!settings) return;
-			$('.value').each(function () {
-				var $key = $(this);
-				var id = $key.attr('id');
-				if ($key.attr('type') === 'checkbox') {
-					// do not call onChange direct, because onChange could expect some arguments
-					$key.prop('checked', settings[id]).on('change', () => onChange())
-					;
-				}
-				else {
-					// do not call onChange direct, because onChange could expect some arguments
-					$key.val(settings[id]).on('change', () => onChange()).on('keyup', () => onChange())
-					;
-				}
-			});
+        function load(settings, onChange) {
+            // example: select elements with id=key and class=value and insert value
+            if (!settings) return;
+            $('.value').each(function () {
+                var $key = $(this);
+                var id = $key.attr('id');
+                if ($key.attr('type') === 'checkbox') {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.prop('checked', settings[id]).on('change', () => onChange());
+                }
+                else {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.val(settings[id]).on('change', () => onChange()).on('keyup', () => onChange());
+                }
+            });
+    
+            devices = settings.devices || [];
+    
+            onChange(false);
+            values2table('devices', devices, onChange);
+    
+            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+            // if (M) M.updateTextFields();
+        }
 
-			devices = settings.devices || [];
-
-			onChange(false);
-			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-			values2table('devices', devices, onChange);
-
-			if (M) M.updateTextFields();
-		}
-
-		// This will be called by the admin adapter when the user presses the save button
-		function save(callback) {
-			// example: select elements with class=value and build settings object
-			var obj = {};
-			$('.value').each(function () {
-				var $this = $(this);
-				if ($this.attr('type') === 'checkbox') {
-					obj[$this.attr('id')] = $this.prop('checked');
-				}
-				else {
-					obj[$this.attr('id')] = $this.val();
-				}
-			});
-
-			obj.devices = table2values('devices');
-			callback(obj);
-		}
+        // This will be called by the admin adapter when the user presses the save button
+        function save(callback) {
+            // example: select elements with class=value and build settings object
+            let obj = {};
+            $('.value').each(function () {
+                var $this = $(this);
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                }
+                else {
+                    obj[$this.attr('id')] = $this.val();
+                }
+            });
+    
+            obj.devices = table2values('devices');
+            callback(obj);
+        }
     </script>
 
 </head>
@@ -79,16 +77,25 @@
         </div>
     </div>
     <!-- end logo -->
-
+    
     <!-- polling interval -->
     <div class="col s1.1 input-field">
-        <input type="number" class="value" id="interval"
-               style="width:150px; text-align: center" max="3600" min="0"
-               value="30"/>
+        <input type="number" class="value" id="interval" style="width:150px; text-align: center" max="3600" min="0" value="30"/>
         <label for="interval" class="translate">interval</label>
     </div>
     <!-- end polling interval -->
-
+    
+    <!-- polling interval -->
+    <div class="row">
+        <div class="input-field col m4 l2">
+            <input class="value" id="delete" value="false" type="checkbox"/>
+            <label for="delete" class="translate" style="color: #FF0004">Caution</label>
+            <div></div>
+            <span class="translate" style="color: #FF0004; font-size: 18px;">when activated the states are automatically deleted when a device has been deleted</span>
+        </div>
+    </div>
+    <!-- end polling interval -->
+    
     <!-- wallpanel login table -->
     <div class="col s12" id="devices" style="bottom: 30px;">
         <div class="row center">
@@ -99,14 +106,10 @@
                 <thead>
                 <tr>
                     <th data-name="_index" style="width: 1.1%" class="translate">Nr.</th>
-                    <th class="translate" style="width: auto; text-align: center;" data-style="text-align: center"
-                        data-name="name">Tablet name</th>
-                    <th class="translate" style="width: auto; text-align: center;" data-style="text-align: center"
-                        data-name="ip">IP Adresse</th>
-                    <th class="translate" data-type="number" data-default="2971" data-style="text-align: center"
-                        style="width: 7%; text-align: center;" data-name="port">Port</th>
-                    <th class="translate" style="width: 2%; text-align: center;"  data-default="true"
-                        data-type="checkbox" data-name="enabled">enabled</th>
+                    <th class="translate" style="width: auto; text-align: center;" data-style="text-align: center" data-name="name">Tablet name</th>
+                    <th class="translate" style="width: auto; text-align: center;" data-style="text-align: center" data-name="ip">IP Adresse</th>
+                    <th class="translate" data-type="number" data-default="2971" data-style="text-align: center" style="width: 7%; text-align: center;" data-name="port">Port</th>
+                    <th class="translate" style="width: 2%; text-align: center;" data-default="true" data-type="checkbox" data-name="enabled">enabled</th>
                     <th class="translate" style="width: 8%; text-align: center;" data-buttons="delete up down">delete</th>
                 </tr>
                 </thead>
