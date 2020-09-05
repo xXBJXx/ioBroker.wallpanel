@@ -70,7 +70,7 @@ Hier eine Übersicht über die Stats.
 
 
 
-### __WORK IN PROGRESS__
+### 0.1.2-0 (2020-09-05)
 * (xXBJXx) Dependency update and release
 ### 0.1.1
 * (xXBJXx) added IP address datapoint

@@ -1,126 +1,137 @@
 {
-	"common": {
-		"name": "wallpanel",
-		"version": "0.1.1",
-		"news": {
-		  "0.1.1": {
-			"en": "added IP address datapoint\nwake state edit",
-			"de": "IP-Adressdatenpunkt hinzugefügt\nwake state bearbeiten",
-			"ru": "добавлена точка данных IP-адреса\nсостояние пробуждения править",
-			"pt": "adicionado ponto de dados do endereço IP\nedição do estado de vigília",
-			"nl": "IP-adres datapunt toegevoegd\nwake state bewerken",
-			"fr": "point de données d'adresse IP ajouté\nétat de veille modifier",
-			"it": "aggiunto datapoint indirizzo IP\nmodifica dello stato di riattivazione",
-			"es": "punto de datos de dirección IP agregado\nestado de activación editar",
-			"pl": "dodany punkt danych adresu IP\nedytuj stan uśpienia",
-			"zh-cn": "添加的IP地址数据点\n唤醒状态"
-		  },
-		  "0.1.0": {
-			"en": "Revised code\nDocumentation added\nlastInfoUpdate state added",
-			"de": "Überarbeiteter Code\nDokumentation hinzugefügt\nlastInfoUpdate-Status hinzugefügt",
-			"ru": "Исправленный код\nДобавлена документация\nСостояние lastInfoUpdate добавлено",
-			"pt": "Código revisado\nDocumentação adicionada\nestado lastInfoUpdate adicionado",
-			"nl": "Herziene code\nDocumentatie toegevoegd\nlastInfoUpdate-status toegevoegd",
-			"fr": "Code révisé\nDocumentation ajoutée\nÉtat lastInfoUpdate ajouté",
-			"it": "Codice rivisto\nDocumentazione aggiunta\nstato aggiunto lastInfoUpdate",
-			"es": "Código revisado\nDocumentación agregada\nlastInfoUpdate estado agregado",
-			"pl": "Poprawiony kod\nDokumentacja została dodana\nDodano stan lastInfoUpdate",
-			"zh-cn": "修改后的代码\n已添加文档\n添加了lastInfoUpdate状态"
-		  },
-		  "0.0.2": {
-			"en": "first Beta",
-			"de": "erste Beta",
-			"ru": "первая бета",
-			"pt": "primeiro beta",
-			"nl": "eerste Beta",
-			"fr": "première bêta",
-			"it": "prima Beta",
-			"es": "primera Beta",
-			"pl": "pierwsza Beta",
-			"zh-cn": "第一个Beta"
-		  },
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版"
-			}
-		},
-		"title": "Wallpanel",
-		"titleLang": {
-			"en": "Wallpanel"
-		},
-		"desc": {
-			"en": "wallpanel"
-
-		},
-		"authors": [
-			"xXBJXx <alienware.games@gmail.com>"
-		],
-		"keywords": [
-			"Wallpanel",
-			"browser",
-			"ioBroker",
-			"Tablet"
-		],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "wallpanel.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
-		"readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "general",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "poll",
-		"materialize": true,
-		"plugins": {
-			"sentry": {
-				"dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
-			}
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=2.0.0"
-			}
-		]
-	},
-	"native": {
-		"interval": 30,
-		"devices": [],
-	  	"delete": false
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "wallpanel",
+        "version": "0.1.2-0",
+        "news": {
+            "0.1.2-0": {
+                "en": "Dependency update and release",
+                "de": "Abhängigkeitsaktualisierung und -freigabe",
+                "ru": "Обновление и выпуск зависимостей",
+                "pt": "Atualização e liberação de dependência",
+                "nl": "Afhankelijkheid update en release",
+                "fr": "Mise à jour et publication des dépendances",
+                "it": "Aggiornamento e rilascio delle dipendenze",
+                "es": "Actualización y liberación de dependencia",
+                "pl": "Aktualizacja i wydanie zależności",
+                "zh-cn": "依赖关系更新和发布"
+            },
+            "0.1.1": {
+                "en": "added IP address datapoint\nwake state edit",
+                "de": "IP-Adressdatenpunkt hinzugefügt\nwake state bearbeiten",
+                "ru": "добавлена точка данных IP-адреса\nсостояние пробуждения править",
+                "pt": "adicionado ponto de dados do endereço IP\nedição do estado de vigília",
+                "nl": "IP-adres datapunt toegevoegd\nwake state bewerken",
+                "fr": "point de données d'adresse IP ajouté\nétat de veille modifier",
+                "it": "aggiunto datapoint indirizzo IP\nmodifica dello stato di riattivazione",
+                "es": "punto de datos de dirección IP agregado\nestado de activación editar",
+                "pl": "dodany punkt danych adresu IP\nedytuj stan uśpienia",
+                "zh-cn": "添加的IP地址数据点\n唤醒状态"
+            },
+            "0.1.0": {
+                "en": "Revised code\nDocumentation added\nlastInfoUpdate state added",
+                "de": "Überarbeiteter Code\nDokumentation hinzugefügt\nlastInfoUpdate-Status hinzugefügt",
+                "ru": "Исправленный код\nДобавлена документация\nСостояние lastInfoUpdate добавлено",
+                "pt": "Código revisado\nDocumentação adicionada\nestado lastInfoUpdate adicionado",
+                "nl": "Herziene code\nDocumentatie toegevoegd\nlastInfoUpdate-status toegevoegd",
+                "fr": "Code révisé\nDocumentation ajoutée\nÉtat lastInfoUpdate ajouté",
+                "it": "Codice rivisto\nDocumentazione aggiunta\nstato aggiunto lastInfoUpdate",
+                "es": "Código revisado\nDocumentación agregada\nlastInfoUpdate estado agregado",
+                "pl": "Poprawiony kod\nDokumentacja została dodana\nDodano stan lastInfoUpdate",
+                "zh-cn": "修改后的代码\n已添加文档\n添加了lastInfoUpdate状态"
+            },
+            "0.0.2": {
+                "en": "first Beta",
+                "de": "erste Beta",
+                "ru": "первая бета",
+                "pt": "primeiro beta",
+                "nl": "eerste Beta",
+                "fr": "première bêta",
+                "it": "prima Beta",
+                "es": "primera Beta",
+                "pl": "pierwsza Beta",
+                "zh-cn": "第一个Beta"
+            },
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Wallpanel",
+        "titleLang": {
+            "en": "Wallpanel"
+        },
+        "desc": {
+            "en": "wallpanel"
+        },
+        "authors": [
+            "xXBJXx <alienware.games@gmail.com>"
+        ],
+        "keywords": [
+            "Wallpanel",
+            "browser",
+            "ioBroker",
+            "Tablet"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "wallpanel.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
+        "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "general",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
+            }
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "interval": 30,
+        "devices": [],
+        "delete": false
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
