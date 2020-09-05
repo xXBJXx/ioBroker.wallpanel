@@ -85,16 +85,16 @@ class Wallpanel extends utils.Adapter {
 					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
 					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
 
-					this.log.debug(`initialization Ip: ${JSON.stringify(ip)}`);
-					this.log.debug(`initialization port: ${JSON.stringify(port)}`);
-					this.log.debug(`initialization deviceEnabled: ${JSON.stringify(deviceEnabled)}`);
+					this.log.debug(`initialization Ip: ${ip[i]}`);
+					this.log.debug(`initialization port: ${port[i]}`);
+					this.log.debug(`initialization deviceEnabled: ${deviceEnabled[i]}`);
 					this.log.debug(`initialization tabletName: ${Name}`);
-					this.log.debug(`initialization requestUrl: ${JSON.stringify(requestUrl)}`);
-					this.log.debug(`initialization sendUrl: ${JSON.stringify(sendUrl)}`);
+					this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
+					this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
 
 					this.log.debug(`Check whether the IP address is available for the ${Name}`)
 					deviceEnabled[i] = ip[i] !== '' && deviceEnabled[i];
-					if (ip[i] === '') this.log.debug(`${Name} has no ip address device is not queried`)
+					if (ip[i] === '') this.log.warn(`${Name} has no ip address device is not queried`)
 
 					this.log.debug(`it is checked whether the name of the device is entered`)
 					// Prepare tablet name
@@ -112,6 +112,8 @@ class Wallpanel extends utils.Adapter {
 					this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
 
 				}
+
+
 
 				if (stateDelete) {
 					await this.localDeleteState();

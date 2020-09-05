@@ -12,7 +12,6 @@
 
 **Tests:**: [![Travis-CI](http://img.shields.io/travis/xXBJXx/ioBroker.wallpanel/master.svg)](https://travis-ci.org/xXBJXx/ioBroker.wallpanel)
 
-## **Achtung noch in der BETA** 
 
 ## **Sentry**
 **Dieser Adapter verwendet Sentry-Bibliotheken, um Ausnahmen und Codefehler automatisch an die Entwickler zu melden.** <br>
@@ -24,8 +23,8 @@ Sentry Reporting wird ab js-controller 3.0 verwendet.
 Der Adapter liest die [Wallpenel app Android](https://play.google.com/store/apps/details?id=com.thanksmister.iot.wallpanel&hl=de) 
 aus und trägt es in Datenpunkte ein. <br>
 Man kann auch ein paar Funktionen steuern, wie z.B. die Helligkeit. <br>
-Es können mehrere Device abgefragt bzw. gesteuert werden.
-
+Es können mehrere Device abgefragt bzw. gesteuert werden. <br>
+Hier ist der [Forum Post](https://forum.iobroker.net/topic/36438/test-adapter-wallpanel)
 
 ## Config
 Noch Kurtz zu der Config Seite was man einstellen muss.
@@ -64,7 +63,15 @@ Hier eine Übersicht über die Stats.
 
 
 ## Changelog
+<!--
+ Placeholder for the next version (at the beginning of the line):
+ ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
+-->
 
+
+
+### __WORK IN PROGRESS__
+* (xXBJXx) Dependency update and release
 ### 0.1.1
 * (xXBJXx) added IP address datapoint
 * (xXBJXx) wake state edit
@@ -83,7 +90,7 @@ Hier eine Übersicht über die Stats.
 ## License
 MIT License
 
-Copyright (c) 2020 xXBJXx <alienware.games@gmail.com>
+Copyright (c) 2020 xXBJXx
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

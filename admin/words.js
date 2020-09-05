@@ -2,29 +2,29 @@
 'use strict';
 
 systemDictionary = {
-	'when activated the states are automatically deleted when a device has been deleted': {
-		'en': 'when activated the states are automatically deleted when a device has been deleted',
-		'de': 'Bei Aktivierung werden die Zustände automatisch gelöscht, wenn ein Gerät gelöscht wurde',
-		'ru': 'при активации состояния автоматически удаляются при удалении устройства',
-		'pt': 'quando ativado, os estados são excluídos automaticamente quando um dispositivo é excluído',
-		'nl': 'indien geactiveerd, worden de statussen automatisch verwijderd wanneer een apparaat is verwijderd',
-		'fr': 'lorsqu\'il est activé, les états sont automatiquement supprimés lorsqu\'un appareil a été supprimé',
-		'it': 'all\'attivazione gli stati vengono cancellati automaticamente quando un dispositivo è stato cancellato',
-		'es': 'cuando se activa, los estados se eliminan automáticamente cuando se elimina un dispositivo',
-		'pl': 'po włączeniu stany są automatycznie usuwane po usunięciu urządzenia',
-		'zh-cn': '激活后，删除设备后状态会自动删除'
+	"Caution !!!": {
+		"en": "Caution !!!",
+		"de": "Vorsicht !!!",
+		"ru": "Осторожно !!!",
+		"pt": "Cuidado !!!",
+		"nl": "Voorzichtig !!!",
+		"fr": "Mise en garde !!!",
+		"it": "Attenzione !!!",
+		"es": "Precaución !!!",
+		"pl": "Uwaga !!!",
+		"zh-cn": "小心！！！"
 	},
-	'Caution': {
-		'en': 'Caution',
-		'de': 'Vorsicht',
-		'ru': 'осторожность',
-		'pt': 'Cuidado',
-		'nl': 'voorzichtigheid',
-		'fr': 'mise en garde',
-		'it': 'attenzione',
-		'es': 'precaución',
-		'pl': 'Uwaga',
-		'zh-cn': '警告'
+	"When activated, the states are automatically deleted if a device has been deleted from the table.": {
+		"en": "When activated, the states are automatically deleted if a device has been deleted from the table.",
+		"de": "Bei Aktivierung werden die Status automatisch gelöscht, wenn ein Gerät aus der Tabelle gelöscht wurde.",
+		"ru": "При активации состояния автоматически удаляются, если устройство было удалено из таблицы.",
+		"pt": "Quando ativados, os estados são excluídos automaticamente se um dispositivo for excluído da tabela.",
+		"nl": "Indien geactiveerd, worden de statussen automatisch verwijderd als een apparaat uit de tabel is verwijderd.",
+		"fr": "Lorsqu'ils sont activés, les états sont automatiquement supprimés si un appareil a été supprimé du tableau.",
+		"it": "All'attivazione, gli stati vengono eliminati automaticamente se un dispositivo è stato eliminato dalla tabella.",
+		"es": "Cuando se activa, los estados se eliminan automáticamente si se elimina un dispositivo de la tabla.",
+		"pl": "Po aktywacji stany są automatycznie usuwane, jeśli urządzenie zostało usunięte z tabeli.",
+		"zh-cn": "激活后，如果已从表中删除设备，则状态将自动删除。"
 	},
 	'wallpanel adapter settings': {
 		'en': 'Adapter settings for wallpanel',
