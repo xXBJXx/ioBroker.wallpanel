@@ -114,7 +114,6 @@ class Wallpanel extends utils.Adapter {
 				}
 
 
-
 				if (stateDelete) {
 					await this.localDeleteState();
 				}
@@ -191,7 +190,7 @@ class Wallpanel extends utils.Adapter {
 									this.log.debug(`API request ended successfully --> result from api Request: ${JSON.stringify(apiResult['data'])}`);
 
 									this.log.debug(`State Create is now running ...`);
-									await this.create_State(apiResult);
+									await this.create_State(apiResult, i);
 									this.log.debug(`State Create was carried out`);
 
 									this.log.debug(`States are now written`);
@@ -557,86 +556,78 @@ class Wallpanel extends utils.Adapter {
 	}
 
 
-	async create_State(res) {
+	async create_State(res, index) {
 		try {
 
-			for (const i in deviceEnabled) {
-				if (deviceEnabled[i]) {
+			this.log.debug(`preparation for the statesCreate...`);
 
-					this.log.debug(`preparation for the statesCreate...`);
+			const requestStatesType = [];
 
-					const requestStatesType = [];
+			const requestStates = Object.keys(res['data']);
 
-					const requestStates = Object.keys(res['data']);
+			this.log.debug(`Read the state name from the apiResult: ${requestStates}`);
 
-					this.log.debug(`Read the state name from the apiResult: ${requestStates}`);
-
-					for (const t in requestStates) {
-						requestStatesType[t] = typeof Object.values(res['data'])[t];
-					}
-					this.log.debug(`Read the state Type from the apiResult: ${requestStatesType}`);
-
-
-					this.log.debug(`Start the stateCreate for the requestStates`);
-					this.log.debug(`Start the stateCreate for the commandStates and subscribeStates`);
-
-					await this.extendObjectAsync(`${tabletName[i]}`, {
-						type: 'device',
-						common: {
-							name: ip[i]
-						},
-						native: {
-							ip: ip[i]
-						}
-					});
-
-					for (const f in folder) {
-
-						await this.extendObjectAsync(`${tabletName[i]}.${folder[f]}`, {
-							type: 'channel',
-							common: {
-								name: `${folder[f]}`
-							},
-							native: {}
-						});
-
-					}
-
-					for (const obj in commandObjects) {
-
-						await this.extendObjectAsync(`${tabletName[i]}.command.${obj}`, commandObjects[obj]);
-						this.subscribeStates(`${tabletName[i]}.command.${obj}`);
-
-					}
-
-					for (const obj in infoObjects) {
-
-						await this.extendObjectAsync(`${tabletName[i]}.${obj}`, infoObjects[obj]);
-
-					}
-
-					for (const r in requestStates) {
-
-						await this.extendObjectAsync(`${tabletName[i]}.${requestStates[r]}`, {
-							type: 'state',
-							common: {
-								name: `${requestStates[r]}`,
-								type: requestStatesType[r],
-								role: `state`,
-								read: true,
-								write: false
-							},
-							native: {}
-						});
-					}
-
-					this.log.debug(`subscribe to all stats in the command folder for ${tabletName[i]}`);
-
-				}
-				else {
-					this.log.debug(`The ${tabletName[i]} is switched off and no states are created`);
-				}
+			for (const t in requestStates) {
+				requestStatesType[t] = typeof Object.values(res['data'])[t];
 			}
+			this.log.debug(`Read the state Type from the apiResult: ${requestStatesType}`);
+
+
+			this.log.debug(`Start the stateCreate for the requestStates`);
+			this.log.debug(`Start the stateCreate for the commandStates and subscribeStates`);
+
+			await this.setObjectNotExistsAsync(`${tabletName[index]}`, {
+				type: 'device',
+				common: {
+					name: ip[index]
+				},
+				native: {
+					ip: ip[index]
+				}
+			});
+
+			for (const f in folder) {
+
+				await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
+					type: 'channel',
+					common: {
+						name: `${folder[f]}`
+					},
+					native: {}
+				});
+
+			}
+
+			for (const obj in commandObjects) {
+
+				await this.setObjectNotExistsAsync(`${tabletName[index]}.command.${obj}`, commandObjects[obj]);
+				this.subscribeStates(`${tabletName[index]}.command.${obj}`);
+
+			}
+
+			for (const obj in infoObjects) {
+
+				await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
+
+			}
+
+			for (const r in requestStates) {
+
+				await this.setObjectNotExistsAsync(`${tabletName[index]}.${requestStates[r]}`, {
+					type: 'state',
+					common: {
+						name: `${requestStates[r]}`,
+						type: requestStatesType[r],
+						role: `state`,
+						read: true,
+						write: false
+					},
+					native: {}
+				});
+			}
+
+			this.log.debug(`subscribe to all stats in the command folder for ${tabletName[index]}`);
+
 		}
 		catch (error) {
 			this.log.error(`stateCreate has a problem: ${error.message}, stack: ${error.stack}`);
