@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.1.2-0",
+        "version": "0.1.3-0",
         "news": {
+            "0.1.3-0": {
+                "en": "code update",
+                "de": "Code-Update",
+                "ru": "обновление кода",
+                "pt": "atualização de código",
+                "nl": "code-update",
+                "fr": "mise à jour du code",
+                "it": "aggiornamento del codice",
+                "es": "actualización de código",
+                "pl": "aktualizacja kodu",
+                "zh-cn": "代码更新"
+            },
             "0.1.2-0": {
                 "en": "Dependency update and release",
                 "de": "Abhängigkeitsaktualisierung und -freigabe",

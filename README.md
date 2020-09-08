@@ -68,7 +68,7 @@ Hier eine Übersicht über die Stats.
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
 
-### __WORK IN PROGRESS__
+### 0.1.3-0 (2020-09-08)
 * (xXBJXx) code update
 
 ### 0.1.2-0 (2020-09-05)
