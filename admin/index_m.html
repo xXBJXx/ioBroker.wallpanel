@@ -80,7 +80,7 @@
     
     <!-- polling interval -->
     <div class="col s1.1 input-field">
-        <input type="number" class="value" id="interval" style="width:150px; text-align: center" max="3600" min="0" value="30"/>
+        <input type="number" class="intervalField value" id="interval" max="3600" min="0" value="30"/>
         <label for="interval" class="translate">interval</label>
     </div>
     <!-- end polling interval -->
@@ -91,16 +91,16 @@
                          <div></div>
                          <div class="input-field col m4 l4">
                             <input class="value" id="delete" value="false" type="checkbox"/>
-                            <label for="delete" class="translate" style="color: #FF0004; font-size: 25px">Caution !!!</label>
+                            <label for="delete" class="warnMessage translate">Caution !!!</label>
                             <div></div>
-                            <span class="translate" style="color: #FF0004; font-size: 18px;">When activated, the states are automatically deleted if a device has been deleted from the table.</span>
+                            <span class="warnMessage translate">When activated, the states are automatically deleted if a device has been deleted from the table.</span>
                          </div>
                     </div>
                 </div>
     <!-- end delete -->
     
     <!-- wallpanel login table -->
-    <div class="col s12" id="devices" style="bottom: 30px;">
+    <div class="col s12" id="devices">
         <div class="row center">
             <a class="waves-effect waves-light btn table-button-add translate">add Device</a>
         </div>
@@ -108,12 +108,12 @@
             <table class="table-values">
                 <thead>
                 <tr>
-                    <th data-name="_index" style="width: 1.1%" class="translate">Nr.</th>
-                    <th class="translate" style="width: auto; text-align: center;" data-style="text-align: center" data-name="name">Tablet name</th>
-                    <th class="translate" style="width: auto; text-align: center;" data-style="text-align: center" data-name="ip">IP Adresse</th>
-                    <th class="translate" data-type="number" data-default="2971" data-style="text-align: center" style="width: 7%; text-align: center;" data-name="port">Port</th>
-                    <th class="translate" style="width: 2%; text-align: center;" data-default="true" data-type="checkbox" data-name="enabled">enabled</th>
-                    <th class="translate" style="width: 8%; text-align: center;" data-buttons="delete up down">delete</th>
+                    <th class="header translate" data-name="_index">Nr.</th>
+                    <th class="header translate" data-name="name">Tablet-Name</th>
+                    <th class="header translate" data-name="ip">IP Adresse</th>
+                    <th class="header translate" data-type="number" data-default="2971" data-name="port">Port</th>
+                    <th class="header translate" data-default="true" data-type="checkbox" data-name="enabled">enabled</th>
+                    <th class="header translate" data-buttons="delete">delete</th>
                 </tr>
                 </thead>
             </table>

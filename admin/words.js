@@ -50,7 +50,7 @@ systemDictionary = {
 		'pl': 'Interwał odpytywania [s]',
 		'zh-cn': '轮询间隔[秒]'
 	},
-	'Tablet Name': {
+	'Tablet-Name': {
 		'en': 'Tablet Name',
 		'de': 'Tablet Name',
 		'ru': 'Имя планшета',

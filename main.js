@@ -1,9 +1,5 @@
 'use strict';
 
-/*
- * Created with @iobroker/create-adapter v1.26.3
- */
-
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
@@ -13,7 +9,7 @@ const objects = require('./lib/object_definition');
 const commandObjects = objects.object_command_definitions;
 const infoObjects = objects.object_info_definitions;
 
-
+let config = [];
 let requestTimeout = null;
 let interval = null;
 let stateDelete = null;
@@ -26,6 +22,7 @@ const logMessage = [];
 const deviceEnabled = [];
 const logMessageTimer = [];
 const folder = [`command`];
+const commandRequestTimeout = []
 const commandStates = [`clearCache`, `relaunch`, `reload`, `wake`, `camera`, `brightness`, `volume`, `url`, `urlAudio`, `speak`, `eval`];
 
 class Wallpanel extends utils.Adapter {
@@ -72,16 +69,17 @@ class Wallpanel extends utils.Adapter {
 			this.log.debug(`Adapter config for interval readout --> ${interval} ms`);
 
 
+
 			// ip and port
 			const devices = this.config.devices;
-			if (!devices && devices.length !== 0 || devices !== [] && devices.length !== 0) {
+			if (!devices && devices['length'] !== 0 || devices !== [] && devices['length'] !== 0) {
 				for (const i in devices) {
 
-					ip[i] = devices[i].ip;
-					port[i] = devices[i].port;
-					deviceEnabled[i] = devices[i].enabled;
+					ip[i] = devices[i]['ip'];
+					port[i] = devices[i]['port'];
+					deviceEnabled[i] = devices[i]['enabled'];
 					stateDelete = this.config.delete;
-					const Name = devices[i].name;
+					const Name = devices[i]['name'];
 					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
 					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
 
@@ -91,6 +89,7 @@ class Wallpanel extends utils.Adapter {
 					this.log.debug(`initialization tabletName: ${Name}`);
 					this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
 					this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
+
 
 					this.log.debug(`Check whether the IP address is available for the ${Name}`)
 					deviceEnabled[i] = ip[i] !== '' && deviceEnabled[i];
@@ -103,12 +102,11 @@ class Wallpanel extends utils.Adapter {
 						tabletName[i] = await this.replaceFunction(Name);
 					}
 					else if (deviceEnabled[i]) {
+
 						this.log.debug(`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`)
 						tabletName[i] = await this.replaceFunction(ip[i]);
 
 					}
-
-
 					this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
 
 				}
@@ -117,8 +115,6 @@ class Wallpanel extends utils.Adapter {
 				if (stateDelete) {
 					await this.localDeleteState();
 				}
-
-
 				this.log.debug(`Adapter has been fully initialized`);
 			}
 			else {
@@ -134,21 +130,21 @@ class Wallpanel extends utils.Adapter {
 
 	async localDeleteState() {
 		try {
-			this.log.debug(`Adapter has been fully initialized`);
+			this.log.debug(`The adapter now calls up the device information`);
 			const device = await this.getDevicesAsync();
 
 			for (const i in device) {
 				let nativeIp = null
 
-				this.log.debug(`Adapter has been fully initialized`);
+				this.log.debug(`Adapter retrieves the native config from the device`);
 				nativeIp = device[i].native['ip'];
 
 				if (nativeIp !== ip[i]) {
 
-					this.log.debug(`Adapter has been fully initialized`);
+					this.log.debug(`Adapter prepares the name of the folder to be deleted`);
 					let deviceName = device[i]._id.replace(`${this.namespace}.`, '');
 
-					this.log.debug(`Adapter has been fully initialized`);
+					this.log.debug(`Adapter now deletes the folder ${deviceName}`);
 					await this.deleteDeviceAsync(`${deviceName}`)
 						.catch(async error => {
 							if (error !== 'Not exists') {
@@ -156,7 +152,6 @@ class Wallpanel extends utils.Adapter {
 							}
 							else {
 								// do nothing
-								console.log(`test`)
 							}
 						})
 
@@ -173,7 +168,7 @@ class Wallpanel extends utils.Adapter {
 	async request() {
 		try {
 			if (requestTimeout) clearTimeout(requestTimeout);
-			if (!requestUrl && requestUrl.length !== 0 || requestUrl !== [] && requestUrl.length !== 0) {
+			if (!requestUrl && requestUrl['length'] !== 0 || requestUrl !== [] && requestUrl['length'] !== 0) {
 				for (const i in requestUrl) {
 
 					if (deviceEnabled[i]) {
@@ -362,8 +357,14 @@ class Wallpanel extends utils.Adapter {
 					.then(async result => {
 						if (result['status'] === 200) {
 
+							if (commandRequestTimeout[index]) clearTimeout(commandRequestTimeout[index]);
+
 							this.log.debug(`[wake] command was sent successfully Status: ${result['statusText']}`);
-							await this.request();
+
+							commandRequestTimeout[index] = setTimeout(async () => {
+								await this.request();
+							}, 1500);
+							// await this.request();
 							await this.setState(id, value, true);
 						}
 					}).catch(async error => {
@@ -412,11 +413,16 @@ class Wallpanel extends utils.Adapter {
 				this.log.debug(`command [brightness] is being sent with value: ${value}`);
 
 				await axios.post(sendUrl[index], {'brightness': value})
+
 					.then(async result => {
 						if (result['status'] === 200) {
 
+							if (commandRequestTimeout[index]) clearTimeout(commandRequestTimeout[index]);
 							this.log.debug(`[brightness] command was sent successfully Status: ${result['statusText']}`);
-							await this.request();
+							commandRequestTimeout[index] = setTimeout(async () => {
+								await this.request();
+							}, 1500);
+							// await this.request();
 							await this.setState(id, value, true);
 						}
 					}).catch(async error => {
@@ -555,7 +561,6 @@ class Wallpanel extends utils.Adapter {
 
 	}
 
-
 	async create_State(res, index) {
 		try {
 
@@ -653,7 +658,6 @@ class Wallpanel extends utils.Adapter {
 		}
 	}
 
-
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
@@ -666,6 +670,7 @@ class Wallpanel extends utils.Adapter {
 
 			for (const Unl in tabletName) {
 				if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
+				if (commandRequestTimeout[Unl]) clearTimeout(commandRequestTimeout[Unl]);
 				this.setState(`${tabletName[Unl]}.isWallpanelAlive`, {val: false, ack: true});
 
 			}
