@@ -20,6 +20,62 @@
     <script type="text/javascript">
         // This will be called by the admin adapter when the settings page loads
         let devices = [];
+        let mqttAdapter = false
+
+        function getObjectView() {
+    
+    
+            socket.emit('getObjectView', 'system', 'instance', {startkey: 'system.adapter.', endkey: 'system.adapter.\u9999'}, (err, state) => {
+                if (err) {
+                    console.error(err);
+                }
+                else {
+                    var result = [];
+                    $.each(state.rows, (index, element) => {
+                        result.push(element.value);
+                    });
+                    $.each(result, (index, element) => {
+                       
+                        switch (element._id) {
+                            case 'system.adapter.mqtt.0':
+                                mqttAdapter = true;
+                                
+                                break;
+                    
+                            default:
+                                break
+                    
+                        }
+                    });
+                }
+            });
+        }
+
+        function showHideSettings() {
+    
+            let enabledMqtt = JSON.parse($('#enabledMqtt').val());
+    
+            if (mqttAdapter) {
+        
+                if (enabledMqtt) {
+                    $('.MQTTAdapter').hide();
+                }
+                else {
+                    $('.MQTTAdapter').hide();
+                }
+            }
+            else {
+                if (enabledMqtt) {
+                    $('.MQTTAdapter').show();
+                }
+                else {
+                    $('.MQTTAdapter').hide();
+                }
+            }
+        }
+
+
+        getObjectView();
 
         function load(settings, onChange) {
             // example: select elements with id=key and class=value and insert value
@@ -29,21 +85,34 @@
                 var id = $key.attr('id');
                 if ($key.attr('type') === 'checkbox') {
                     // do not call onChange direct, because onChange could expect some arguments
-                    $key.prop('checked', settings[id]).on('change', () => onChange());
+                    $key.prop('checked', settings[id])
+                            .on('change', () => {
+                                showHideSettings();
+                                onChange()
+                            })
                 }
                 else {
                     // do not call onChange direct, because onChange could expect some arguments
-                    $key.val(settings[id]).on('change', () => onChange()).on('keyup', () => onChange());
+                    $key.val(settings[id])
+                            .on('change', () => {
+                                showHideSettings();
+                                onChange()
+                            })
+                            .on('keyup', () => onChange());
                 }
             });
+    
     
             devices = settings.devices || [];
     
             onChange(false);
+    
             values2table('devices', devices, onChange);
     
+    
+            showHideSettings();
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-            // if (M) M.updateTextFields();
+            if (M) M.updateTextFields();
         }
 
         // This will be called by the admin adapter when the user presses the save button
@@ -99,6 +168,20 @@
                 </div>
     <!-- end delete -->
     
+    <!-- MQTT -->
+                <div class="col s12 select">
+                     <div class="row">
+                         <div class="input-field col m2 l2">
+                             <select class="value" autofocus="autofocus" data-default='false' id="enabledMqtt">
+                                <option class="mqttOn translate" value="true">MQTT on</option>
+                                <option class="mqttOff translate" value="false" selected>MQTT off</option>
+                             </select>
+                                <label for="enabledMqtt" class="translate">Enabled MQTT</label>
+                         </div>
+                    </div>
+                </div>
+    <!-- end MQTT -->
+    
     <!-- wallpanel login table -->
     <div class="col s12" id="devices">
         <div class="row center">
@@ -112,6 +195,7 @@
                     <th class="header translate" data-name="name">Tablet-Name</th>
                     <th class="header translate" data-name="ip">IP Adresse</th>
                     <th class="header translate" data-type="number" data-default="2971" data-name="port">Port</th>
+                    <th class="header translate" data-name="baseTopic">MQTT Base Topic</th>
                     <th class="header translate" data-default="true" data-type="checkbox" data-name="enabled">enabled</th>
                     <th class="header translate" data-buttons="delete">delete</th>
                 </tr>
@@ -119,6 +203,7 @@
             </table>
         </div>
     </div>
+    <h3 class='MQTTAdapter translate'>MQTT adapter is not installed please install the MQTT adapter before activating the function.</h3>
     <!-- end wallpanel table -->
 </div>
 

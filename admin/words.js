@@ -2,6 +2,54 @@
 'use strict';
 
 systemDictionary = {
+	"MQTT adapter is not installed please install the MQTT adapter before activating the function.": {
+		"en": "MQTT adapter is not installed please install the MQTT adapter before activating the function.",
+		"de": "Der MQTT-Adapter ist nicht installiert. Bitte installieren Sie den MQTT-Adapter, bevor Sie die Funktion aktivieren.",
+		"ru": "Адаптер MQTT не установлен, установите адаптер MQTT перед активацией функции.",
+		"pt": "O adaptador MQTT não está instalado, instale o adaptador MQTT antes de ativar a função.",
+		"nl": "MQTT-adapter is niet geïnstalleerd, installeer de MQTT-adapter voordat u de functie activeert.",
+		"fr": "L'adaptateur MQTT n'est pas installé, veuillez installer l'adaptateur MQTT avant d'activer la fonction.",
+		"it": "L'adattatore MQTT non è installato, installare l'adattatore MQTT prima di attivare la funzione.",
+		"es": "El adaptador MQTT no está instalado, instale el adaptador MQTT antes de activar la función.",
+		"pl": "Adapter MQTT nie jest zainstalowany. Zainstaluj adapter MQTT przed aktywacją funkcji.",
+		"zh-cn": "未安装MQTT适配器，请在激活功能之前安装MQTT适配器。"
+	},
+	"MQTT off": {
+		"en": "MQTT off",
+		"de": "MQTT aus",
+		"ru": "MQTT выкл.",
+		"pt": "MQTT desligado",
+		"nl": "MQTT uit",
+		"fr": "MQTT désactivé",
+		"it": "MQTT disattivato",
+		"es": "MQTT desactivado",
+		"pl": "MQTT wyłączone",
+		"zh-cn": "MQTT关闭"
+	},
+	"MQTT on": {
+		"en": "MQTT on",
+		"de": "MQTT ein",
+		"ru": "MQTT включен",
+		"pt": "MQTT em",
+		"nl": "MQTT aan",
+		"fr": "MQTT sur",
+		"it": "MQTT su",
+		"es": "MQTT activado",
+		"pl": "MQTT włączony",
+		"zh-cn": "MQTT开启"
+	},
+	"Enabled MQTT": {
+		"en": "Enabled MQTT",
+		"de": "MQTT aktiviert",
+		"ru": "Включен MQTT",
+		"pt": "MQTT habilitado",
+		"nl": "MQTT ingeschakeld",
+		"fr": "MQTT activé",
+		"it": "Abilitato MQTT",
+		"es": "MQTT habilitado",
+		"pl": "Włączono MQTT",
+		"zh-cn": "启用的MQTT"
+	},
 	"Caution !!!": {
 		"en": "Caution !!!",
 		"de": "Vorsicht !!!",

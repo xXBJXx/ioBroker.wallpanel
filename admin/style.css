@@ -27,10 +27,20 @@ table.table-values th.header {
 	border-radius: 20px ;
 	}
 .warnMessage{
-	color: #FF0004;
+	color: #ff0000;
 	font-size: 18px !important;
 	}
 .intervalField{
 	width: 125px !important;
 	text-align: center !important;
 	}
+
+.MQTTAdapter {
+	font-size: 50px !important;
+	color: #ff0000;
+	text-align: center;
+	position: absolute;
+	}
+
+
+

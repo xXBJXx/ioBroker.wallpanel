@@ -120,7 +120,8 @@
     "native": {
         "interval": 30,
         "devices": [],
-        "delete": false
+        "delete": false,
+        "enabledMqtt": false
     },
     "objects": [],
     "instanceObjects": [

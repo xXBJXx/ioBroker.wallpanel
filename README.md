@@ -61,13 +61,21 @@ Hier eine Übersicht über die Stats.
 * lastInfoUpdate ===> kommt vom Adapter und zeigt an, wann die letzte Aktualisierung der states war.
 * screenOn ===> zeigt an ob der Bildschirm grade an ist
 
+#### MQTT Adapter states Abfrage
+##### Achtung mqtt.0 Adapter muss dafür installiert und eingerichtet sein und MQTT in der WallPanel App eingerichtet sein.
+
+![wallpanel_state.png](admin/media/Wallpanel_state_MQTT.png)
+
+
 
 ## Changelog
  <!--
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-
+### __WORK IN PROGRESS__
+* (xXBJXx) Added MQTT states query
+* (xXBJXx) GitHub Actions added
 ### 0.1.3-0 (2020-09-08)
 * (xXBJXx) code update
 

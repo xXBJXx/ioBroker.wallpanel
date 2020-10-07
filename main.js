@@ -6,13 +6,29 @@ const utils = require('@iobroker/adapter-core');
 // Load your modules here, e.g.:
 const {default: axios} = require('axios');
 const objects = require('./lib/object_definition');
+
+//rest API Obj
 const commandObjects = objects.object_command_definitions;
 const infoObjects = objects.object_info_definitions;
 
-let config = [];
+//MQTT Obj
+const batteryObjects = objects.object_mqttBattery_definitions;
+const lightObjects = objects.object_mqttLight_definitions;
+const magneticFieldObjects = objects.object_mqttMagneticField_definitions;
+const pressureObjects = objects.object_mqttPressure_definitions;
+const temperatureObjects = objects.object_mqttTemperature_definitions;
+const motionObjects = objects.object_mqttMotion_definitions;
+const faceObjects = objects.object_mqttFace_definitions;
+const qrcodeObjects = objects.object_mqttQrcode_definitions;
+
+
 let requestTimeout = null;
 let interval = null;
 let stateDelete = null;
+let mqttEnabled = null;
+const mqttPath = [];
+let mqttObj = []
+let Obj = [];
 const ip = [];
 const port = [];
 const tabletName = [];
@@ -24,6 +40,7 @@ const logMessageTimer = [];
 const folder = [`command`];
 const commandRequestTimeout = []
 const commandStates = [`clearCache`, `relaunch`, `reload`, `wake`, `camera`, `brightness`, `volume`, `url`, `urlAudio`, `speak`, `eval`];
+const mqttSensor = ['battery', 'temperature', 'light', 'magneticField', 'pressure', 'motion', 'face', 'qrcode'];
 
 class Wallpanel extends utils.Adapter {
 
@@ -52,6 +69,7 @@ class Wallpanel extends utils.Adapter {
 
 		// Initialize your adapter here
 		await this.initialization();
+		// await this.mgttRequest()
 		this.setState('info.connection', true, true);
 		await this.request();
 
@@ -68,8 +86,6 @@ class Wallpanel extends utils.Adapter {
 			}
 			this.log.debug(`Adapter config for interval readout --> ${interval} ms`);
 
-
-
 			// ip and port
 			const devices = this.config.devices;
 			if (!devices && devices['length'] !== 0 || devices !== [] && devices['length'] !== 0) {
@@ -79,6 +95,8 @@ class Wallpanel extends utils.Adapter {
 					port[i] = devices[i]['port'];
 					deviceEnabled[i] = devices[i]['enabled'];
 					stateDelete = this.config.delete;
+					mqttEnabled = JSON.parse(this.config['enabledMqtt']);
+					mqttPath[i] = `mqtt.0.${devices[i]['baseTopic'].replace('/', '.')}`;
 					const Name = devices[i]['name'];
 					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
 					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
@@ -90,7 +108,10 @@ class Wallpanel extends utils.Adapter {
 					this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
 					this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
 
-
+					for (const mqttPathKey in mqttPath) {
+						// this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.state`)
+						this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`)
+					}
 					this.log.debug(`Check whether the IP address is available for the ${Name}`)
 					deviceEnabled[i] = ip[i] !== '' && deviceEnabled[i];
 					if (ip[i] === '') this.log.warn(`${Name} has no ip address device is not queried`)
@@ -184,6 +205,12 @@ class Wallpanel extends utils.Adapter {
 								if (apiResult['status'] === 200) {
 									this.log.debug(`API request ended successfully --> result from api Request: ${JSON.stringify(apiResult['data'])}`);
 
+									if (mqttEnabled) {
+										this.log.debug(`get the MQTT states`);
+										await this.mqttRequest(i);
+										this.log.debug(`MQTT states were obtained`);
+									}
+
 									this.log.debug(`State Create is now running ...`);
 									await this.create_State(apiResult, i);
 									this.log.debug(`State Create was carried out`);
@@ -251,6 +278,53 @@ class Wallpanel extends utils.Adapter {
 
 	}
 
+	async mqttRequest(index) {
+		mqttObj = [];
+		let mqttBattery = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.battery`);
+		if (mqttBattery !== null && mqttBattery.length !== 0) {
+			mqttObj.push({'battery': JSON.parse(mqttBattery.val)})
+		}
+
+		let mqttLight = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.light`);
+		if (mqttLight !== null && mqttLight.length !== 0) {
+			mqttObj.push({'light': JSON.parse(mqttLight.val)})
+		}
+
+		let mqttMotion = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.motion`);
+		if (mqttMotion !== null && mqttMotion.length !== 0) {
+			mqttObj.push({'motion': JSON.parse(mqttMotion.val)})
+			// await this.setStateAsync(`${tabletName[index]}.sensor.motion`, {val: JSON.parse(mqttMotion.val), ack: true});
+		}
+
+		let mqttFace = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.face`);
+		if (mqttFace !== null && mqttFace.length !== 0) {
+			mqttObj.push({'face': JSON.parse(mqttFace.val)})
+			// await this.setStateAsync(`${tabletName[index]}.sensor.face`, {val: JSON.parse(mqttFace.val), ack: true});
+		}
+
+		let mqttQrcode = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.qrcode`);
+		if (mqttQrcode !== null && mqttQrcode.length !== 0) {
+			mqttObj.push({'qrcode': JSON.parse(mqttQrcode.val)})
+			// await this.setStateAsync(`${tabletName[index]}.sensor.qrcode`, {val: JSON.parse(mqttQrcode.val), ack: true});
+		}
+
+		let mqttMagneticField = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.magneticField`);
+		if (mqttMagneticField !== null && mqttMagneticField.length !== 0) {
+			mqttObj.push({'magneticField': JSON.parse(mqttMagneticField.val)})
+			// await this.setStateAsync(`${tabletName[index]}.sensor.magneticField`, {val: JSON.parse(mqttMagneticField.val), ack: true});
+		}
+
+		let mqttPressure = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.pressure`);
+		if (mqttPressure !== null && mqttPressure.length !== 0) {
+			mqttObj.push({'pressure': JSON.parse(mqttPressure.val)})
+		}
+
+		let mqttTemperature = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.temperature`);
+		if (mqttTemperature !== null && mqttTemperature.length !== 0) {
+			mqttObj.push({'temperature': JSON.parse(mqttTemperature.val)})
+		}
+	}
+
 	async state_write(res, index) {
 		try {
 
@@ -266,6 +340,42 @@ class Wallpanel extends utils.Adapter {
 
 			}
 			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[2]}`, {val: ip[index], ack: true});
+
+			if (mqttEnabled) {
+				for (const mqttObjKey in mqttObj) {
+					let Obj = Object.keys(mqttObj[mqttObjKey])
+
+					if (Obj[0] === 'battery') {
+
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.battery`, {val: mqttObj[mqttObjKey].battery.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.charging`, {val: mqttObj[mqttObjKey].battery.charging, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.acPlugged`, {val: mqttObj[mqttObjKey].battery.acPlugged, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.usbPlugged`, {val: mqttObj[mqttObjKey].battery.usbPlugged, ack: true});
+					}
+					else if (Obj[0] === 'light') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.light.light`, {val: mqttObj[mqttObjKey].light.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.light.id`, {val: mqttObj[mqttObjKey].light.id, ack: true});
+					}
+					else if (Obj[0] === 'magneticField') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.magneticField.magneticField`, {val: mqttObj[mqttObjKey].magneticField.value, ack: true});
+					}
+					else if (Obj[0] === 'pressure') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.pressure.pressure`, {val: mqttObj[mqttObjKey].pressure.value, ack: true});
+					}
+					else if (Obj[0] === 'temperature') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.temperature.temperature`, {val: mqttObj[mqttObjKey].temperature.value, ack: true});
+					}
+					else if (Obj[0] === 'motion') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.motion.motion`, {val: mqttObj[mqttObjKey].motion.value, ack: true});
+					}
+					else if (Obj[0] === 'face') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.face.face`, {val: mqttObj[mqttObjKey].face.value, ack: true});
+					}
+					else if (Obj[0] === 'qrcode') {
+						await this.setStateAsync(`${tabletName[index]}.sensor.qrcode.qrcode`, {val: mqttObj[mqttObjKey].qrcode.value, ack: true});
+					}
+				}
+			}
 
 		}
 		catch (error) {
@@ -398,7 +508,6 @@ class Wallpanel extends utils.Adapter {
 				break;
 
 			case `${commandStates[5]}`:
-
 
 				if (value <= 0) {
 					value = 1;
@@ -591,6 +700,8 @@ class Wallpanel extends utils.Adapter {
 				}
 			});
 
+
+
 			for (const f in folder) {
 
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
@@ -600,8 +711,8 @@ class Wallpanel extends utils.Adapter {
 					},
 					native: {}
 				});
-
 			}
+
 
 			for (const obj in commandObjects) {
 
@@ -610,10 +721,155 @@ class Wallpanel extends utils.Adapter {
 
 			}
 
+
 			for (const obj in infoObjects) {
 
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
 
+			}
+
+			if (mqttEnabled) {
+
+				if (mqttEnabled) {
+					await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor`, {
+						type: 'channel',
+						common: {
+							name: `Sensor values`
+						},
+						native: {}
+					});
+				}
+
+				for (const mqttObjKey in mqttObj) {
+					let Obj = Object.keys(mqttObj[mqttObjKey])
+
+					if (Obj[0] === 'battery') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery`, {
+							type: 'channel',
+							common: {
+								name: `battery Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in batteryObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery.${obj}`, batteryObjects[obj]);
+
+						}
+					}
+					else if (Obj[0] === 'light') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light`, {
+							type: 'channel',
+							common: {
+								name: `light Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in lightObjects) {
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light.${obj}`, lightObjects[obj]);
+						}
+
+					}
+					else if (Obj[0] === 'magneticField') {
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.magneticField`, {
+							type: 'channel',
+							common: {
+								name: `magneticField Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in magneticFieldObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.magneticField.${obj}`, magneticFieldObjects[obj]);
+
+						}
+					}
+					else if (Obj[0] === 'pressure') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure`, {
+							type: 'channel',
+							common: {
+								name: `pressure Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in pressureObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure.${obj}`, pressureObjects[obj]);
+
+						}
+					}
+					else if (Obj[0] === 'temperature') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.temperature`, {
+							type: 'channel',
+							common: {
+								name: `temperature Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in temperatureObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.temperature.${obj}`, temperatureObjects[obj]);
+
+						}
+					}
+					else if (Obj[0] === 'motion') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion`, {
+							type: 'channel',
+							common: {
+								name: `motion Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in motionObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion.${obj}`, motionObjects[obj]);
+
+						}
+					}
+					else if (Obj[0] === 'face') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face`, {
+							type: 'channel',
+							common: {
+								name: `face Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in faceObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face.${obj}`, faceObjects[obj]);
+
+						}
+					}
+					else if (Obj[0] === 'qrcode') {
+
+						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode`, {
+							type: 'channel',
+							common: {
+								name: `qrcode Sensor`
+							},
+							native: {}
+						});
+
+						for (const obj in qrcodeObjects) {
+
+							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode.${obj}`, qrcodeObjects[obj]);
+
+						}
+					}
+				}
 			}
 
 			for (const r in requestStates) {
@@ -699,6 +955,21 @@ class Wallpanel extends utils.Adapter {
 
 				for (const change in tabletName) {
 
+					if (deviceEnabled[change]) {
+
+						if (state.from === `system.adapter.mqtt.0`) {
+
+							this.request(change);
+
+							this.log.debug(`state ${id} changed: ${state.val} from: ${this.namespace}`);
+							break;
+						}
+					}
+				}
+
+
+				for (const change in tabletName) {
+
 					if (deviceEnabled[change] && !state.ack) {
 
 						for (const i in commandStates) {
@@ -720,6 +991,7 @@ class Wallpanel extends utils.Adapter {
 				this.log.debug(`state ${id} deleted`);
 			}
 		}
+
 		catch (error) {
 			this.log.error(`[onStateChane ${id}] error: ${error.message}, stack: ${error.stack}`);
 		}
