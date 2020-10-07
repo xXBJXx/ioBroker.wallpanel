@@ -73,7 +73,7 @@ Hier eine Übersicht über die Stats.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-### __WORK IN PROGRESS__
+### 0.1.4-beta.0 (2020-10-07)
 * (xXBJXx) Added MQTT states query
 * (xXBJXx) GitHub Actions added
 ### 0.1.3-0 (2020-09-08)
