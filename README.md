@@ -10,7 +10,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.wallpanel.png?downloads=true)](https://nodei.co/npm/iobroker.wallpanel/)
 
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/xXBJXx/ioBroker.wallpanel/master.svg)](https://travis-ci.org/xXBJXx/ioBroker.wallpanel)
+**Tests:** ![Test and Release](https://github.com/xXBJXx/ioBroker.wallpanel/workflows/Test%20and%20Release/badge.svg)
 
 
 ## **Sentry**
@@ -66,21 +66,25 @@ Hier eine Übersicht über die Stats.
 
 ![wallpanel_state.png](admin/media/Wallpanel_state_MQTT.png)
 
-
-
 ## Changelog
  <!--
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
+ 
+### __WORK IN PROGRESS__
+* (xXBJXx) README edited
+ 
 ### 0.1.4-beta.0 (2020-10-07)
 * (xXBJXx) Added MQTT states query
 * (xXBJXx) GitHub Actions added
+
 ### 0.1.3-0 (2020-09-08)
 * (xXBJXx) code update
 
 ### 0.1.2-0 (2020-09-05)
 * (xXBJXx) Dependency update and release
+
 ### 0.1.1
 * (xXBJXx) added IP address datapoint
 * (xXBJXx) wake state edit
