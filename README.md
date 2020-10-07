@@ -72,7 +72,7 @@ Hier eine Übersicht über die Stats.
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
  
-### __WORK IN PROGRESS__
+### 0.1.4-beta.1 (2020-10-07)
 * (xXBJXx) README edited
  
 ### 0.1.4-beta.0 (2020-10-07)

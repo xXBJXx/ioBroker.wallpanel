@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.1.4-beta.0",
+        "version": "0.1.4-beta.1",
         "news": {
+            "0.1.4-beta.1": {
+                "en": "README edited",
+                "de": "README bearbeitet",
+                "ru": "README отредактировал",
+                "pt": "README editado",
+                "nl": "README bewerkt",
+                "fr": "README édité",
+                "it": "README modificato",
+                "es": "README editado",
+                "pl": "Edytowano plik README",
+                "zh-cn": "自述文件已编辑"
+            },
             "0.1.4-beta.0": {
                 "en": "Added MQTT states query\nGitHub Actions added",
                 "de": "Abfrage der MQTT-Status hinzugefügt\nGitHub-Aktionen hinzugefügt",
