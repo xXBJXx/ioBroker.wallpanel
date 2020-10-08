@@ -118,7 +118,6 @@ jobs:
       - name: Publish package to npm
         run: |
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-          npm whoami
           npm publish
 
   #       - name: Notify Sentry.io about the release
