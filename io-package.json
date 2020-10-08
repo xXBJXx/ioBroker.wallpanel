@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.1.4-beta.1",
+        "version": "0.1.4-beta.2",
         "news": {
+            "0.1.4-beta.2": {
+                "en": "fix display bug",
+                "de": "Anzeigefehler behoben",
+                "ru": "исправить ошибку отображения",
+                "pt": "consertar bug de exibição",
+                "nl": "repareer de weergavefout",
+                "fr": "correction d'un bug d'affichage",
+                "it": "correzione bug di visualizzazione",
+                "es": "corregir error de visualización",
+                "pl": "napraw błąd wyświetlania",
+                "zh-cn": "修复显示错误"
+            },
             "0.1.4-beta.1": {
                 "en": "README edited",
                 "de": "README bearbeitet",
