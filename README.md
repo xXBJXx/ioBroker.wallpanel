@@ -73,7 +73,7 @@ Hier eine Übersicht über die Stats.
  -->
  
  
-### __WORK IN PROGRESS__
+### 0.1.4-beta.3 (2020-10-08)
 * (xXBJXx) Test and Release.yml change
 
 ### 0.1.4-beta.2 (2020-10-08)
