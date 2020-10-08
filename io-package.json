@@ -144,8 +144,8 @@
     "native": {
         "interval": 30,
         "devices": [],
-        "delete": false,
-        "enabledMqtt": false
+        "delete": "false",
+        "enabledMqtt": "false"
     },
     "objects": [],
     "instanceObjects": [
