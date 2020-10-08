@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.1.4-beta.3",
+        "version": "0.1.4-beta.4",
         "news": {
+            "0.1.4-beta.4": {
+                "en": "README change",
+                "de": "README-Änderung",
+                "ru": "README изменить",
+                "pt": "README mudança",
+                "nl": "README wijzigen",
+                "fr": "Changement README",
+                "it": "Modifica README",
+                "es": "README cambio",
+                "pl": "README zmiana",
+                "zh-cn": "自述更改"
+            },
             "0.1.4-beta.3": {
                 "en": "Test and Release.yml change",
                 "de": "Test und Release.yml ändern",
