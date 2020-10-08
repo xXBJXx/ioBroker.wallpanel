@@ -71,6 +71,11 @@ Hier eine Übersicht über die Stats.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
+ 
+ 
+### __WORK IN PROGRESS__
+* (xXBJXx) Test and Release.yml change
+
 ### 0.1.4-beta.2 (2020-10-08)
 * (xXBJXx) fix display bug
   
