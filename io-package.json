@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.1.4-beta.4",
+        "version": "0.1.5-0",
         "news": {
+            "0.1.5-0": {
+                "en": "Update dependabot.yml and test-and-release.yml\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\nCode Optimization\nconfig page style customized",
+                "de": "Aktualisieren Sie dependabot.yml und test-and-release.yml\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\nCode-Optimierung\nKonfigurationsseitenstil angepasst",
+                "ru": "Обновите файл dependsabot.yml и test-and-release.yml.\nОбновления зависимостей\nREADME переработан, добавлена ссылка на документацию и обновлена ЛИЦЕНЗИЯ.\nОптимизация кода\nнастраиваемый стиль страницы конфигурации",
+                "pt": "Atualize dependabot.yml e test-and-release.yml\nAtualizações de dependência\nREADME revisado e adicionado link de documentação e LICENÇA atualizada\nOtimização de Código\nestilo de página de configuração personalizado",
+                "nl": "Werk afhankelijkabot.yml en test-and-release.yml bij\nAfhankelijkheid updates\nREADME herzien en toegevoegd Documentatielink en LICENTIE bijgewerkt\nCode-optimalisatie\nconfig paginastijl aangepast",
+                "fr": "Mettez à jour dependabot.yml et test-and-release.yml\nMises à jour des dépendances\nLISEZMOI révisé et ajouté Lien vers la documentation et LICENCE mis à jour\nOptimisation du code\nstyle de page de configuration personnalisé",
+                "it": "Aggiorna dependabot.yml e test-and-release.yml\nAggiornamenti delle dipendenze\nREADME modificato e aggiunto Collegamento alla documentazione e LICENZA aggiornata\nOttimizzazione del codice\nstile della pagina di configurazione personalizzato",
+                "es": "Actualice dependdabot.yml y test-and-release.yml\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\nOptimización de código\nestilo de página de configuración personalizado",
+                "pl": "Zaktualizuj dependabot.yml i test-and-release.yml\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nOptymalizacja kodu\nconfig dostosowany styl strony",
+                "zh-cn": "更新Dependabot.yml和test-and-release.yml\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\n代码优化\n配置页面样式自定义"
+            },
             "0.1.4-beta.4": {
                 "en": "README change",
                 "de": "README-Änderung",

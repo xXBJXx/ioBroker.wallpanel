@@ -60,7 +60,7 @@ Sentry Reporting is used from js-controller 3.0.
  -->
 
 
-### __WORK IN PROGRESS__
+### 0.1.5-0 (2021-01-27)
 * (xXBJXx) Update dependabot.yml and test-and-release.yml
 * (xXBJXx) Dependency updates
 * (xXBJXx) README revised and added Documentation link and LICENSE updated
