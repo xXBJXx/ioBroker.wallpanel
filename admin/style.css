@@ -41,7 +41,10 @@
 	margin-left:16px !important;
 	margin-top:-16px !important;
 	}
-
+.marg_auto{
+	margin-right: 0 !important;
+	margin-left: 0 !important;
+	}
 /* warnMessage Section End*/
 
 /* MQTT Adapter Section*/
@@ -64,7 +67,7 @@
 	}
 
 .btn, .m .btn-flat, .m .btn-large, .m .btn-small {
-	border-radius: 20px;
+	border-radius: 20px !important;
 	}
 
 /* table button Section End */
