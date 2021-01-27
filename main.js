@@ -21,14 +21,12 @@ const motionObjects = objects.object_mqttMotion_definitions;
 const faceObjects = objects.object_mqttFace_definitions;
 const qrcodeObjects = objects.object_mqttQrcode_definitions;
 
-
 let requestTimeout = null;
 let interval = null;
 let stateDelete = null;
 let mqttEnabled = null;
 const mqttPath = [];
 let mqttObj = []
-let Obj = [];
 const ip = [];
 const port = [];
 const tabletName = [];
@@ -40,7 +38,6 @@ const logMessageTimer = [];
 const folder = [`command`];
 const commandRequestTimeout = []
 const commandStates = [`clearCache`, `relaunch`, `reload`, `wake`, `camera`, `brightness`, `volume`, `url`, `urlAudio`, `speak`, `eval`];
-const mqttSensor = ['battery', 'temperature', 'light', 'magneticField', 'pressure', 'motion', 'face', 'qrcode'];
 
 class Wallpanel extends utils.Adapter {
 
@@ -56,9 +53,7 @@ class Wallpanel extends utils.Adapter {
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
 		this.on('unload', this.onUnload.bind(this));
-
 	}
-
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
@@ -69,10 +64,8 @@ class Wallpanel extends utils.Adapter {
 
 		// Initialize your adapter here
 		await this.initialization();
-		// await this.mgttRequest()
 		this.setState('info.connection', true, true);
 		await this.request();
-
 	}
 
 	async initialization() {
@@ -123,15 +116,11 @@ class Wallpanel extends utils.Adapter {
 						tabletName[i] = await this.replaceFunction(Name);
 					}
 					else if (deviceEnabled[i]) {
-
 						this.log.debug(`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`)
 						tabletName[i] = await this.replaceFunction(ip[i]);
-
 					}
 					this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
-
 				}
-
 
 				if (stateDelete) {
 					await this.localDeleteState();
@@ -141,8 +130,6 @@ class Wallpanel extends utils.Adapter {
 			else {
 				deviceEnabled[1] = false
 			}
-
-
 		}
 		catch (error) {
 			this.log.error(`initialization has a problem: ${error.message}, stack: ${error.stack}`);
@@ -161,7 +148,6 @@ class Wallpanel extends utils.Adapter {
 				nativeIp = device[i].native['ip'];
 
 				if (nativeIp !== ip[i]) {
-
 					this.log.debug(`Adapter prepares the name of the folder to be deleted`);
 					let deviceName = device[i]._id.replace(`${this.namespace}.`, '');
 
@@ -175,7 +161,6 @@ class Wallpanel extends utils.Adapter {
 								// do nothing
 							}
 						})
-
 					this.log.debug(`device deleted`);
 				}
 			}
@@ -225,11 +210,8 @@ class Wallpanel extends utils.Adapter {
 									// clear log message timer
 									if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
 									this.log.debug(`logMessageTimer for ${tabletName[i]} will be deleted`);
-
 									logMessage[i] = false;
-
 									this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
-
 								}
 
 							}).catch(async error => {
@@ -248,16 +230,12 @@ class Wallpanel extends utils.Adapter {
 
 									this.log.debug(`set logMessageTimer for ${tabletName[i]} to ${3600000 / 60000} min`);
 									logMessageTimer[i] = setTimeout(async () => {
-
 										logMessage[i] = false;
 										this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
-
 									}, 3600000);
 								}
-
 								this.setState(`${tabletName[i]}.isWallpanelAlive`, {val: false, ack: true});
 								this.log.debug(`set isWallpanelAlive to false for ${tabletName[i]}`);
-
 							})
 						this.setState(`${tabletName[i]}.lastInfoUpdate`, {val: Date.now(), ack: true});
 						this.log.debug(`The last update of the state was on: ${Date.now()}`);
@@ -265,10 +243,8 @@ class Wallpanel extends utils.Adapter {
 				}
 				this.log.debug(`set requestTimeout to ${interval / 1000} sec`);
 				requestTimeout = setTimeout(async () => {
-
 					this.log.debug(`request is restarted`);
 					await this.request();
-
 				}, interval);
 			}
 		}
@@ -280,73 +256,68 @@ class Wallpanel extends utils.Adapter {
 
 	async mqttRequest(index) {
 		mqttObj = [];
+
 		let mqttBattery = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.battery`);
-		if (mqttBattery !== null && mqttBattery.length !== 0) {
+		if (mqttBattery !== null) {
+			// @ts-ignore
 			mqttObj.push({'battery': JSON.parse(mqttBattery.val)})
 		}
 
 		let mqttLight = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.light`);
-		if (mqttLight !== null && mqttLight.length !== 0) {
+		if (mqttLight !== null) {
+			// @ts-ignore
 			mqttObj.push({'light': JSON.parse(mqttLight.val)})
 		}
 
 		let mqttMotion = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.motion`);
-		if (mqttMotion !== null && mqttMotion.length !== 0) {
+		if (mqttMotion !== null) {
+			// @ts-ignore
 			mqttObj.push({'motion': JSON.parse(mqttMotion.val)})
-			// await this.setStateAsync(`${tabletName[index]}.sensor.motion`, {val: JSON.parse(mqttMotion.val), ack: true});
 		}
 
 		let mqttFace = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.face`);
-		if (mqttFace !== null && mqttFace.length !== 0) {
+		if (mqttFace !== null) {
+			// @ts-ignore
 			mqttObj.push({'face': JSON.parse(mqttFace.val)})
-			// await this.setStateAsync(`${tabletName[index]}.sensor.face`, {val: JSON.parse(mqttFace.val), ack: true});
 		}
 
 		let mqttQrcode = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.qrcode`);
-		if (mqttQrcode !== null && mqttQrcode.length !== 0) {
+		if (mqttQrcode !== null) {
+			// @ts-ignore
 			mqttObj.push({'qrcode': JSON.parse(mqttQrcode.val)})
-			// await this.setStateAsync(`${tabletName[index]}.sensor.qrcode`, {val: JSON.parse(mqttQrcode.val), ack: true});
 		}
 
 		let mqttMagneticField = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.magneticField`);
-		if (mqttMagneticField !== null && mqttMagneticField.length !== 0) {
+		if (mqttMagneticField !== null) {
+			// @ts-ignore
 			mqttObj.push({'magneticField': JSON.parse(mqttMagneticField.val)})
-			// await this.setStateAsync(`${tabletName[index]}.sensor.magneticField`, {val: JSON.parse(mqttMagneticField.val), ack: true});
 		}
 
 		let mqttPressure = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.pressure`);
-		if (mqttPressure !== null && mqttPressure.length !== 0) {
+		if (mqttPressure !== null) {
+			// @ts-ignore
 			mqttObj.push({'pressure': JSON.parse(mqttPressure.val)})
 		}
 
 		let mqttTemperature = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.temperature`);
-		if (mqttTemperature !== null && mqttTemperature.length !== 0) {
+		if (mqttTemperature !== null) {
+			// @ts-ignore
 			mqttObj.push({'temperature': JSON.parse(mqttTemperature.val)})
 		}
 	}
 
 	async state_write(res, index) {
 		try {
-
 			this.log.debug(`Preparation for the state write....`);
-			const requestStates = Object.keys(res['data']);
-
 			this.log.debug(`stats are written now`)
-			for (const r in requestStates) {
-
-				let result = Object.values(res['data'])[r];
-
-				await this.setStateAsync(`${tabletName[index]}.${requestStates[r]}`, {val: result, ack: true});
-
+			for (const Key in res.data) {
+				await this.setStateAsync(`${tabletName[index]}.${Key}`, {val: res.data[Key], ack: true});
 			}
 			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[2]}`, {val: ip[index], ack: true});
-
 			if (mqttEnabled) {
 				for (const mqttObjKey in mqttObj) {
 					let Obj = Object.keys(mqttObj[mqttObjKey])
-
 					if (Obj[0] === 'battery') {
-
 						await this.setStateAsync(`${tabletName[index]}.sensor.battery.battery`, {val: mqttObj[mqttObjKey].battery.value, ack: true});
 						await this.setStateAsync(`${tabletName[index]}.sensor.battery.charging`, {val: mqttObj[mqttObjKey].battery.charging, ack: true});
 						await this.setStateAsync(`${tabletName[index]}.sensor.battery.acPlugged`, {val: mqttObj[mqttObjKey].battery.acPlugged, ack: true});
@@ -376,7 +347,6 @@ class Wallpanel extends utils.Adapter {
 					}
 				}
 			}
-
 		}
 		catch (error) {
 			this.log.error(`state_write has a problem: ${error.message}, stack: ${error.stack}`);
@@ -384,13 +354,9 @@ class Wallpanel extends utils.Adapter {
 	}
 
 	async sendCommand(id, state, index, cmd) {
-
 		let value = state.val;
-
 		switch (cmd) {
-
 			case `${commandStates[0]}`:
-
 				if (value === false) {
 					value = true;
 				}
@@ -402,9 +368,7 @@ class Wallpanel extends utils.Adapter {
 				await axios.post(sendUrl[index], {'clearCache': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[clearCache] command was sent successfully Status: ${result['statusText']}`);
-
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [clearCache] command: ${error.message}, stack: ${error.stack}`);
@@ -412,7 +376,6 @@ class Wallpanel extends utils.Adapter {
 				break;
 
 			case `${commandStates[1]}`:
-
 				if (value === false) {
 					value = true;
 				}
@@ -421,22 +384,17 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [relaunch] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'relaunch': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[relaunch] command was sent successfully Status: ${result['statusText']}`);
-
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [relaunch] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[2]}`:
-
 				if (value === false) {
 					value = true;
 				}
@@ -445,18 +403,14 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [reload] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'reload': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[reload] command was sent successfully Status: ${result['statusText']}`);
-
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [reload] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[3]}`:
@@ -466,21 +420,17 @@ class Wallpanel extends utils.Adapter {
 				await axios.post(sendUrl[index], {'wake': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							if (commandRequestTimeout[index]) clearTimeout(commandRequestTimeout[index]);
-
 							this.log.debug(`[wake] command was sent successfully Status: ${result['statusText']}`);
 
 							commandRequestTimeout[index] = setTimeout(async () => {
 								await this.request();
 							}, 1500);
-							// await this.request();
 							await this.setState(id, value, true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [wake] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[4]}`:
@@ -493,18 +443,14 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [ camera ] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'camera': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[camera] command was sent successfully Status: ${result['statusText']}`);
-
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [camera] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[5]}`:
@@ -520,24 +466,21 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [brightness] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'brightness': value})
 
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							if (commandRequestTimeout[index]) clearTimeout(commandRequestTimeout[index]);
 							this.log.debug(`[brightness] command was sent successfully Status: ${result['statusText']}`);
+
 							commandRequestTimeout[index] = setTimeout(async () => {
 								await this.request();
 							}, 1500);
-							// await this.request();
-							await this.setState(id, value, true);
+							await this.setStateAsync(id, value, true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [brightness] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[6]}`:
@@ -553,18 +496,15 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [volume] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'volume': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[volume] command was sent successfully Status: ${result['statusText']}`);
-							await this.setState(id, value, true);
+							await this.setStateAsync(id, value, true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [volume] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[7]}`:
@@ -577,18 +517,15 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [url] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'url': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[url] command was sent successfully Status: ${result['statusText']}`);
-							await this.setState(id, '', true);
+							await this.setStateAsync(id, '', true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [url] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[8]}`:
@@ -601,19 +538,15 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				this.log.debug(`command [urlAudio] is being sent with value: ${value}`);
-
 				await axios.post(sendUrl[index], {'audio': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[urlAudio] command was sent successfully Status: ${result['statusText']}`);
-							await this.setState(id, '', true);
-
+							await this.setStateAsync(id, '', true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [urlAudio] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[9]}`:
@@ -630,15 +563,12 @@ class Wallpanel extends utils.Adapter {
 				await axios.post(sendUrl[index], {'speak': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[speak] command was sent successfully Status: ${result['statusText']}`);
-							await this.setState(id, '', true);
-
+							await this.setStateAsync(id, '', true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [speak] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
 
 			case `${commandStates[10]}`:
@@ -655,38 +585,28 @@ class Wallpanel extends utils.Adapter {
 				await axios.post(sendUrl[index], {'eval': value})
 					.then(async result => {
 						if (result['status'] === 200) {
-
 							this.log.debug(`[eval] command was sent successfully Status: ${result['statusText']}`);
-							await this.setState(id, '', true);
-
+							await this.setStateAsync(id, '', true);
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [eval] command: ${error.message}, stack: ${error.stack}`);
 					})
-
 				break;
-
 		}
-
 	}
 
 	async create_State(res, index) {
 		try {
 
 			this.log.debug(`preparation for the statesCreate...`);
-
 			const requestStatesType = [];
-
 			const requestStates = Object.keys(res['data']);
-
 			this.log.debug(`Read the state name from the apiResult: ${requestStates}`);
 
 			for (const t in requestStates) {
 				requestStatesType[t] = typeof Object.values(res['data'])[t];
 			}
 			this.log.debug(`Read the state Type from the apiResult: ${requestStatesType}`);
-
-
 			this.log.debug(`Start the stateCreate for the requestStates`);
 			this.log.debug(`Start the stateCreate for the commandStates and subscribeStates`);
 
@@ -700,10 +620,7 @@ class Wallpanel extends utils.Adapter {
 				}
 			});
 
-
-
 			for (const f in folder) {
-
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
 					type: 'channel',
 					common: {
@@ -713,23 +630,16 @@ class Wallpanel extends utils.Adapter {
 				});
 			}
 
-
 			for (const obj in commandObjects) {
-
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.command.${obj}`, commandObjects[obj]);
 				this.subscribeStates(`${tabletName[index]}.command.${obj}`);
-
 			}
 
-
 			for (const obj in infoObjects) {
-
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
-
 			}
 
 			if (mqttEnabled) {
-
 				if (mqttEnabled) {
 					await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor`, {
 						type: 'channel',
@@ -744,7 +654,6 @@ class Wallpanel extends utils.Adapter {
 					let Obj = Object.keys(mqttObj[mqttObjKey])
 
 					if (Obj[0] === 'battery') {
-
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery`, {
 							type: 'channel',
 							common: {
@@ -754,9 +663,7 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in batteryObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery.${obj}`, batteryObjects[obj]);
-
 						}
 					}
 					else if (Obj[0] === 'light') {
@@ -784,13 +691,10 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in magneticFieldObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.magneticField.${obj}`, magneticFieldObjects[obj]);
-
 						}
 					}
 					else if (Obj[0] === 'pressure') {
-
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure`, {
 							type: 'channel',
 							common: {
@@ -800,9 +704,7 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in pressureObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure.${obj}`, pressureObjects[obj]);
-
 						}
 					}
 					else if (Obj[0] === 'temperature') {
@@ -816,9 +718,7 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in temperatureObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.temperature.${obj}`, temperatureObjects[obj]);
-
 						}
 					}
 					else if (Obj[0] === 'motion') {
@@ -832,9 +732,7 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in motionObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion.${obj}`, motionObjects[obj]);
-
 						}
 					}
 					else if (Obj[0] === 'face') {
@@ -848,9 +746,7 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in faceObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face.${obj}`, faceObjects[obj]);
-
 						}
 					}
 					else if (Obj[0] === 'qrcode') {
@@ -864,9 +760,7 @@ class Wallpanel extends utils.Adapter {
 						});
 
 						for (const obj in qrcodeObjects) {
-
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode.${obj}`, qrcodeObjects[obj]);
-
 						}
 					}
 				}
@@ -886,9 +780,7 @@ class Wallpanel extends utils.Adapter {
 					native: {}
 				});
 			}
-
 			this.log.debug(`subscribe to all stats in the command folder for ${tabletName[index]}`);
-
 		}
 		catch (error) {
 			this.log.error(`stateCreate has a problem: ${error.message}, stack: ${error.stack}`);
@@ -916,7 +808,7 @@ class Wallpanel extends utils.Adapter {
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
-	 * @param {() => void} callback
+	 * @param {function} callback
 	 */
 	onUnload(callback) {
 		try {
@@ -949,24 +841,21 @@ class Wallpanel extends utils.Adapter {
 	 */
 	onStateChange(id, state) {
 		try {
-
 			if (state) {
 				// The state was changed
-
 				for (const change in tabletName) {
 
 					if (deviceEnabled[change]) {
 
 						if (state.from === `system.adapter.mqtt.0`) {
 
-							this.request(change);
+							this.request();
 
 							this.log.debug(`state ${id} changed: ${state.val} from: ${this.namespace}`);
 							break;
 						}
 					}
 				}
-
 
 				for (const change in tabletName) {
 
@@ -991,7 +880,6 @@ class Wallpanel extends utils.Adapter {
 				this.log.debug(`state ${id} deleted`);
 			}
 		}
-
 		catch (error) {
 			this.log.error(`[onStateChane ${id}] error: ${error.message}, stack: ${error.stack}`);
 		}
