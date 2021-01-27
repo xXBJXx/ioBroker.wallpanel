@@ -1,78 +1,79 @@
 /*global systemDictionary:true */
 'use strict';
 
+// @ts-ignore
 systemDictionary = {
-	"MQTT adapter is not installed please install the MQTT adapter before activating the function.": {
-		"en": "MQTT adapter is not installed please install the MQTT adapter before activating the function.",
-		"de": "Der MQTT-Adapter ist nicht installiert. Bitte installieren Sie den MQTT-Adapter, bevor Sie die Funktion aktivieren.",
-		"ru": "Адаптер MQTT не установлен, установите адаптер MQTT перед активацией функции.",
-		"pt": "O adaptador MQTT não está instalado, instale o adaptador MQTT antes de ativar a função.",
-		"nl": "MQTT-adapter is niet geïnstalleerd, installeer de MQTT-adapter voordat u de functie activeert.",
-		"fr": "L'adaptateur MQTT n'est pas installé, veuillez installer l'adaptateur MQTT avant d'activer la fonction.",
-		"it": "L'adattatore MQTT non è installato, installare l'adattatore MQTT prima di attivare la funzione.",
-		"es": "El adaptador MQTT no está instalado, instale el adaptador MQTT antes de activar la función.",
-		"pl": "Adapter MQTT nie jest zainstalowany. Zainstaluj adapter MQTT przed aktywacją funkcji.",
-		"zh-cn": "未安装MQTT适配器，请在激活功能之前安装MQTT适配器。"
+	'MQTT adapter is not installed please install the MQTT adapter before activating the function.': {
+		'en': 'MQTT adapter is not installed please install the MQTT adapter before activating the function.',
+		'de': 'Der MQTT-Adapter ist nicht installiert. Bitte installieren Sie den MQTT-Adapter, bevor Sie die Funktion aktivieren.',
+		'ru': 'Адаптер MQTT не установлен, установите адаптер MQTT перед активацией функции.',
+		'pt': 'O adaptador MQTT não está instalado, instale o adaptador MQTT antes de ativar a função.',
+		'nl': 'MQTT-adapter is niet geïnstalleerd, installeer de MQTT-adapter voordat u de functie activeert.',
+		'fr': 'L\'adaptateur MQTT n\'est pas installé, veuillez installer l\'adaptateur MQTT avant d\'activer la fonction.',
+		'it': 'L\'adattatore MQTT non è installato, installare l\'adattatore MQTT prima di attivare la funzione.',
+		'es': 'El adaptador MQTT no está instalado, instale el adaptador MQTT antes de activar la función.',
+		'pl': 'Adapter MQTT nie jest zainstalowany. Zainstaluj adapter MQTT przed aktywacją funkcji.',
+		'zh-cn': '未安装MQTT适配器，请在激活功能之前安装MQTT适配器。'
 	},
-	"MQTT off": {
-		"en": "MQTT off",
-		"de": "MQTT aus",
-		"ru": "MQTT выкл.",
-		"pt": "MQTT desligado",
-		"nl": "MQTT uit",
-		"fr": "MQTT désactivé",
-		"it": "MQTT disattivato",
-		"es": "MQTT desactivado",
-		"pl": "MQTT wyłączone",
-		"zh-cn": "MQTT关闭"
+	'MQTT off': {
+		'en': 'MQTT off',
+		'de': 'MQTT aus',
+		'ru': 'MQTT выкл.',
+		'pt': 'MQTT desligado',
+		'nl': 'MQTT uit',
+		'fr': 'MQTT désactivé',
+		'it': 'MQTT disattivato',
+		'es': 'MQTT desactivado',
+		'pl': 'MQTT wyłączone',
+		'zh-cn': 'MQTT关闭'
 	},
-	"MQTT on": {
-		"en": "MQTT on",
-		"de": "MQTT ein",
-		"ru": "MQTT включен",
-		"pt": "MQTT em",
-		"nl": "MQTT aan",
-		"fr": "MQTT sur",
-		"it": "MQTT su",
-		"es": "MQTT activado",
-		"pl": "MQTT włączony",
-		"zh-cn": "MQTT开启"
+	'MQTT on': {
+		'en': 'MQTT on',
+		'de': 'MQTT ein',
+		'ru': 'MQTT включен',
+		'pt': 'MQTT em',
+		'nl': 'MQTT aan',
+		'fr': 'MQTT sur',
+		'it': 'MQTT su',
+		'es': 'MQTT activado',
+		'pl': 'MQTT włączony',
+		'zh-cn': 'MQTT开启'
 	},
-	"Enabled MQTT": {
-		"en": "Enabled MQTT",
-		"de": "MQTT aktiviert",
-		"ru": "Включен MQTT",
-		"pt": "MQTT habilitado",
-		"nl": "MQTT ingeschakeld",
-		"fr": "MQTT activé",
-		"it": "Abilitato MQTT",
-		"es": "MQTT habilitado",
-		"pl": "Włączono MQTT",
-		"zh-cn": "启用的MQTT"
+	'Enabled MQTT': {
+		'en': 'Enabled MQTT',
+		'de': 'MQTT Aktivieren',
+		'ru': 'Включен MQTT',
+		'pt': 'MQTT habilitado',
+		'nl': 'MQTT ingeschakeld',
+		'fr': 'MQTT activé',
+		'it': 'Abilitato MQTT',
+		'es': 'MQTT habilitado',
+		'pl': 'Włączono MQTT',
+		'zh-cn': '启用的MQTT'
 	},
-	"Caution !!!": {
-		"en": "Caution !!!",
-		"de": "Vorsicht !!!",
-		"ru": "Осторожно !!!",
-		"pt": "Cuidado !!!",
-		"nl": "Voorzichtig !!!",
-		"fr": "Mise en garde !!!",
-		"it": "Attenzione !!!",
-		"es": "Precaución !!!",
-		"pl": "Uwaga !!!",
-		"zh-cn": "小心！！！"
+	'Caution !!!': {
+		'en': 'Caution !!!',
+		'de': 'Vorsicht !!!',
+		'ru': 'Осторожно !!!',
+		'pt': 'Cuidado !!!',
+		'nl': 'Voorzichtig !!!',
+		'fr': 'Mise en garde !!!',
+		'it': 'Attenzione !!!',
+		'es': 'Precaución !!!',
+		'pl': 'Uwaga !!!',
+		'zh-cn': '小心！！！'
 	},
-	"When activated, the states are automatically deleted if a device has been deleted from the table.": {
-		"en": "When activated, the states are automatically deleted if a device has been deleted from the table.",
-		"de": "Bei Aktivierung werden die Status automatisch gelöscht, wenn ein Gerät aus der Tabelle gelöscht wurde.",
-		"ru": "При активации состояния автоматически удаляются, если устройство было удалено из таблицы.",
-		"pt": "Quando ativados, os estados são excluídos automaticamente se um dispositivo for excluído da tabela.",
-		"nl": "Indien geactiveerd, worden de statussen automatisch verwijderd als een apparaat uit de tabel is verwijderd.",
-		"fr": "Lorsqu'ils sont activés, les états sont automatiquement supprimés si un appareil a été supprimé du tableau.",
-		"it": "All'attivazione, gli stati vengono eliminati automaticamente se un dispositivo è stato eliminato dalla tabella.",
-		"es": "Cuando se activa, los estados se eliminan automáticamente si se elimina un dispositivo de la tabla.",
-		"pl": "Po aktywacji stany są automatycznie usuwane, jeśli urządzenie zostało usunięte z tabeli.",
-		"zh-cn": "激活后，如果已从表中删除设备，则状态将自动删除。"
+	'When activated, the states are automatically deleted if a device has been deleted from the table.': {
+		'en': 'When activated, the states are automatically deleted if a device has been deleted from the table.',
+		'de': 'Wenn aktiviert, werden die Zustände automatisch gelöscht, wenn ein Gerät aus der Tabelle gelöscht wurde.',
+		'ru': 'При активации состояния автоматически удаляются, если устройство было удалено из таблицы.',
+		'pt': 'Quando ativados, os estados são excluídos automaticamente se um dispositivo for excluído da tabela.',
+		'nl': 'Indien geactiveerd, worden de toestanden automatisch gewist als een apparaat uit de tabel is verwijderd.',
+		'fr': 'Lorsqu\'ils sont activés, les états sont automatiquement supprimés si un appareil a été supprimé du tableau.',
+		'it': 'All\'attivazione, gli stati vengono eliminati automaticamente se un dispositivo è stato eliminato dalla tabella.',
+		'es': 'Cuando se activa, los estados se eliminan automáticamente si se elimina un dispositivo de la tabla.',
+		'pl': 'Po aktywacji stany są automatycznie usuwane, jeśli urządzenie zostało usunięte z tabeli.',
+		'zh-cn': '激活后，如果已从表中删除设备，则状态将自动删除。'
 	},
 	'wallpanel adapter settings': {
 		'en': 'Adapter settings for wallpanel',

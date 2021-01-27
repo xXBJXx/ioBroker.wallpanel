@@ -142,7 +142,7 @@
     <!-- logo -->
     <div class="row">
         <div class="col s12 m4 l2">
-            <img src="wallpanel.png" class="logo">
+            <img src="wallpanel.png" class="logo" alt='wallpanel.png'>
         </div>
     </div>
     <!-- end logo -->
@@ -150,7 +150,7 @@
     <!-- polling interval -->
     <div class="col s1.1 input-field">
         <input type="number" class="intervalField value" id="interval" max="3600" min="0" value="30"/>
-        <label for="interval" class="translate">interval</label>
+        <label for="interval" class="translate internal_label">interval</label>
     </div>
     <!-- end polling interval -->
     
@@ -159,10 +159,9 @@
                      <div class="row">
                          <div></div>
                          <div class="input-field col m4 l4">
-                            <input class="value" id="delete" value="false" type="checkbox"/>
-                            <label for="delete" class="warnMessage translate">Caution !!!</label>
-                            <div></div>
-                            <span class="warnMessage translate">When activated, the states are automatically deleted if a device has been deleted from the table.</span>
+                             <input class="value" id="delete" value="false" type="checkbox"/>
+                             <label for="delete" class="translate"></label>
+                             <span class="warnMessage translate">When activated, the states are automatically deleted if a device has been deleted from the table.</span>
                          </div>
                     </div>
                 </div>
