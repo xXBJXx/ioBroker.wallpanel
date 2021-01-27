@@ -35,7 +35,7 @@ Short to the Config side what you have to set.
 8. here you can disable the device from the query without deleting it.
 
 
-A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/e-control-at-fuel/description.html)
+A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/Wallpanel/description.html)
 
 ## What is Sentry.io and what is reported to the servers of that company?
 
