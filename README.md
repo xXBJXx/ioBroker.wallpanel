@@ -10,9 +10,10 @@
 <!--[![Known Vulnerabilities](https://snyk.io/test/github/xXBJXx/ioBroker.wallpanel/badge.svg)](https://snyk.io/test/github/xXBJXx/ioBroker.wallpanel)-->
 [![NPM](https://nodei.co/npm/iobroker.wallpanel.png?downloads=true)](https://nodei.co/npm/iobroker.wallpanel/)
 
-## **Sentry**
-This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
-More details see below!
+**This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
+More details see below! [Sentry](#sentry)**
+
+A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/Wallpanel/description.html)
 
 # Adapter Description
 The adapter reads the [Wallpenel app Android](https://play.google.com/store/apps/details?id=com.thanksmister.iot.wallpanel&hl=de)
@@ -34,19 +35,17 @@ Short to the Config side what you have to set.
 7. here you have to enter the Base Topic of MQTT as it is in the Wallpanel App.
 8. here you can disable the device from the query without deleting it.
 
+## Sentry
+### What is Sentry.io and what is reported to the servers of that company?
 
-A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/Wallpanel/description.html)
-
-## What is Sentry.io and what is reported to the servers of that company?
-
-Sentry.io is a service for developers to get an overview about errors from their applications. And exactly this is 
+Sentry.io is a service for developers to get an overview about errors from their applications. And exactly this is
 implemented in this adapter.
 
-When the adapter crashes, or another Code error happens, this error message that also appears in the ioBroker log is 
+When the adapter crashes, or another Code error happens, this error message that also appears in the ioBroker log is
 submitted to Sentry. When you
-allowed iobroker GmbH to collect diagnostic data then also your installation ID (this is just a unique ID without any 
+allowed iobroker GmbH to collect diagnostic data then also your installation ID (this is just a unique ID without any
 additional infos about you, email name or such)
-is included. This allows Sentry to group errors and show how many unique users are affected by such an error. 
+is included. This allows Sentry to group errors and show how many unique users are affected by such an error.
 All of this helps me to provide error free adapters that basically never crashs.
 
 For more details and information on how to disable error reporting, please refer to the
@@ -59,6 +58,8 @@ Sentry Reporting is used from js-controller 3.0.
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
 
+### __WORK IN PROGRESS__
+* (xXBJXx) README edited and deleted unused images
 
 ### 0.1.5-0 (2021-01-27)
 * (xXBJXx) Update dependabot.yml and test-and-release.yml
