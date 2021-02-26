@@ -1,222 +1,222 @@
 {
-    "common": {
-        "name": "wallpanel",
-        "version": "0.1.5-0",
-        "news": {
-            "0.1.5-0": {
-                "en": "Update dependabot.yml and test-and-release.yml\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\nCode Optimization\nconfig page style customized",
-                "de": "Aktualisieren Sie dependabot.yml und test-and-release.yml\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\nCode-Optimierung\nKonfigurationsseitenstil angepasst",
-                "ru": "Обновите файл dependsabot.yml и test-and-release.yml.\nОбновления зависимостей\nREADME переработан, добавлена ссылка на документацию и обновлена ЛИЦЕНЗИЯ.\nОптимизация кода\nнастраиваемый стиль страницы конфигурации",
-                "pt": "Atualize dependabot.yml e test-and-release.yml\nAtualizações de dependência\nREADME revisado e adicionado link de documentação e LICENÇA atualizada\nOtimização de Código\nestilo de página de configuração personalizado",
-                "nl": "Werk afhankelijkabot.yml en test-and-release.yml bij\nAfhankelijkheid updates\nREADME herzien en toegevoegd Documentatielink en LICENTIE bijgewerkt\nCode-optimalisatie\nconfig paginastijl aangepast",
-                "fr": "Mettez à jour dependabot.yml et test-and-release.yml\nMises à jour des dépendances\nLISEZMOI révisé et ajouté Lien vers la documentation et LICENCE mis à jour\nOptimisation du code\nstyle de page de configuration personnalisé",
-                "it": "Aggiorna dependabot.yml e test-and-release.yml\nAggiornamenti delle dipendenze\nREADME modificato e aggiunto Collegamento alla documentazione e LICENZA aggiornata\nOttimizzazione del codice\nstile della pagina di configurazione personalizzato",
-                "es": "Actualice dependdabot.yml y test-and-release.yml\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\nOptimización de código\nestilo de página de configuración personalizado",
-                "pl": "Zaktualizuj dependabot.yml i test-and-release.yml\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nOptymalizacja kodu\nconfig dostosowany styl strony",
-                "zh-cn": "更新Dependabot.yml和test-and-release.yml\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\n代码优化\n配置页面样式自定义"
-            },
-            "0.1.4-beta.4": {
-                "en": "README change",
-                "de": "README-Änderung",
-                "ru": "README изменить",
-                "pt": "README mudança",
-                "nl": "README wijzigen",
-                "fr": "Changement README",
-                "it": "Modifica README",
-                "es": "README cambio",
-                "pl": "README zmiana",
-                "zh-cn": "自述更改"
-            },
-            "0.1.4-beta.3": {
-                "en": "Test and Release.yml change",
-                "de": "Test und Release.yml ändern",
-                "ru": "Test и Release.yml изменение",
-                "pt": "Mudança de teste e Release.yml",
-                "nl": "Test en Release.yml wijzigen",
-                "fr": "Modification de Test and Release.yml",
-                "it": "Test e Release.yml cambiamento",
-                "es": "Prueba y cambio Release.yml",
-                "pl": "Test i zmiana Release.yml",
-                "zh-cn": "测试和Release.yml更改"
-            },
-            "0.1.4-beta.2": {
-                "en": "fix display bug",
-                "de": "Anzeigefehler behoben",
-                "ru": "исправить ошибку отображения",
-                "pt": "consertar bug de exibição",
-                "nl": "repareer de weergavefout",
-                "fr": "correction d'un bug d'affichage",
-                "it": "correzione bug di visualizzazione",
-                "es": "corregir error de visualización",
-                "pl": "napraw błąd wyświetlania",
-                "zh-cn": "修复显示错误"
-            },
-            "0.1.4-beta.1": {
-                "en": "README edited",
-                "de": "README bearbeitet",
-                "ru": "README отредактировал",
-                "pt": "README editado",
-                "nl": "README bewerkt",
-                "fr": "README édité",
-                "it": "README modificato",
-                "es": "README editado",
-                "pl": "Edytowano plik README",
-                "zh-cn": "自述文件已编辑"
-            },
-            "0.1.4-beta.0": {
-                "en": "Added MQTT states query\nGitHub Actions added",
-                "de": "Abfrage der MQTT-Status hinzugefügt\nGitHub-Aktionen hinzugefügt",
-                "ru": "Добавлен запрос состояний MQTT\nДействия GitHub добавлены",
-                "pt": "Adicionada consulta de estados MQTT\nAções GitHub adicionadas",
-                "nl": "MQTT-statussenquery toegevoegd\nGitHub-acties toegevoegd",
-                "fr": "Requête d'états MQTT ajoutée\nActions GitHub ajoutées",
-                "it": "Aggiunta query sugli stati MQTT\nAzioni GitHub aggiunte",
-                "es": "Consulta de estados MQTT agregada\nAcciones de GitHub agregadas",
-                "pl": "Dodano zapytanie o stany MQTT\nDodano akcje GitHub",
-                "zh-cn": "添加了MQTT状态查询\nGitHub操作已添加"
-            },
-            "0.1.3-0": {
-                "en": "code update",
-                "de": "Code-Update",
-                "ru": "обновление кода",
-                "pt": "atualização de código",
-                "nl": "code-update",
-                "fr": "mise à jour du code",
-                "it": "aggiornamento del codice",
-                "es": "actualización de código",
-                "pl": "aktualizacja kodu",
-                "zh-cn": "代码更新"
-            },
-            "0.1.2-0": {
-                "en": "Dependency update and release",
-                "de": "Abhängigkeitsaktualisierung und -freigabe",
-                "ru": "Обновление и выпуск зависимостей",
-                "pt": "Atualização e liberação de dependência",
-                "nl": "Afhankelijkheid update en release",
-                "fr": "Mise à jour et publication des dépendances",
-                "it": "Aggiornamento e rilascio delle dipendenze",
-                "es": "Actualización y liberación de dependencia",
-                "pl": "Aktualizacja i wydanie zależności",
-                "zh-cn": "依赖关系更新和发布"
-            },
-            "0.1.1": {
-                "en": "added IP address datapoint\nwake state edit",
-                "de": "IP-Adressdatenpunkt hinzugefügt\nwake state bearbeiten",
-                "ru": "добавлена точка данных IP-адреса\nсостояние пробуждения править",
-                "pt": "adicionado ponto de dados do endereço IP\nedição do estado de vigília",
-                "nl": "IP-adres datapunt toegevoegd\nwake state bewerken",
-                "fr": "point de données d'adresse IP ajouté\nétat de veille modifier",
-                "it": "aggiunto datapoint indirizzo IP\nmodifica dello stato di riattivazione",
-                "es": "punto de datos de dirección IP agregado\nestado de activación editar",
-                "pl": "dodany punkt danych adresu IP\nedytuj stan uśpienia",
-                "zh-cn": "添加的IP地址数据点\n唤醒状态"
-            },
-            "0.1.0": {
-                "en": "Revised code\nDocumentation added\nlastInfoUpdate state added",
-                "de": "Überarbeiteter Code\nDokumentation hinzugefügt\nlastInfoUpdate-Status hinzugefügt",
-                "ru": "Исправленный код\nДобавлена документация\nСостояние lastInfoUpdate добавлено",
-                "pt": "Código revisado\nDocumentação adicionada\nestado lastInfoUpdate adicionado",
-                "nl": "Herziene code\nDocumentatie toegevoegd\nlastInfoUpdate-status toegevoegd",
-                "fr": "Code révisé\nDocumentation ajoutée\nÉtat lastInfoUpdate ajouté",
-                "it": "Codice rivisto\nDocumentazione aggiunta\nstato aggiunto lastInfoUpdate",
-                "es": "Código revisado\nDocumentación agregada\nlastInfoUpdate estado agregado",
-                "pl": "Poprawiony kod\nDokumentacja została dodana\nDodano stan lastInfoUpdate",
-                "zh-cn": "修改后的代码\n已添加文档\n添加了lastInfoUpdate状态"
-            },
-            "0.0.2": {
-                "en": "first Beta",
-                "de": "erste Beta",
-                "ru": "первая бета",
-                "pt": "primeiro beta",
-                "nl": "eerste Beta",
-                "fr": "première bêta",
-                "it": "prima Beta",
-                "es": "primera Beta",
-                "pl": "pierwsza Beta",
-                "zh-cn": "第一个Beta"
-            },
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            }
-        },
-        "title": "Wallpanel",
-        "titleLang": {
-            "en": "Wallpanel"
-        },
-        "desc": {
-            "en": "wallpanel"
-        },
-        "authors": [
-            "xXBJXx <alienware.games@gmail.com>"
-        ],
-        "keywords": [
-            "Wallpanel",
-            "browser",
-            "ioBroker",
-            "Tablet"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "wallpanel.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
-        "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "general",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "materialize": true,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
-            }
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ]
-    },
-    "native": {
-        "interval": 30,
-        "devices": [],
-        "delete": "false",
-        "enabledMqtt": "false"
-    },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
-    ]
+  "common": {
+	"name": "wallpanel",
+	"version": "0.1.5-0",
+	"news": {
+	  "0.1.5-0": {
+		"en": "Update dependabot.yml and test-and-release.yml\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\nCode Optimization\nconfig page style customized",
+		"de": "Aktualisieren Sie dependabot.yml und test-and-release.yml\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\nCode-Optimierung\nKonfigurationsseitenstil angepasst",
+		"ru": "Обновите файл dependsabot.yml и test-and-release.yml.\nОбновления зависимостей\nREADME переработан, добавлена ссылка на документацию и обновлена ЛИЦЕНЗИЯ.\nОптимизация кода\nнастраиваемый стиль страницы конфигурации",
+		"pt": "Atualize dependabot.yml e test-and-release.yml\nAtualizações de dependência\nREADME revisado e adicionado link de documentação e LICENÇA atualizada\nOtimização de Código\nestilo de página de configuração personalizado",
+		"nl": "Werk afhankelijkabot.yml en test-and-release.yml bij\nAfhankelijkheid updates\nREADME herzien en toegevoegd Documentatielink en LICENTIE bijgewerkt\nCode-optimalisatie\nconfig paginastijl aangepast",
+		"fr": "Mettez à jour dependabot.yml et test-and-release.yml\nMises à jour des dépendances\nLISEZMOI révisé et ajouté Lien vers la documentation et LICENCE mis à jour\nOptimisation du code\nstyle de page de configuration personnalisé",
+		"it": "Aggiorna dependabot.yml e test-and-release.yml\nAggiornamenti delle dipendenze\nREADME modificato e aggiunto Collegamento alla documentazione e LICENZA aggiornata\nOttimizzazione del codice\nstile della pagina di configurazione personalizzato",
+		"es": "Actualice dependdabot.yml y test-and-release.yml\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\nOptimización de código\nestilo de página de configuración personalizado",
+		"pl": "Zaktualizuj dependabot.yml i test-and-release.yml\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nOptymalizacja kodu\nconfig dostosowany styl strony",
+		"zh-cn": "更新Dependabot.yml和test-and-release.yml\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\n代码优化\n配置页面样式自定义"
+	  },
+	  "0.1.4-beta.4": {
+		"en": "README change",
+		"de": "README-Änderung",
+		"ru": "README изменить",
+		"pt": "README mudança",
+		"nl": "README wijzigen",
+		"fr": "Changement README",
+		"it": "Modifica README",
+		"es": "README cambio",
+		"pl": "README zmiana",
+		"zh-cn": "自述更改"
+	  },
+	  "0.1.4-beta.3": {
+		"en": "Test and Release.yml change",
+		"de": "Test und Release.yml ändern",
+		"ru": "Test и Release.yml изменение",
+		"pt": "Mudança de teste e Release.yml",
+		"nl": "Test en Release.yml wijzigen",
+		"fr": "Modification de Test and Release.yml",
+		"it": "Test e Release.yml cambiamento",
+		"es": "Prueba y cambio Release.yml",
+		"pl": "Test i zmiana Release.yml",
+		"zh-cn": "测试和Release.yml更改"
+	  },
+	  "0.1.4-beta.2": {
+		"en": "fix display bug",
+		"de": "Anzeigefehler behoben",
+		"ru": "исправить ошибку отображения",
+		"pt": "consertar bug de exibição",
+		"nl": "repareer de weergavefout",
+		"fr": "correction d'un bug d'affichage",
+		"it": "correzione bug di visualizzazione",
+		"es": "corregir error de visualización",
+		"pl": "napraw błąd wyświetlania",
+		"zh-cn": "修复显示错误"
+	  },
+	  "0.1.4-beta.1": {
+		"en": "README edited",
+		"de": "README bearbeitet",
+		"ru": "README отредактировал",
+		"pt": "README editado",
+		"nl": "README bewerkt",
+		"fr": "README édité",
+		"it": "README modificato",
+		"es": "README editado",
+		"pl": "Edytowano plik README",
+		"zh-cn": "自述文件已编辑"
+	  },
+	  "0.1.4-beta.0": {
+		"en": "Added MQTT states query\nGitHub Actions added",
+		"de": "Abfrage der MQTT-Status hinzugefügt\nGitHub-Aktionen hinzugefügt",
+		"ru": "Добавлен запрос состояний MQTT\nДействия GitHub добавлены",
+		"pt": "Adicionada consulta de estados MQTT\nAções GitHub adicionadas",
+		"nl": "MQTT-statussenquery toegevoegd\nGitHub-acties toegevoegd",
+		"fr": "Requête d'états MQTT ajoutée\nActions GitHub ajoutées",
+		"it": "Aggiunta query sugli stati MQTT\nAzioni GitHub aggiunte",
+		"es": "Consulta de estados MQTT agregada\nAcciones de GitHub agregadas",
+		"pl": "Dodano zapytanie o stany MQTT\nDodano akcje GitHub",
+		"zh-cn": "添加了MQTT状态查询\nGitHub操作已添加"
+	  },
+	  "0.1.3-0": {
+		"en": "code update",
+		"de": "Code-Update",
+		"ru": "обновление кода",
+		"pt": "atualização de código",
+		"nl": "code-update",
+		"fr": "mise à jour du code",
+		"it": "aggiornamento del codice",
+		"es": "actualización de código",
+		"pl": "aktualizacja kodu",
+		"zh-cn": "代码更新"
+	  },
+	  "0.1.2-0": {
+		"en": "Dependency update and release",
+		"de": "Abhängigkeitsaktualisierung und -freigabe",
+		"ru": "Обновление и выпуск зависимостей",
+		"pt": "Atualização e liberação de dependência",
+		"nl": "Afhankelijkheid update en release",
+		"fr": "Mise à jour et publication des dépendances",
+		"it": "Aggiornamento e rilascio delle dipendenze",
+		"es": "Actualización y liberación de dependencia",
+		"pl": "Aktualizacja i wydanie zależności",
+		"zh-cn": "依赖关系更新和发布"
+	  },
+	  "0.1.1": {
+		"en": "added IP address datapoint\nwake state edit",
+		"de": "IP-Adressdatenpunkt hinzugefügt\nwake state bearbeiten",
+		"ru": "добавлена точка данных IP-адреса\nсостояние пробуждения править",
+		"pt": "adicionado ponto de dados do endereço IP\nedição do estado de vigília",
+		"nl": "IP-adres datapunt toegevoegd\nwake state bewerken",
+		"fr": "point de données d'adresse IP ajouté\nétat de veille modifier",
+		"it": "aggiunto datapoint indirizzo IP\nmodifica dello stato di riattivazione",
+		"es": "punto de datos de dirección IP agregado\nestado de activación editar",
+		"pl": "dodany punkt danych adresu IP\nedytuj stan uśpienia",
+		"zh-cn": "添加的IP地址数据点\n唤醒状态"
+	  },
+	  "0.1.0": {
+		"en": "Revised code\nDocumentation added\nlastInfoUpdate state added",
+		"de": "Überarbeiteter Code\nDokumentation hinzugefügt\nlastInfoUpdate-Status hinzugefügt",
+		"ru": "Исправленный код\nДобавлена документация\nСостояние lastInfoUpdate добавлено",
+		"pt": "Código revisado\nDocumentação adicionada\nestado lastInfoUpdate adicionado",
+		"nl": "Herziene code\nDocumentatie toegevoegd\nlastInfoUpdate-status toegevoegd",
+		"fr": "Code révisé\nDocumentation ajoutée\nÉtat lastInfoUpdate ajouté",
+		"it": "Codice rivisto\nDocumentazione aggiunta\nstato aggiunto lastInfoUpdate",
+		"es": "Código revisado\nDocumentación agregada\nlastInfoUpdate estado agregado",
+		"pl": "Poprawiony kod\nDokumentacja została dodana\nDodano stan lastInfoUpdate",
+		"zh-cn": "修改后的代码\n已添加文档\n添加了lastInfoUpdate状态"
+	  },
+	  "0.0.2": {
+		"en": "first Beta",
+		"de": "erste Beta",
+		"ru": "первая бета",
+		"pt": "primeiro beta",
+		"nl": "eerste Beta",
+		"fr": "première bêta",
+		"it": "prima Beta",
+		"es": "primera Beta",
+		"pl": "pierwsza Beta",
+		"zh-cn": "第一个Beta"
+	  },
+	  "0.0.1": {
+		"en": "initial release",
+		"de": "Erstveröffentlichung",
+		"ru": "Начальная версия",
+		"pt": "lançamento inicial",
+		"nl": "Eerste uitgave",
+		"fr": "Première version",
+		"it": "Versione iniziale",
+		"es": "Versión inicial",
+		"pl": "Pierwsze wydanie",
+		"zh-cn": "首次出版"
+	  }
+	},
+	"title": "Wallpanel",
+	"titleLang": {
+	  "en": "Wallpanel"
+	},
+	"desc": {
+	  "en": "wallpanel"
+	},
+	"authors": [
+	  "xXBJXx <alienware.games@gmail.com>"
+	],
+	"keywords": [
+	  "Wallpanel",
+	  "browser",
+	  "ioBroker",
+	  "Tablet"
+	],
+	"license": "MIT",
+	"platform": "Javascript/Node.js",
+	"main": "main.js",
+	"icon": "wallpanel.png",
+	"enabled": true,
+	"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
+	"readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
+	"loglevel": "info",
+	"mode": "daemon",
+	"type": "general",
+	"compact": true,
+	"connectionType": "local",
+	"dataSource": "poll",
+	"materialize": true,
+	"plugins": {
+	  "sentry": {
+		"dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
+	  }
+	},
+	"dependencies": [
+	  {
+		"js-controller": ">=2.0.0"
+	  }
+	]
+  },
+  "native": {
+	"interval": 30,
+	"devices": [],
+	"enabledMqtt": "false",
+	"mqttInstance": "mqtt.0"
+  },
+  "objects": [],
+  "instanceObjects": [
+	{
+	  "_id": "info",
+	  "type": "channel",
+	  "common": {
+		"name": "Information"
+	  },
+	  "native": {}
+	},
+	{
+	  "_id": "info.connection",
+	  "type": "state",
+	  "common": {
+		"role": "indicator.connected",
+		"name": "Device or service connected",
+		"type": "boolean",
+		"read": true,
+		"write": false,
+		"def": false
+	  },
+	  "native": {}
+	}
+  ]
 }

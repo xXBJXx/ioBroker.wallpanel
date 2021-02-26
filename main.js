@@ -25,9 +25,11 @@ let requestTimeout = null;
 let interval = null;
 let stateDelete = null;
 let mqttEnabled = null;
+let mqttInstance = null
 const mqttPath = [];
 let mqttObj = []
 const ip = [];
+let device_ip = []
 const port = [];
 const tabletName = [];
 const requestUrl = [];
@@ -54,6 +56,7 @@ class Wallpanel extends utils.Adapter {
 		this.on('stateChange', this.onStateChange.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}
+
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
@@ -84,15 +87,14 @@ class Wallpanel extends utils.Adapter {
 			if (!devices && devices['length'] !== 0 || devices !== [] && devices['length'] !== 0) {
 				for (const i in devices) {
 
-					ip[i] = devices[i]['ip'];
+					device_ip[i] = devices[i]['ip'];
 					port[i] = devices[i]['port'];
 					deviceEnabled[i] = devices[i]['enabled'];
-					stateDelete = this.config.delete;
+					// stateDelete = this.config.delete;
 					mqttEnabled = JSON.parse(this.config['enabledMqtt']);
-					mqttPath[i] = `mqtt.0.${devices[i]['baseTopic'].replace('/', '.')}`;
+					mqttInstance = this.config['mqttInstance'];
+					mqttPath[i] = `${mqttInstance}.${devices[i]['baseTopic'].replace('/', '.')}`;
 					const Name = devices[i]['name'];
-					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
-					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
 
 					this.log.debug(`initialization Ip: ${ip[i]}`);
 					this.log.debug(`initialization port: ${port[i]}`);
@@ -106,8 +108,23 @@ class Wallpanel extends utils.Adapter {
 						this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`)
 					}
 					this.log.debug(`Check whether the IP address is available for the ${Name}`)
-					deviceEnabled[i] = ip[i] !== '' && deviceEnabled[i];
-					if (ip[i] === '') this.log.warn(`${Name} has no ip address device is not queried`)
+					deviceEnabled[i] = device_ip[i] !== '' && deviceEnabled[i];
+					if (device_ip[i] === '') this.log.warn(`${Name} has no ip address device is not queried`)
+
+					if (device_ip[i] !== undefined || device_ip[i] !== '') {
+						let ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+						if (device_ip[i].match(ipformat)) {
+							// valid
+							ip[i] = device_ip[i]
+						}
+						else {
+							// invalid
+							this.log.warn('No Permitted Ip Address')
+							deviceEnabled[i] = false
+						}
+					}
+					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
+					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
 
 					this.log.debug(`it is checked whether the name of the device is entered`)
 					// Prepare tablet name
@@ -120,11 +137,12 @@ class Wallpanel extends utils.Adapter {
 						tabletName[i] = await this.replaceFunction(ip[i]);
 					}
 					this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
+
 				}
 
-				if (stateDelete) {
-					await this.localDeleteState();
-				}
+				// if (stateDelete) {
+				// 	await this.localDeleteState();
+				// }
 				this.log.debug(`Adapter has been fully initialized`);
 			}
 			else {
@@ -136,40 +154,39 @@ class Wallpanel extends utils.Adapter {
 		}
 	}
 
-	async localDeleteState() {
-		try {
-			this.log.debug(`The adapter now calls up the device information`);
-			const device = await this.getDevicesAsync();
-
-			for (const i in device) {
-				let nativeIp = null
-
-				this.log.debug(`Adapter retrieves the native config from the device`);
-				nativeIp = device[i].native['ip'];
-
-				if (nativeIp !== ip[i]) {
-					this.log.debug(`Adapter prepares the name of the folder to be deleted`);
-					let deviceName = device[i]._id.replace(`${this.namespace}.`, '');
-
-					this.log.debug(`Adapter now deletes the folder ${deviceName}`);
-					await this.deleteDeviceAsync(`${deviceName}`)
-						.catch(async error => {
-							if (error !== 'Not exists') {
-								this.log.error(`deleteDeviceAsync has a problem: ${error.message}, stack: ${error.stack}`);
-							}
-							else {
-								// do nothing
-							}
-						})
-					this.log.debug(`device deleted`);
-				}
-			}
-		}
-		catch (error) {
-			this.log.error(`localDeleteState has a problem: ${error.message}, stack: ${error.stack}`);
-		}
-	}
-
+	// async localDeleteState(i) {
+	// 	try {
+	// 		this.log.debug(`The adapter now calls up the device information`);
+	// 		const device = await this.getDevicesAsync();
+	//
+	// 		for (const i in device) {
+	// 			let nativeIp = null
+	//
+	// 			this.log.debug(`Adapter retrieves the native config from the device`);
+	// 			nativeIp = device[i].native['ip'];
+	// 				if (nativeIp !== ip[i]) {
+	// 					this.log.debug(`Adapter prepares the name of the folder to be deleted`);
+	// 					let deviceName = device[i]._id.replace(`${this.namespace}.`, '');
+	//
+	// 					this.log.debug(`Adapter now deletes the folder ${deviceName}`);
+	// 					await this.deleteDeviceAsync(`${deviceName}`)
+	// 						.catch(async error => {
+	// 							if (error !== 'Not exists') {
+	// 								this.log.error(`deleteDeviceAsync has a problem: ${error.message}, stack: ${error.stack}`);
+	// 							}
+	// 							else {
+	// 								// do nothing
+	// 							}
+	// 						})
+	// 					this.log.debug(`device deleted`);
+	// 				}
+	//
+	// 		}
+	// 	}
+	// 	catch (error) {
+	// 		this.log.error(`localDeleteState has a problem: ${error.message}, stack: ${error.stack}`);
+	// 	}
+	// }
 
 	async request() {
 		try {
@@ -203,9 +220,8 @@ class Wallpanel extends utils.Adapter {
 									this.log.debug(`States are now written`);
 									await this.state_write(apiResult, i);
 
-									//set is Wallpanel Alive to true if the request was successful
-									this.setState(`${tabletName[i]}.isWallpanelAlive`, {val: true, ack: true});
-									this.log.debug(`states were written`);
+									// this.setState(`${tabletName[i]}.lastInfoUpdate`, {val: Date.now(), ack: true});
+									this.log.debug(`The last update of the state was on: ${Date.now()}`);
 
 									// clear log message timer
 									if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
@@ -213,8 +229,8 @@ class Wallpanel extends utils.Adapter {
 									logMessage[i] = false;
 									this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
 								}
-
-							}).catch(async error => {
+							})
+							.catch(async error => {
 
 								if (!logMessage[i]) {
 
@@ -234,11 +250,9 @@ class Wallpanel extends utils.Adapter {
 										this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
 									}, 3600000);
 								}
-								this.setState(`${tabletName[i]}.isWallpanelAlive`, {val: false, ack: true});
-								this.log.debug(`set isWallpanelAlive to false for ${tabletName[i]}`);
 							})
-						this.setState(`${tabletName[i]}.lastInfoUpdate`, {val: Date.now(), ack: true});
-						this.log.debug(`The last update of the state was on: ${Date.now()}`);
+
+
 					}
 				}
 				this.log.debug(`set requestTimeout to ${interval / 1000} sec`);
@@ -254,6 +268,11 @@ class Wallpanel extends utils.Adapter {
 
 	}
 
+	/**
+	 *
+	 * @param {number|string} index
+	 * @return {Promise<void>}
+	 */
 	async mqttRequest(index) {
 		mqttObj = [];
 
@@ -306,6 +325,12 @@ class Wallpanel extends utils.Adapter {
 		}
 	}
 
+	/**
+	 *
+	 * @param {Object} res
+	 * @param {number|string} index
+	 * @return {Promise<void>}
+	 */
 	async state_write(res, index) {
 		try {
 			this.log.debug(`Preparation for the state write....`);
@@ -313,7 +338,7 @@ class Wallpanel extends utils.Adapter {
 			for (const Key in res.data) {
 				await this.setStateAsync(`${tabletName[index]}.${Key}`, {val: res.data[Key], ack: true});
 			}
-			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[2]}`, {val: ip[index], ack: true});
+			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[1]}`, {val: ip[index], ack: true});
 			if (mqttEnabled) {
 				for (const mqttObjKey in mqttObj) {
 					let Obj = Object.keys(mqttObj[mqttObjKey])
@@ -353,6 +378,14 @@ class Wallpanel extends utils.Adapter {
 		}
 	}
 
+	/**
+	 *
+	 * @param {string} id
+	 * @param {Object} state
+	 * @param {number|string} index
+	 * @param {string} cmd
+	 * @return {Promise<void>}
+	 */
 	async sendCommand(id, state, index, cmd) {
 		let value = state.val;
 		switch (cmd) {
@@ -595,6 +628,12 @@ class Wallpanel extends utils.Adapter {
 		}
 	}
 
+	/**
+	 *
+	 * @param {Object} res
+	 * @param {number|string} index
+	 * @return {Promise<void>}
+	 */
 	async create_State(res, index) {
 		try {
 
@@ -790,6 +829,7 @@ class Wallpanel extends utils.Adapter {
 	/**
 	 * Replaces text in a string, using an object that supports replacement within a string.
 	 * @param {string} str
+	 * @return {Promise <string|undefined>}
 	 */
 	async replaceFunction(str) {
 		if (str) {
@@ -813,20 +853,14 @@ class Wallpanel extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
-
 			if (requestTimeout) clearTimeout(requestTimeout);
-
 			for (const Unl in tabletName) {
 				if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
 				if (commandRequestTimeout[Unl]) clearTimeout(commandRequestTimeout[Unl]);
-				this.setState(`${tabletName[Unl]}.isWallpanelAlive`, {val: false, ack: true});
-
 			}
-			this.log.debug(`set isWallpanelAlive to false for all tablets because the adapter is off`);
+			// this.log.debug(`set isWallpanelAlive to false for all tablets because the adapter is off`);
 			this.log.debug(`All timers are canceled because the adapter has been switched off`);
-
 			this.setState('info.connection', false, true);
-
 			callback();
 		}
 		catch (e) {
@@ -844,13 +878,9 @@ class Wallpanel extends utils.Adapter {
 			if (state) {
 				// The state was changed
 				for (const change in tabletName) {
-
 					if (deviceEnabled[change]) {
-
-						if (state.from === `system.adapter.mqtt.0`) {
-
+						if (state.from === `system.adapter.${mqttInstance}`) {
 							this.request();
-
 							this.log.debug(`state ${id} changed: ${state.val} from: ${this.namespace}`);
 							break;
 						}
@@ -858,17 +888,11 @@ class Wallpanel extends utils.Adapter {
 				}
 
 				for (const change in tabletName) {
-
 					if (deviceEnabled[change] && !state.ack) {
-
 						for (const i in commandStates) {
-
 							if (id === `${this.namespace}.${tabletName[change]}.command.${commandStates[i]}`) {
-
 								this.log.debug(`state ${id} changed: ${state.val} from: ${this.namespace}`);
-
 								this.sendCommand(id, state, change, commandStates[i]);
-
 								break;
 							}
 						}
