@@ -98,78 +98,7 @@
             })
         }
 
-
-        // function mqttSelect() {
-        //     // let enabledMqtt = JSON.parse($('#enabledMqtt').val());
-        //
-        //     // if (enabledMqtt) {
-        //     let mqttHtml = ``;
-        //     mqttHtml += `
-        //
-        //  <div class="col s12 select">
-        //              <div class="row marg_auto">
-        //                  <div class="input-field col m2 l2">
-        //                      <select autofocus="autofocus" class="value" onchange="showHideSettings()" data-default='false' id="enabledMqtt">
-        //                         <option class="mqttOn translate" value="true">MQTT on</option>
-        //                         <option class="mqttOff translate" value="false" selected>MQTT off</option>
-        //                      </select>
-        //                         <label for="enabledMqtt" class="translate">Enabled MQTTT</label>
-        //                  </div>
-        //             </div>
-        //         </div>
-        //
-        //     <div  class="mqttInstance col s12 select">
-        //           <div class="row ">
-        //                  <div class="input-field col m2 l2">
-        //                     <select autofocus="autofocus" class="value" data-default='mqtt.0' id="mqttInstance">
-        //                     `
-        //     for (const i in mqtt) {
-        //         mqttHtml += `
-        //             <option class="mqttOn translate" value="mqtt.${i}">MQTT ${i}</option>
-        //             `
-        //     }
-        //
-        //     mqttHtml += `
-        //                     </select>
-        //                         <label for="enabledMqtt" class="translate">Enabled MQTT</label>
-        //                  </div>
-        //           </div>
-        //     </div>
-        //
-        // `;
-        //
-        //
-        //     $(`#enabledMqtt1`).html(mqttHtml);
-        //     // } else {
-        //     //     showHideSettings()
-        //     // }
-        //
-        // }
-    //     function ValidateIPaddress() {
-    //         let device_ip = $('#devices').val();
-    // console.log('tes')
-    //         if (device_ip !== undefined || device_ip !== '') {
-    //             let ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    //             if (device_ip.match(ipformat)) {
-    //                 // valid
-    //                 $('#device_ip').removeClass('invalid');
-    //                 $('#device_ip').addClass('valid');
-    //                 ipCheck = true;
-    //                 changeColor()
-    //             }
-    //             else {
-    //                 // invalid
-    //                 $('#device_ip').removeClass('valid');
-    //                 $('#device_ip').addClass('invalid');
-    //                 ipCheck = false;
-    //                 changeColor()
-    //             }
-    //         }
-    //         //
-    //     }
-
         getObjectView();
-
         
         function load(settings, onChange) {
             // example: select elements with id=key and class=value and insert value
@@ -258,20 +187,7 @@
         <label for="interval" class="translate internal_label">interval</label>
     </div>
     <!-- end polling interval -->
-    
-<!--    &lt;!&ndash; delete &ndash;&gt;-->
-<!--                <div class="col s12">-->
-<!--                     <div class="row marg_auto">-->
-<!--                         <div></div>-->
-<!--                         <div class="input-field col m4 l4">-->
-<!--                             <input class="value" id="delete" value="false" type="checkbox"/>-->
-<!--                             <label for="delete" class="translate"></label>-->
-<!--                             <span class="warnMessage translate">When activated, the states are automatically deleted if a device has been deleted from the table.</span>-->
-<!--                         </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--    &lt;!&ndash; end delete &ndash;&gt;-->
-    
+
     <!-- MQTT -->
     <div class="row  col s12 select">
         <div class="row marg_auto col s2">
@@ -304,7 +220,7 @@
                 <tr>
                     <th class="header translate" data-name="_index">Nr.</th>
                     <th class="header translate" data-name="name">Tablet-Name</th>
-                    <th id='ipAddress' class="header translate" data-name="ip">IP Adresse</th>
+                    <th class="header translate" data-name="ip">IP Adresse</th>
                     <th class="header translate" data-type="number" data-default="2971" data-name="port">Port</th>
                     <th class="header translate" data-name="baseTopic">MQTT Base Topic</th>
                     <th class="header translate" data-default="true" data-type="checkbox" data-name="enabled">enabled</th>
