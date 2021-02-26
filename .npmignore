@@ -4,6 +4,8 @@
 node_modules/
 nbproject/
 .vs*/
+.dev-server/
+dev-server_script.bat
 *.code-workspace
 Thumbs.db
 gulpfile.js
