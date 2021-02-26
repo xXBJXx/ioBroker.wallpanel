@@ -59,6 +59,7 @@ Sentry Reporting is used from js-controller 3.0.
 
 ### __WORK IN PROGRESS__
 * (xXBJXx) README edited and deleted unused images
+* (xXBJXx) add MQTT Instance select and remove state delete
 
 ### 0.1.5-0 (2021-01-27)
 * (xXBJXx) Update dependabot.yml and test-and-release.yml
