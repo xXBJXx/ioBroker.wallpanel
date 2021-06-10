@@ -16,3 +16,5 @@ admin/i18n/*/flat.txt
 /.run/
 /API Request.http
 /.dev-server/
+
+.DS_Store

@@ -13,7 +13,7 @@
 **This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
 More details see below! [Sentry](#sentry)**
 
-A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/Wallpanel/description.html)
+A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/Wallpanel/01.description.html)
 
 # Adapter Description
 The adapter reads the [Wallpenel app Android](https://play.google.com/store/apps/details?id=com.thanksmister.iot.wallpanel&hl=de)
