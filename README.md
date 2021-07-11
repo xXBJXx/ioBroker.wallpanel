@@ -56,6 +56,8 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
+### __WORK IN PROGRESS__
+* (xXBJXx) test-and-release.yml update
 
 ### 0.1.6-0 (2021-02-26)
 * (xXBJXx) README edited and deleted unused images
