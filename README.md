@@ -58,6 +58,8 @@ Sentry Reporting is used from js-controller 3.0.
  -->
 ### __WORK IN PROGRESS__
 * (xXBJXx) test-and-release.yml update
+* (xXBJXx) dependencies update
+* (xXBJXx) check of the created state structure added
 
 ### 0.1.6-0 (2021-02-26)
 * (xXBJXx) README edited and deleted unused images

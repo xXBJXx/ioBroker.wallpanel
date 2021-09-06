@@ -23,13 +23,12 @@ const qrcodeObjects = objects.object_mqttQrcode_definitions;
 
 let requestTimeout = null;
 let interval = null;
-let stateDelete = null;
 let mqttEnabled = null;
-let mqttInstance = null
+let mqttInstance = null;
 const mqttPath = [];
-let mqttObj = []
+let mqttObj = [];
 const ip = [];
-let device_ip = []
+let device_ip = [];
 const port = [];
 const tabletName = [];
 const requestUrl = [];
@@ -38,7 +37,7 @@ const logMessage = [];
 const deviceEnabled = [];
 const logMessageTimer = [];
 const folder = [`command`];
-const commandRequestTimeout = []
+const commandRequestTimeout = [];
 const commandStates = [`clearCache`, `relaunch`, `reload`, `wake`, `camera`, `brightness`, `volume`, `url`, `urlAudio`, `speak`, `eval`];
 
 class Wallpanel extends utils.Adapter {
@@ -49,7 +48,7 @@ class Wallpanel extends utils.Adapter {
 	constructor(options) {
 		super({
 			...options,
-			name: 'wallpanel'
+			name: 'wallpanel',
 		});
 
 		this.on('ready', this.onReady.bind(this));
@@ -67,7 +66,7 @@ class Wallpanel extends utils.Adapter {
 
 		// Initialize your adapter here
 		await this.initialization();
-		this.setState('info.connection', true, true);
+
 		await this.request();
 	}
 
@@ -90,7 +89,6 @@ class Wallpanel extends utils.Adapter {
 					device_ip[i] = devices[i]['ip'];
 					port[i] = devices[i]['port'];
 					deviceEnabled[i] = devices[i]['enabled'];
-					// stateDelete = this.config.delete;
 					mqttEnabled = JSON.parse(this.config['enabledMqtt']);
 					mqttInstance = this.config['mqttInstance'];
 					mqttPath[i] = `${mqttInstance}.${devices[i]['baseTopic'].replace('/', '.')}`;
@@ -103,90 +101,56 @@ class Wallpanel extends utils.Adapter {
 					this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
 					this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
 
+
 					for (const mqttPathKey in mqttPath) {
 						// this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.state`)
-						this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`)
+						this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`);
 					}
-					this.log.debug(`Check whether the IP address is available for the ${Name}`)
+					this.log.debug(`Check whether the IP address is available for the ${Name}`);
 					deviceEnabled[i] = device_ip[i] !== '' && deviceEnabled[i];
-					if (device_ip[i] === '') this.log.warn(`${Name} has no ip address device is not queried`)
+					if (device_ip[i] === '') this.log.warn(`${Name} has no ip address device is not queried`);
 
 					if (device_ip[i] !== undefined || device_ip[i] !== '') {
-						let ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+						let ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/;
 						if (device_ip[i].match(ipformat)) {
 							// valid
-							ip[i] = device_ip[i]
+							ip[i] = device_ip[i];
 						}
 						else {
 							// invalid
-							this.log.warn('No Permitted Ip Address')
-							deviceEnabled[i] = false
+							this.log.warn('No Permitted Ip Address');
+							deviceEnabled[i] = false;
 						}
 					}
 					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
 					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
 
-					this.log.debug(`it is checked whether the name of the device is entered`)
+					this.log.debug(`it is checked whether the name of the device is entered`);
 					// Prepare tablet name
 					if (Name !== '') {
-						this.log.debug(`the name of the device is entered and is used --> ${Name}`)
+						this.log.debug(`the name of the device is entered and is used --> ${Name}`);
 						tabletName[i] = await this.replaceFunction(Name);
 					}
 					else if (deviceEnabled[i]) {
-						this.log.debug(`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`)
+						this.log.debug(`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`);
 						tabletName[i] = await this.replaceFunction(ip[i]);
 					}
 					this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
 
 				}
 
-				// if (stateDelete) {
-				// 	await this.localDeleteState();
-				// }
+				this.setState('info.connection', true, true);
 				this.log.debug(`Adapter has been fully initialized`);
 			}
 			else {
-				deviceEnabled[1] = false
+				deviceEnabled[1] = false;
 			}
 		}
 		catch (error) {
+			this.setState('info.connection', false, true);
 			this.log.error(`initialization has a problem: ${error.message}, stack: ${error.stack}`);
 		}
 	}
-
-	// async localDeleteState(i) {
-	// 	try {
-	// 		this.log.debug(`The adapter now calls up the device information`);
-	// 		const device = await this.getDevicesAsync();
-	//
-	// 		for (const i in device) {
-	// 			let nativeIp = null
-	//
-	// 			this.log.debug(`Adapter retrieves the native config from the device`);
-	// 			nativeIp = device[i].native['ip'];
-	// 				if (nativeIp !== ip[i]) {
-	// 					this.log.debug(`Adapter prepares the name of the folder to be deleted`);
-	// 					let deviceName = device[i]._id.replace(`${this.namespace}.`, '');
-	//
-	// 					this.log.debug(`Adapter now deletes the folder ${deviceName}`);
-	// 					await this.deleteDeviceAsync(`${deviceName}`)
-	// 						.catch(async error => {
-	// 							if (error !== 'Not exists') {
-	// 								this.log.error(`deleteDeviceAsync has a problem: ${error.message}, stack: ${error.stack}`);
-	// 							}
-	// 							else {
-	// 								// do nothing
-	// 							}
-	// 						})
-	// 					this.log.debug(`device deleted`);
-	// 				}
-	//
-	// 		}
-	// 	}
-	// 	catch (error) {
-	// 		this.log.error(`localDeleteState has a problem: ${error.message}, stack: ${error.stack}`);
-	// 	}
-	// }
 
 	async request() {
 		try {
@@ -220,7 +184,7 @@ class Wallpanel extends utils.Adapter {
 									this.log.debug(`States are now written`);
 									await this.state_write(apiResult, i);
 
-									// this.setState(`${tabletName[i]}.lastInfoUpdate`, {val: Date.now(), ack: true});
+									this.setState(`${tabletName[i]}.lastInfoUpdate`, {val: Date.now(), ack: true});
 									this.log.debug(`The last update of the state was on: ${Date.now()}`);
 
 									// clear log message timer
@@ -250,7 +214,7 @@ class Wallpanel extends utils.Adapter {
 										this.log.debug(`logMessage set to ${logMessage[i]} for ${tabletName[i]}`);
 									}, 3600000);
 								}
-							})
+							});
 
 
 					}
@@ -279,49 +243,49 @@ class Wallpanel extends utils.Adapter {
 		let mqttBattery = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.battery`);
 		if (mqttBattery !== null) {
 			// @ts-ignore
-			mqttObj.push({'battery': JSON.parse(mqttBattery.val)})
+			mqttObj.push({'battery': JSON.parse(mqttBattery.val)});
 		}
 
 		let mqttLight = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.light`);
 		if (mqttLight !== null) {
 			// @ts-ignore
-			mqttObj.push({'light': JSON.parse(mqttLight.val)})
+			mqttObj.push({'light': JSON.parse(mqttLight.val)});
 		}
 
 		let mqttMotion = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.motion`);
 		if (mqttMotion !== null) {
 			// @ts-ignore
-			mqttObj.push({'motion': JSON.parse(mqttMotion.val)})
+			mqttObj.push({'motion': JSON.parse(mqttMotion.val)});
 		}
 
 		let mqttFace = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.face`);
 		if (mqttFace !== null) {
 			// @ts-ignore
-			mqttObj.push({'face': JSON.parse(mqttFace.val)})
+			mqttObj.push({'face': JSON.parse(mqttFace.val)});
 		}
 
 		let mqttQrcode = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.qrcode`);
 		if (mqttQrcode !== null) {
 			// @ts-ignore
-			mqttObj.push({'qrcode': JSON.parse(mqttQrcode.val)})
+			mqttObj.push({'qrcode': JSON.parse(mqttQrcode.val)});
 		}
 
 		let mqttMagneticField = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.magneticField`);
 		if (mqttMagneticField !== null) {
 			// @ts-ignore
-			mqttObj.push({'magneticField': JSON.parse(mqttMagneticField.val)})
+			mqttObj.push({'magneticField': JSON.parse(mqttMagneticField.val)});
 		}
 
 		let mqttPressure = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.pressure`);
 		if (mqttPressure !== null) {
 			// @ts-ignore
-			mqttObj.push({'pressure': JSON.parse(mqttPressure.val)})
+			mqttObj.push({'pressure': JSON.parse(mqttPressure.val)});
 		}
 
 		let mqttTemperature = await this.getForeignStateAsync(`${mqttPath[index]}.sensor.temperature`);
 		if (mqttTemperature !== null) {
 			// @ts-ignore
-			mqttObj.push({'temperature': JSON.parse(mqttTemperature.val)})
+			mqttObj.push({'temperature': JSON.parse(mqttTemperature.val)});
 		}
 	}
 
@@ -334,41 +298,80 @@ class Wallpanel extends utils.Adapter {
 	async state_write(res, index) {
 		try {
 			this.log.debug(`Preparation for the state write....`);
-			this.log.debug(`stats are written now`)
+			this.log.debug(`stats are written now`);
 			for (const Key in res.data) {
 				await this.setStateAsync(`${tabletName[index]}.${Key}`, {val: res.data[Key], ack: true});
 			}
-			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[1]}`, {val: ip[index], ack: true});
+			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[1]}`, {
+				val: ip[index],
+				ack: true,
+			});
 			if (mqttEnabled) {
 				for (const mqttObjKey in mqttObj) {
-					let Obj = Object.keys(mqttObj[mqttObjKey])
+					let Obj = Object.keys(mqttObj[mqttObjKey]);
 					if (Obj[0] === 'battery') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.battery.battery`, {val: mqttObj[mqttObjKey].battery.value, ack: true});
-						await this.setStateAsync(`${tabletName[index]}.sensor.battery.charging`, {val: mqttObj[mqttObjKey].battery.charging, ack: true});
-						await this.setStateAsync(`${tabletName[index]}.sensor.battery.acPlugged`, {val: mqttObj[mqttObjKey].battery.acPlugged, ack: true});
-						await this.setStateAsync(`${tabletName[index]}.sensor.battery.usbPlugged`, {val: mqttObj[mqttObjKey].battery.usbPlugged, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.battery`, {
+							val: mqttObj[mqttObjKey].battery.value,
+							ack: true,
+						});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.charging`, {
+							val: mqttObj[mqttObjKey].battery.charging,
+							ack: true,
+						});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.acPlugged`, {
+							val: mqttObj[mqttObjKey].battery.acPlugged,
+							ack: true,
+						});
+						await this.setStateAsync(`${tabletName[index]}.sensor.battery.usbPlugged`, {
+							val: mqttObj[mqttObjKey].battery.usbPlugged,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'light') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.light.light`, {val: mqttObj[mqttObjKey].light.value, ack: true});
-						await this.setStateAsync(`${tabletName[index]}.sensor.light.id`, {val: mqttObj[mqttObjKey].light.id, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.light.light`, {
+							val: mqttObj[mqttObjKey].light.value,
+							ack: true,
+						});
+						await this.setStateAsync(`${tabletName[index]}.sensor.light.id`, {
+							val: mqttObj[mqttObjKey].light.id,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'magneticField') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.magneticField.magneticField`, {val: mqttObj[mqttObjKey].magneticField.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.magneticField.magneticField`, {
+							val: mqttObj[mqttObjKey].magneticField.value,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'pressure') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.pressure.pressure`, {val: mqttObj[mqttObjKey].pressure.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.pressure.pressure`, {
+							val: mqttObj[mqttObjKey].pressure.value,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'temperature') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.temperature.temperature`, {val: mqttObj[mqttObjKey].temperature.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.temperature.temperature`, {
+							val: mqttObj[mqttObjKey].temperature.value,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'motion') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.motion.motion`, {val: mqttObj[mqttObjKey].motion.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.motion.motion`, {
+							val: mqttObj[mqttObjKey].motion.value,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'face') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.face.face`, {val: mqttObj[mqttObjKey].face.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.face.face`, {
+							val: mqttObj[mqttObjKey].face.value,
+							ack: true,
+						});
 					}
 					else if (Obj[0] === 'qrcode') {
-						await this.setStateAsync(`${tabletName[index]}.sensor.qrcode.qrcode`, {val: mqttObj[mqttObjKey].qrcode.value, ack: true});
+						await this.setStateAsync(`${tabletName[index]}.sensor.qrcode.qrcode`, {
+							val: mqttObj[mqttObjKey].qrcode.value,
+							ack: true,
+						});
 					}
 				}
 			}
@@ -405,7 +408,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [clearCache] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[1]}`:
@@ -424,7 +427,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [relaunch] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[2]}`:
@@ -443,7 +446,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [reload] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[3]}`:
@@ -463,7 +466,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [wake] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[4]}`:
@@ -483,7 +486,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [camera] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[5]}`:
@@ -492,7 +495,7 @@ class Wallpanel extends utils.Adapter {
 					value = 1;
 				}
 				else if (value >= 255) {
-					value = 255
+					value = 255;
 				}
 				else {
 					value = state.val;
@@ -513,7 +516,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [brightness] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[6]}`:
@@ -537,7 +540,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [volume] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[7]}`:
@@ -558,7 +561,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [url] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[8]}`:
@@ -579,7 +582,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [urlAudio] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[9]}`:
@@ -601,7 +604,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [speak] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 
 			case `${commandStates[10]}`:
@@ -623,7 +626,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}).catch(async error => {
 						this.log.error(`sendCommand has a problem sending [eval] command: ${error.message}, stack: ${error.stack}`);
-					})
+					});
 				break;
 		}
 	}
@@ -652,57 +655,100 @@ class Wallpanel extends utils.Adapter {
 			await this.setObjectNotExistsAsync(`${tabletName[index]}`, {
 				type: 'device',
 				common: {
-					name: ip[index]
+					name: ip[index],
 				},
 				native: {
-					ip: ip[index]
-				}
+					ip: ip[index],
+				},
 			});
 
 			for (const f in folder) {
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
 					type: 'channel',
 					common: {
-						name: `${folder[f]}`
+						name: `${folder[f]}`,
 					},
-					native: {}
+					native: {},
 				});
 			}
 
 			for (const obj in commandObjects) {
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.command.${obj}`, commandObjects[obj]);
 				this.subscribeStates(`${tabletName[index]}.command.${obj}`);
+
+				let Objects = null
+				Objects = await this.getObjectAsync(`${tabletName[index]}.command.${obj}`);
+				if (Objects !== null && Objects !== undefined) {
+					for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+						if (commandObjects[obj].common[valueKey] !== KeyValue) {
+							let common = commandObjects[obj].common;
+							await this.extendObjectAsync(`${tabletName[index]}.command.${obj}`, {
+								type: 'state',
+								common,
+							});
+							this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+						}
+					}
+				}
 			}
 
 			for (const obj in infoObjects) {
 				await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
+				let Objects = null
+				Objects = await this.getObjectAsync(`${tabletName[index]}.${obj}`);
+				if (Objects !== null && Objects !== undefined) {
+					for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+
+						if (infoObjects[obj].common[valueKey] !== KeyValue) {
+							let common = infoObjects[obj].common;
+							await this.extendObjectAsync(`${tabletName[index]}.${obj}`, {
+								type: 'state',
+								common,
+							});
+							this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+						}
+					}
+				}
 			}
 
 			if (mqttEnabled) {
-				if (mqttEnabled) {
-					await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor`, {
-						type: 'channel',
-						common: {
-							name: `Sensor values`
-						},
-						native: {}
-					});
-				}
+				await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor`, {
+					type: 'channel',
+					common: {
+						name: `Sensor values`,
+					},
+					native: {},
+				});
 
 				for (const mqttObjKey in mqttObj) {
-					let Obj = Object.keys(mqttObj[mqttObjKey])
+					let Obj = Object.keys(mqttObj[mqttObjKey]);
 
 					if (Obj[0] === 'battery') {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery`, {
 							type: 'channel',
 							common: {
-								name: `battery Sensor`
+								name: `battery Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in batteryObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery.${obj}`, batteryObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.battery.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (batteryObjects[obj].common[valueKey] !== KeyValue) {
+										let common = batteryObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.battery.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 					else if (Obj[0] === 'light') {
@@ -710,40 +756,84 @@ class Wallpanel extends utils.Adapter {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light`, {
 							type: 'channel',
 							common: {
-								name: `light Sensor`
+								name: `light Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in lightObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light.${obj}`, lightObjects[obj]);
-						}
 
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.light.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (lightObjects[obj].common[valueKey] !== KeyValue) {
+										let common = lightObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.light.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
+						}
 					}
 					else if (Obj[0] === 'magneticField') {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.magneticField`, {
 							type: 'channel',
 							common: {
-								name: `magneticField Sensor`
+								name: `magneticField Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in magneticFieldObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.magneticField.${obj}`, magneticFieldObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.magneticField.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (magneticFieldObjects[obj].common[valueKey] !== KeyValue) {
+										let common = magneticFieldObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.magneticField.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 					else if (Obj[0] === 'pressure') {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure`, {
 							type: 'channel',
 							common: {
-								name: `pressure Sensor`
+								name: `pressure Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in pressureObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure.${obj}`, pressureObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.pressure.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (pressureObjects[obj].common[valueKey] !== KeyValue) {
+										let common = pressureObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.pressure.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 					else if (Obj[0] === 'temperature') {
@@ -751,13 +841,28 @@ class Wallpanel extends utils.Adapter {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.temperature`, {
 							type: 'channel',
 							common: {
-								name: `temperature Sensor`
+								name: `temperature Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in temperatureObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.temperature.${obj}`, temperatureObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.temperature.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (temperatureObjects[obj].common[valueKey] !== KeyValue) {
+										let common = temperatureObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.temperature.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 					else if (Obj[0] === 'motion') {
@@ -765,13 +870,28 @@ class Wallpanel extends utils.Adapter {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion`, {
 							type: 'channel',
 							common: {
-								name: `motion Sensor`
+								name: `motion Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in motionObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion.${obj}`, motionObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.motion.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (motionObjects[obj].common[valueKey] !== KeyValue) {
+										let common = motionObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.motion.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 					else if (Obj[0] === 'face') {
@@ -779,13 +899,28 @@ class Wallpanel extends utils.Adapter {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face`, {
 							type: 'channel',
 							common: {
-								name: `face Sensor`
+								name: `face Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in faceObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face.${obj}`, faceObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.face.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (faceObjects[obj].common[valueKey] !== KeyValue) {
+										let common = faceObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.face.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 					else if (Obj[0] === 'qrcode') {
@@ -793,13 +928,28 @@ class Wallpanel extends utils.Adapter {
 						await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode`, {
 							type: 'channel',
 							common: {
-								name: `qrcode Sensor`
+								name: `qrcode Sensor`,
 							},
-							native: {}
+							native: {},
 						});
 
 						for (const obj in qrcodeObjects) {
 							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode.${obj}`, qrcodeObjects[obj]);
+
+							let Objects = null
+							Objects = await this.getObjectAsync(`${tabletName[index]}.sensor.qrcode.${obj}`);
+							if (Objects !== null && Objects !== undefined) {
+								for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+									if (qrcodeObjects[obj].common[valueKey] !== KeyValue) {
+										let common = qrcodeObjects[obj].common;
+										await this.extendObjectAsync(`${tabletName[index]}.sensor.qrcode.${obj}`, {
+											type: 'state',
+											common,
+										});
+										this.log.info(`the state ${Objects._id} has a wrong object structure and was adapted to the new one`);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -814,9 +964,9 @@ class Wallpanel extends utils.Adapter {
 						type: requestStatesType[r],
 						role: `state`,
 						read: true,
-						write: false
+						write: false,
 					},
-					native: {}
+					native: {},
 				});
 			}
 			this.log.debug(`subscribe to all stats in the command folder for ${tabletName[index]}`);
@@ -858,7 +1008,6 @@ class Wallpanel extends utils.Adapter {
 				if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
 				if (commandRequestTimeout[Unl]) clearTimeout(commandRequestTimeout[Unl]);
 			}
-			// this.log.debug(`set isWallpanelAlive to false for all tablets because the adapter is off`);
 			this.log.debug(`All timers are canceled because the adapter has been switched off`);
 			this.setState('info.connection', false, true);
 			callback();
@@ -922,3 +1071,4 @@ else {
 	// otherwise start the instance directly
 	new Wallpanel();
 }
+//# sourceMappingURL=main.js.map
