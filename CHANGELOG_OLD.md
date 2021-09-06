@@ -1,4 +1,7 @@
 # Older changes
+## 0.1.4-beta.2 (2020-10-08)
+* (xXBJXx) fix display bug
+  
 ## 0.1.4-beta.1 (2020-10-07)
 * (xXBJXx) README edited
  

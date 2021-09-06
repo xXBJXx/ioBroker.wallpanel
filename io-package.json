@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.1.6-0",
+        "version": "0.1.7-0",
         "news": {
+            "0.1.7-0": {
+                "en": "test-and-release.yml update\ndependencies update\ncheck of the created state structure added",
+                "de": "test-and-release.yml-Update\nAbhängigkeiten aktualisieren\nÜberprüfung der erstellten Zustandsstruktur hinzugefügt",
+                "ru": "test-and-release.yml обновить\nобновление зависимостей\nдобавлена проверка созданной государственной структуры",
+                "pt": "atualização test-and-release.yml\natualização de dependências\nverificação da estrutura de estado criada adicionada",
+                "nl": "test-en-release.yml-update\nafhankelijkheden bijwerken\ncontrole van de gecreëerde staatsstructuur toegevoegd",
+                "fr": "mise à jour test-and-release.yml\nmise à jour des dépendances\nvérification de la structure d'état créée ajoutée",
+                "it": "aggiornamento test-and-release.yml\naggiornamento delle dipendenze\naggiunta la verifica della struttura statale creata",
+                "es": "actualización test-and-release.yml\nactualización de dependencias\nverificación de la estructura de estado creada agregada",
+                "pl": "aktualizacja test-and-release.yml\naktualizacja zależności\ndodano sprawdzenie utworzonej struktury stanu",
+                "zh-cn": "test-and-release.yml 更新\n依赖更新\n添加了对创建的状态结构的检查"
+            },
             "0.1.6-0": {
                 "en": "README edited and deleted unused images\nadd MQTT Instance select and remove state delete",
                 "de": "README bearbeitet und gelöscht nicht verwendete Bilder\nMQTT-Instanz hinzufügen, Status löschen und entfernen",
