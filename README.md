@@ -81,7 +81,7 @@ Sentry Reporting is used from js-controller 3.0.
 ## License
 MIT License
 
-Copyright (c) 2021 xXBJXx
+Copyright (c) 2020-2022 xXBJXx
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
