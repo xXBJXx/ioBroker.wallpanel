@@ -19,7 +19,7 @@
     "url": "https://github.com/xXBJXx/ioBroker.wallpanel"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.5.1",
+    "@iobroker/adapter-core": "^2.6.0",
     "axios": "^0.25.0"
   },
   "devDependencies": {
