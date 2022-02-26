@@ -59,6 +59,7 @@ Sentry Reporting is used from js-controller 3.0.
 
 ### __WORK IN PROGRESS__
 * (xXBJXx) Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)
+* (xXBJXx) dependencies updated
 
 ### 0.1.7-0 (2021-09-06)
 * (xXBJXx) test-and-release.yml update
