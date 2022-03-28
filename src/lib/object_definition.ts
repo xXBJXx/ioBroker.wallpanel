@@ -1,5 +1,9 @@
-const object_command_definitions = {
-	'clearCache': {
+//TODO: interface ObjectDefinition completle
+interface CommandDefinition {
+	[key: string]: any;
+}
+const object_command_definitions: CommandDefinition = {
+	clearCache: {
 		type: 'state',
 		common: {
 			name: `Clears the browser cache`,
@@ -7,11 +11,11 @@ const object_command_definitions = {
 			role: `button`,
 			def: true,
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'relaunch': {
+	relaunch: {
 		type: 'state',
 		common: {
 			name: `Relaunches the dashboard from configured launchUrl`,
@@ -19,11 +23,11 @@ const object_command_definitions = {
 			role: `button`,
 			def: true,
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'reload': {
+	reload: {
 		type: 'state',
 		common: {
 			name: `Reloads the current page immediately`,
@@ -31,11 +35,11 @@ const object_command_definitions = {
 			role: `button`,
 			def: true,
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'wake': {
+	wake: {
 		type: 'state',
 		common: {
 			name: `Turn the screen on and off`,
@@ -43,11 +47,11 @@ const object_command_definitions = {
 			role: `switch`,
 			def: false,
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'camera': {
+	camera: {
 		type: 'state',
 		common: {
 			name: `Turns on/off camera streaming`,
@@ -55,11 +59,11 @@ const object_command_definitions = {
 			role: `button`,
 			def: true,
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'brightness': {
+	brightness: {
 		type: 'state',
 		common: {
 			name: `Changes the screens brightness`,
@@ -69,12 +73,11 @@ const object_command_definitions = {
 			write: true,
 			min: 0,
 			max: 255,
-			def: 255
-
+			def: 255,
 		},
-		native: {}
+		native: {},
 	},
-	'volume': {
+	volume: {
 		type: 'state',
 		common: {
 			name: `Changes the audio volume`,
@@ -85,11 +88,11 @@ const object_command_definitions = {
 			def: 0,
 			unit: '%',
 			min: 0,
-			max: 100
+			max: 100,
 		},
-		native: {}
+		native: {},
 	},
-	'url': {
+	url: {
 		type: 'state',
 		common: {
 			name: `Browse to a new URL immediately`,
@@ -97,11 +100,11 @@ const object_command_definitions = {
 			role: `url`,
 			def: '',
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'urlAudio': {
+	urlAudio: {
 		type: 'state',
 		common: {
 			name: `Play the audio specified by the URL immediately`,
@@ -109,11 +112,11 @@ const object_command_definitions = {
 			role: `url.audio`,
 			def: '',
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'speak': {
+	speak: {
 		type: 'state',
 		common: {
 			name: `Uses the devices TTS to speak the message`,
@@ -121,11 +124,11 @@ const object_command_definitions = {
 			role: `media.tts`,
 			def: '',
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
+		native: {},
 	},
-	'eval': {
+	eval: {
 		type: 'state',
 		common: {
 			name: `Evaluates Javascript in the dashboard`,
@@ -133,26 +136,54 @@ const object_command_definitions = {
 			role: `text`,
 			def: '',
 			read: true,
-			write: true
+			write: true,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+
+interface InfoDefinitions {
+	lastInfoUpdate: {
+		type: string;
+		common: {
+			name: string;
+			type: string;
+			role: string;
+			def: number;
+			read: boolean;
+			write: boolean;
+		};
+		native: any;
+	};
+	ip: {
+		type: string;
+		common: {
+			name: string;
+			type: string;
+			role: string;
+			def: string;
+			read: boolean;
+			write: boolean;
+		};
+		native: any;
+	};
+	[key: string]: any;
 }
 
-const object_info_definitions = {
-	'lastInfoUpdate': {
+const object_info_definitions: InfoDefinitions = {
+	lastInfoUpdate: {
 		type: 'state',
 		common: {
 			name: `Last update of the states`,
-			type: `boolean`,
+			type: `number`,
 			role: `value.time`,
 			def: 0,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
-	'ip': {
+	ip: {
 		type: 'state',
 		common: {
 			name: `Ip address of the device `,
@@ -160,15 +191,17 @@ const object_info_definitions = {
 			role: `info.ip`,
 			def: '',
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
+};
 
+interface MqttBatteryDefinition {
+	[key: string]: any;
 }
-
-const object_mqttBattery_definitions = {
-	'battery': {
+const object_mqttBattery_definitions: MqttBatteryDefinition = {
+	battery: {
 		type: 'state',
 		common: {
 			name: `battery`,
@@ -177,11 +210,11 @@ const object_mqttBattery_definitions = {
 			unit: '%',
 			def: 0,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
-	'acPlugged': {
+	acPlugged: {
 		type: 'state',
 		common: {
 			name: `acPlugged`,
@@ -189,11 +222,11 @@ const object_mqttBattery_definitions = {
 			role: `indicator`,
 			def: false,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
-	'usbPlugged': {
+	usbPlugged: {
 		type: 'state',
 		common: {
 			name: `usbPlugged`,
@@ -201,11 +234,11 @@ const object_mqttBattery_definitions = {
 			role: `indicator`,
 			def: false,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
-	'charging': {
+	charging: {
 		type: 'state',
 		common: {
 			name: `charging`,
@@ -213,14 +246,16 @@ const object_mqttBattery_definitions = {
 			role: `indicator`,
 			def: false,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
+};
+interface MqttLightDefinition {
+	[key: string]: any;
 }
-
-const object_mqttLight_definitions = {
-	'light': {
+const object_mqttLight_definitions: MqttLightDefinition = {
+	light: {
 		type: 'state',
 		common: {
 			name: `light`,
@@ -229,11 +264,11 @@ const object_mqttLight_definitions = {
 			unit: 'lx',
 			def: 0,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
+		native: {},
 	},
-	'id': {
+	id: {
 		type: 'state',
 		common: {
 			name: `light id`,
@@ -241,14 +276,16 @@ const object_mqttLight_definitions = {
 			role: `text`,
 			def: '',
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+interface MqttMagneticFieldDefinition {
+	[key: string]: any;
 }
-
-const object_mqttMagneticField_definitions = {
-	'magneticField': {
+const object_mqttMagneticField_definitions: MqttMagneticFieldDefinition = {
+	magneticField: {
 		type: 'state',
 		common: {
 			name: `magneticField`,
@@ -257,14 +294,16 @@ const object_mqttMagneticField_definitions = {
 			unit: 'uT',
 			def: 0,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+interface MqttPressureDefinition {
+	[key: string]: any;
 }
-
-const object_mqttPressure_definitions = {
-	'pressure': {
+const object_mqttPressure_definitions: MqttPressureDefinition = {
+	pressure: {
 		type: 'state',
 		common: {
 			name: `pressure`,
@@ -273,14 +312,16 @@ const object_mqttPressure_definitions = {
 			unit: 'hPa',
 			def: 0,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+interface MqttTemperatureDefinition {
+	[key: string]: any;
 }
-
-const object_mqttTemperature_definitions = {
-	'temperature': {
+const object_mqttTemperature_definitions: MqttTemperatureDefinition = {
+	temperature: {
 		type: 'state',
 		common: {
 			name: `temperature`,
@@ -289,14 +330,16 @@ const object_mqttTemperature_definitions = {
 			unit: '°C',
 			def: 0,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+interface MqttMotionDefinition {
+	[key: string]: any;
 }
-
-const object_mqttMotion_definitions = {
-	'motion': {
+const object_mqttMotion_definitions: MqttMotionDefinition = {
+	motion: {
 		type: 'state',
 		common: {
 			name: `motion`,
@@ -304,14 +347,16 @@ const object_mqttMotion_definitions = {
 			role: `sensor.motion`,
 			def: false,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+interface MqttFaceDefinition {
+	[key: string]: any;
 }
-
-const object_mqttFace_definitions = {
-	'face': {
+const object_mqttFace_definitions: MqttFaceDefinition = {
+	face: {
 		type: 'state',
 		common: {
 			name: `face`,
@@ -319,14 +364,16 @@ const object_mqttFace_definitions = {
 			role: `indicator`,
 			def: false,
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
+		native: {},
+	},
+};
+interface MqttQrcodeDefinition {
+	[key: string]: any;
 }
-
-const object_mqttQrcode_definitions = {
-	'qrcode': {
+const object_mqttQrcode_definitions: MqttQrcodeDefinition = {
+	qrcode: {
 		type: 'state',
 		common: {
 			name: `QR-Code`,
@@ -334,11 +381,21 @@ const object_mqttQrcode_definitions = {
 			role: `text`,
 			def: '',
 			read: true,
-			write: false
+			write: false,
 		},
-		native: {}
-	}
-}
+		native: {},
+	},
+};
 
-module.exports = {object_command_definitions, object_info_definitions, object_mqttBattery_definitions, object_mqttLight_definitions, object_mqttPressure_definitions,
-	object_mqttTemperature_definitions, object_mqttMotion_definitions, object_mqttFace_definitions, object_mqttQrcode_definitions, object_mqttMagneticField_definitions};
+export = {
+	object_command_definitions,
+	object_info_definitions,
+	object_mqttBattery_definitions,
+	object_mqttLight_definitions,
+	object_mqttPressure_definitions,
+	object_mqttTemperature_definitions,
+	object_mqttMotion_definitions,
+	object_mqttFace_definitions,
+	object_mqttQrcode_definitions,
+	object_mqttMagneticField_definitions,
+};

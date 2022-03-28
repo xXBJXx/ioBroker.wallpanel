@@ -5,7 +5,6 @@
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wallpanel.svg)](https://www.npmjs.com/package/iobroker.wallpanel)
 ![Number of Installations (latest)](http://iobroker.live/badges/wallpanel-installed.svg)
 <!--![Number of Installations (stable)](http://iobroker.live/badges/wallpanel-stable.svg)-->
-[![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.wallpanel.svg)](https://david-dm.org/xXBJXx/iobroker.wallpanel)
 ![Test and Release](https://github.com/xXBJXx/ioBroker.wallpanel/workflows/Test%20and%20Release/badge.svg)
 <!--[![Known Vulnerabilities](https://snyk.io/test/github/xXBJXx/ioBroker.wallpanel/badge.svg)](https://snyk.io/test/github/xXBJXx/ioBroker.wallpanel)-->
 [![NPM](https://nodei.co/npm/iobroker.wallpanel.png?downloads=true)](https://nodei.co/npm/iobroker.wallpanel/)
@@ -23,8 +22,7 @@ Multiple devices can be queried or controlled. <br>
 Here is the [Forum Post](https://forum.iobroker.net/topic/36438/test-adapter-wallpanel)
 
 Short to the Config side what you have to set.
-![wallpanel_config.png](admin/media/Wallpanel_config.png)
-
+![Wallpanel_config.png](admin/media/Wallpanel_config.png)
 1. here you can set the polling interval **(do not set below 10 sec)**.
 2. here the use of MQTT is switched on only after that the data of the MQTT adapter are queried, and the states are created.
 3. here you define the MQTT instance you want to use (the instances are queried and made selectable by Iobroker when the page is called)
@@ -60,6 +58,9 @@ Sentry Reporting is used from js-controller 3.0.
 ### __WORK IN PROGRESS__
 * (xXBJXx) Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)
 * (xXBJXx) dependencies updated
+* (xXBJXx) Switching Project from JavaScript to TypeScript
+* (xXBJXx) fixed: issue #270 (wallpanel.0.kueche.lastInfoUpdate" has to be type "boolean" but received type "number")
+
 
 ### 0.1.7-0 (2021-09-06)
 * (xXBJXx) test-and-release.yml update
@@ -79,14 +80,14 @@ Sentry Reporting is used from js-controller 3.0.
 
 ### 0.1.4-beta.4 (2020-10-08)
 * (xXBJXx) README change
- 
+
 ### 0.1.4-beta.3 (2020-10-08)
 * (xXBJXx) Test and Release.yml change
 
 ## License
 MIT License
 
-Copyright (c) 2020-2022 xXBJXx
+Copyright (c) 2020-2022 xXBJXx <issi.dev.iobroker@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -12,8 +12,8 @@
     <script type="text/javascript" src="../../js/translate.js"></script>
     <script type="text/javascript" src="../../lib/js/materialize.js"></script>
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
-    
-    <!-- Load our own files -->
+  
+  <!-- Load our own files -->
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <script type="text/javascript" src="words.js"></script>
     
@@ -26,47 +26,47 @@
         let mqtt = [];
 
         function getObjectView() {
-            socket.emit('getObjectView', 'system', 'instance', {startkey: 'system.adapter.', endkey: 'system.adapter.\u9999'}, (err, state) => {
-                if (err) {
-                    console.error(err);
+          socket.emit('getObjectView', 'system', 'instance', {startkey: 'system.adapter.', endkey: 'system.adapter.\u9999'}, (err, state) => {
+            if (err) {
+              console.error(err);
+            }
+            else {
+              let result = [];
+              $.each(state.rows, (index, element) => {
+                result.push(element.value);
+              });
+              $.each(result, (index, element) => {
+                for (let i = 0; i < 20; i++) {
+                  if (element._id === `system.adapter.mqtt.${[i]}`) {
+                    mqtt.push(element._id)
+                    mqttAdapter = true;
+                  }
                 }
-                else {
-                    let result = [];
-                    $.each(state.rows, (index, element) => {
-                        result.push(element.value);
-                    });
-                    $.each(result, (index, element) => {
-                        for (let i = 0; i < 20; i++) {
-                            if (element._id === `system.adapter.mqtt.${[i]}`) {
-                                mqtt.push(element._id)
-                                mqttAdapter = true;
-                            }
-                        }
-                    });
-                }
-            });
+              });
+            }
+          });
         }
 
         function showHideSettings() {
-            let enabledMqtt = JSON.parse($('#enabledMqtt').val());
-            if (mqttAdapter) {
-                if (enabledMqtt) {
-                    $('.MQTTAdapter').hide();
-                    $('.showMqttInstance').show();
-                }
-                else {
-                    $('.MQTTAdapter').hide();
-                    $('.showMqttInstance').hide();
-                }
+          let enabledMqtt = JSON.parse($('#enabledMqtt').val());
+          if (mqttAdapter) {
+            if (enabledMqtt) {
+              $('.MQTTAdapter').hide();
+              $('.showMqttInstance').show();
             }
             else {
-                if (enabledMqtt) {
-                    $('.MQTTAdapter').show();
-                }
-                else {
-                    $('.MQTTAdapter').hide();
-                }
+              $('.MQTTAdapter').hide();
+              $('.showMqttInstance').hide();
             }
+          }
+          else {
+            if (enabledMqtt) {
+              $('.MQTTAdapter').show();
+            }
+            else {
+              $('.MQTTAdapter').hide();
+            }
+          }
         }
 
         /**
@@ -77,94 +77,94 @@
          * @param {function} onChange
          */
         function fillSelect(selector, data, data2, onChange) {
-            $(selector).unbind('change');
-    
-            let selectInstance = M.FormSelect.getInstance($(selector));
-            if (selectInstance) {
-                selectInstance.destroy();
-            }
-    
-            $(selector).empty();
-            // $(selector).append('<option vlaue="" selected>Choose</option>');
-    
-            for (let d in data) {
-                $(selector).append('<option value="' + data[d] + '">' + data2[d] + '</option>');
-            }
-    
-            instances = M.FormSelect.init($(selector));
-    
-            $(selector).on('change', (event) => {
-                onChange();
-            })
+          $(selector).unbind('change');
+  
+          let selectInstance = M.FormSelect.getInstance($(selector));
+          if (selectInstance) {
+            selectInstance.destroy();
+          }
+  
+          $(selector).empty();
+          // $(selector).append('<option vlaue="" selected>Choose</option>');
+  
+          for (let d in data) {
+            $(selector).append('<option value="' + data[d] + '">' + data2[d] + '</option>');
+          }
+  
+          instances = M.FormSelect.init($(selector));
+  
+          $(selector).on('change', (event) => {
+            onChange();
+          })
         }
 
         getObjectView();
-        
+
         function load(settings, onChange) {
-            // example: select elements with id=key and class=value and insert value
-            if (!settings) return;
-            $('.value').each(function () {
-                var $key = $(this);
-                var id = $key.attr('id');
-                if ($key.attr('type') === 'checkbox') {
-                    // do not call onChange direct, because onChange could expect some arguments
-                    $key.prop('checked', settings[id])
-                            .on('change', () => {
-                                showHideSettings();
-                                onChange()
-                            })
-                }
-                else {
-                    // do not call onChange direct, because onChange could expect some arguments
-                    $key.val(settings[id])
-                            .on('change', () => {
-                                showHideSettings();
-                                onChange()
-                            })
-                            .on('keyup', () => onChange());
-                }
-            });
-            
-            fillSelect('#enabledMqtt', [true, false], ['MQTT on', 'MQTT off'], onChange);
-            const mqtt_instance = [];
-            for (const mqttKey in mqtt) {
-                mqtt_instance.push(`mqtt.${mqttKey}`)
+          // example: select elements with id=key and class=value and insert value
+          if (!settings) return;
+          $('.value').each(function () {
+            var $key = $(this);
+            var id = $key.attr('id');
+            if ($key.attr('type') === 'checkbox') {
+              // do not call onChange direct, because onChange could expect some arguments
+              $key.prop('checked', settings[id])
+                .on('change', () => {
+                  showHideSettings();
+                  onChange()
+                })
             }
-            fillSelect('#mqttInstance', mqtt_instance, mqtt_instance, onChange);
-            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-            // if (M) M.updateTextFields();
-            devices = settings.devices || [];
-            enabledMqtt = settings.enabledMqtt || [];
-            mqttInstance = settings.mqttInstance || [];
-            onChange(false);
-    
-            $('#enabledMqtt').val(enabledMqtt);
-            $('#mqttInstance').val(mqttInstance);
-            values2table('devices', devices, onChange);
-    
-            // mqttSelect()
-            showHideSettings();
-            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-            if (M) M.updateTextFields();
+            else {
+              // do not call onChange direct, because onChange could expect some arguments
+              $key.val(settings[id])
+                .on('change', () => {
+                  showHideSettings();
+                  onChange()
+                })
+                .on('keyup', () => onChange());
+            }
+          });
+  
+          fillSelect('#enabledMqtt', [true, false], ['MQTT on', 'MQTT off'], onChange);
+          const mqtt_instance = [];
+          for (const mqttKey in mqtt) {
+            mqtt_instance.push(`mqtt.${mqttKey}`)
+          }
+          fillSelect('#mqttInstance', mqtt_instance, mqtt_instance, onChange);
+          // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+          // if (M) M.updateTextFields();
+          devices = settings.devices || [];
+          enabledMqtt = settings.enabledMqtt || [];
+          mqttInstance = settings.mqttInstance || [];
+          onChange(false);
+  
+          $('#enabledMqtt').val(enabledMqtt);
+          $('#mqttInstance').val(mqttInstance);
+          values2table('devices', devices, onChange);
+  
+          // mqttSelect()
+          showHideSettings();
+          // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+          if (M) M.updateTextFields();
         }
 
         // This will be called by the admin adapter when the user presses the save button
         function save(callback) {
-            // example: select elements with class=value and build settings object
-            let obj = {};
-            $('.value').each(function () {
-                var $this = $(this);
-                if ($this.attr('type') === 'checkbox') {
-                    obj[$this.attr('id')] = $this.prop('checked');
-                }
-                else {
-                    obj[$this.attr('id')] = $this.val();
-                }
-            });
-            obj.enabledMqtt = $('#enabledMqtt').val();
-            obj.mqttInstance = $('#mqttInstance').val();
-            obj.devices = table2values('devices');
-            callback(obj);
+          // example: select elements with class=value and build settings object
+          let obj = {};
+          $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+              obj[$this.attr('id')] = $this.prop('checked');
+            }
+            else {
+              obj[$this.attr('id')] = $this.val();
+            }
+          });
+          obj.enabledMqtt = $('#enabledMqtt').val();
+          obj.mqttInstance = $('#mqttInstance').val();
+          obj.devices = table2values('devices');
+          callback(obj);
         }
     </script>
 
@@ -179,16 +179,16 @@
             <img src="wallpanel.png" class="logo" alt='wallpanel.png'>
         </div>
     </div>
-    <!-- end logo -->
-    
-    <!-- polling interval -->
+  <!-- end logo -->
+  
+  <!-- polling interval -->
     <div class="col s1.1 input-field">
         <input type="number" class="intervalField value" id="interval" max="3600" min="0" value="30"/>
         <label for="interval" class="translate internal_label">interval</label>
     </div>
-    <!-- end polling interval -->
-
-    <!-- MQTT -->
+  <!-- end polling interval -->
+  
+  <!-- MQTT -->
     <div class="row  col s12 select">
         <div class="row marg_auto col s2">
             <div class="input-field marg_auto">
@@ -207,9 +207,9 @@
             </div>
         </div>
     </div>
-    <!-- end MQTT -->
-    
-    <!-- wallpanel login table -->
+  <!-- end MQTT -->
+  
+  <!-- wallpanel login table -->
     <div class="col s12" id="devices">
         <div class="row center">
             <a class="waves-effect waves-light btn table-button-add translate">add Device</a>
@@ -231,7 +231,7 @@
         </div>
     </div>
         <h3 class='MQTTAdapter translate'>MQTT adapter is not installed please install the MQTT adapter before activating the function.</h3>
-    <!-- end wallpanel table -->
+  <!-- end wallpanel table -->
 </div>
 
 </body>

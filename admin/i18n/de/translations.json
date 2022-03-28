@@ -1,0 +1,15 @@
+{
+    "wallpanel adapter settings": "Adaptereinstellungen für wallpanel",
+    "MQTT adapter is not installed please install the MQTT adapter before activating the function.": "MQTT-Adapter ist nicht installiert Bitte installieren Sie den MQTT-Adapter, bevor Sie die Funktion aktivieren.",
+    "MQTT off": "MQTT aus",
+    "MQTT on": "MQTT an",
+    "Enabled MQTT": "MQTT aktiviert",
+    "Caution !!!": "Vorsicht !!!",
+    "When activated, the states are automatically deleted if a device has been deleted from the table.": "Bei Aktivierung werden die Zustände automatisch gelöscht, wenn ein Gerät aus der Tabelle gelöscht wurde.",
+    "interval": "Abfrageintervall [Sek.]",
+    "Tablet-Name": "Tablet-Name",
+    "IP Adresse": "IP-Adresse",
+    "delete": "löschen",
+    "enabled": "aktiviert",
+    "add Device": "Gerät hinzufügen"
+}

@@ -174,10 +174,28 @@
         },
         "title": "Wallpanel",
         "titleLang": {
-            "en": "Wallpanel"
+            "en": "Wallpanel",
+            "de": "Wandplatte",
+            "ru": "Настенная панель",
+            "pt": "Painel de parede",
+            "nl": "Wandpaneel",
+            "fr": "Panneau mural",
+            "it": "Pannello murale",
+            "es": "Panel de pared",
+            "pl": "Panel ścienny",
+            "zh-cn": "墙板"
         },
         "desc": {
-            "en": "wallpanel"
+            "en": "wallpanel",
+            "de": "Wandplatte",
+            "ru": "настенная панель",
+            "pt": "painel de parede",
+            "nl": "wandpaneel",
+            "fr": "panneau mural",
+            "it": "pannello a parete",
+            "es": "panel de pared",
+            "pl": "panel ścienny",
+            "zh-cn": "墙板"
         },
         "authors": [
             "xXBJXx <issi.dev.iobroker@gmail.com>"
@@ -190,11 +208,11 @@
         ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
-        "main": "main.js",
+        "main": "build/main.js",
         "icon": "wallpanel.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/master/admin/wallpanel.png",
-        "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/main/admin/wallpanel.png",
+        "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/main/README.md",
         "loglevel": "info",
         "mode": "daemon",
         "type": "general",
