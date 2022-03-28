@@ -1,10 +1,13 @@
 # Older changes
+## 0.1.4-beta.3 (2020-10-08)
+* (xXBJXx) Test and Release.yml change
+
 ## 0.1.4-beta.2 (2020-10-08)
 * (xXBJXx) fix display bug
-  
+
 ## 0.1.4-beta.1 (2020-10-07)
 * (xXBJXx) README edited
- 
+
 ## 0.1.4-beta.0 (2020-10-07)
 * (xXBJXx) Added MQTT states query
 * (xXBJXx) GitHub Actions added
@@ -29,4 +32,3 @@
 
 ## 0.0.1
 * (xXBJXx) initial release
-

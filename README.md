@@ -54,13 +54,11 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-
-### __WORK IN PROGRESS__
+### 0.2.0-0.0 (2022-03-28)
 * (xXBJXx) Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)
 * (xXBJXx) dependencies updated
 * (xXBJXx) Switching Project from JavaScript to TypeScript
 * (xXBJXx) fixed: issue #270 (wallpanel.0.kueche.lastInfoUpdate" has to be type "boolean" but received type "number")
-
 
 ### 0.1.7-0 (2021-09-06)
 * (xXBJXx) test-and-release.yml update
@@ -80,9 +78,6 @@ Sentry Reporting is used from js-controller 3.0.
 
 ### 0.1.4-beta.4 (2020-10-08)
 * (xXBJXx) README change
-
-### 0.1.4-beta.3 (2020-10-08)
-* (xXBJXx) Test and Release.yml change
 
 ## License
 MIT License
