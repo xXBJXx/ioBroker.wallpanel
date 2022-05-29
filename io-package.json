@@ -1,180 +1,211 @@
 {
-  "common": {
-    "name": "wallpanel",
-    "version": "0.2.0-0.0",
-    "news": {
-      "0.2.0-0.0": {
-        "en": "Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencies updated\nSwitching Project from JavaScript to TypeScript\nfixed: issue #270 (wallpanel.0.kueche.lastInfoUpdate\" has to be type \"boolean\" but received type \"number\")",
-        "de": "Automatische Übersetzungen von gulp nach => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev) migriert\nAbhängigkeiten aktualisiert\nProject von JavaScript auf TypeScript umstellen\nBehoben: Issue #270 (wallpanel.0.kueche.lastInfoUpdate“ muss Typ „boolean“ sein, aber empfangener Typ „number“)",
-        "ru": "Автоматические переводы перенесены с gulp на => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nзависимости обновлены\nПереключение проекта с JavaScript на TypeScript\nисправлено: проблема #270 (wallpanel.0.kueche.lastInfoUpdate должен иметь тип \"boolean\", но получен тип \"number\")",
-        "pt": "Traduções automáticas migradas de gulp para => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependências atualizadas\nMudando o projeto de JavaScript para TypeScript\ncorrigido: problema #270 (wallpanel.0.kueche.lastInfoUpdate\" deve ser do tipo \"boolean\", mas recebeu o tipo \"number\")",
-        "nl": "Automatische vertalingen gemigreerd van gulp naar => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nafhankelijkheden bijgewerkt\nProject overschakelen van JavaScript naar TypeScript\nopgelost: probleem #270 (wallpanel.0.kueche.lastInfoUpdate\" moet het type \"boolean\" zijn, maar het type \"nummer\" ontvangen)",
-        "fr": "Traductions automatiques migrées de gulp vers => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndépendances mises à jour\nPassage du projet de JavaScript à TypeScript\ncorrigé : problème #270 (wallpanel.0.kueche.lastInfoUpdate\" doit être de type \"booléen\" mais a reçu le type \"numéro\")",
-        "it": "Traduzioni automatiche migrate da gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndipendenze aggiornate\nPassaggio da un progetto JavaScript a TypeScript\nrisolto: problema n. 270 (wallpanel.0.kueche.lastInfoUpdate\" deve essere di tipo \"boolean\" ma ricevuto di tipo \"number\")",
-        "es": "Las traducciones automáticas migraron de gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencias actualizadas\nCambiar proyecto de JavaScript a TypeScript\nsolucionado: el problema n. ° 270 (wallpanel.0.kueche.lastInfoUpdate\" debe ser del tipo \"booleano\" pero recibió el tipo \"número\")",
-        "pl": "Automatyczne tłumaczenia przeniesione z gulp do => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nzaktualizowano zależności\nPrzełączanie projektu z JavaScript na TypeScript\nnaprawiono: problem #270 (wallpanel.0.kueche.lastInfoUpdate\" musi być typu \"boolean\", ale otrzymany typ \"number\")",
-        "zh-cn": "自动翻译从 gulp 迁移到 => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\n已更新依赖项\n将项目从 JavaScript 切换到 TypeScript\n已修复：问题 #270（wallpanel.0.kueche.lastInfoUpdate”必须是“boolean”类型但接收到“number”类型）"
-      },
-      "0.1.7-0": {
-        "en": "test-and-release.yml update\ndependencies update\ncheck of the created state structure added",
-        "de": "test-and-release.yml-Update\nAbhängigkeiten aktualisieren\nÜberprüfung der erstellten Zustandsstruktur hinzugefügt",
-        "ru": "test-and-release.yml обновить\nобновление зависимостей\nдобавлена проверка созданной государственной структуры",
-        "pt": "atualização test-and-release.yml\natualização de dependências\nverificação da estrutura de estado criada adicionada",
-        "nl": "test-en-release.yml-update\nafhankelijkheden bijwerken\ncontrole van de gecreëerde staatsstructuur toegevoegd",
-        "fr": "mise à jour test-and-release.yml\nmise à jour des dépendances\nvérification de la structure d'état créée ajoutée",
-        "it": "aggiornamento test-and-release.yml\naggiornamento delle dipendenze\naggiunta la verifica della struttura statale creata",
-        "es": "actualización test-and-release.yml\nactualización de dependencias\nverificación de la estructura de estado creada agregada",
-        "pl": "aktualizacja test-and-release.yml\naktualizacja zależności\ndodano sprawdzenie utworzonej struktury stanu",
-        "zh-cn": "test-and-release.yml 更新\n依赖更新\n添加了对创建的状态结构的检查"
-      },
-      "0.1.6-0": {
-        "en": "README edited and deleted unused images\nadd MQTT Instance select and remove state delete",
-        "de": "README bearbeitet und gelöscht nicht verwendete Bilder\nMQTT-Instanz hinzufügen, Status löschen und entfernen",
-        "ru": "README отредактировал и удалил неиспользуемые изображения\nдобавить экземпляр MQTT выбрать и удалить состояние удалить",
-        "pt": "README editou e excluiu imagens não utilizadas\nadicionar instância MQTT, selecionar e remover exclusão de estado",
-        "nl": "README bewerkte en verwijderde ongebruikte afbeeldingen\nMQTT-instantie toevoegen selecteren en status verwijderen verwijderen",
-        "fr": "README a modifié et supprimé les images inutilisées\najouter l'instance MQTT sélectionner et supprimer l'état supprimer",
-        "it": "README ha modificato ed eliminato le immagini inutilizzate\naggiungi istanza MQTT seleziona e rimuovi stato elimina",
-        "es": "README editado y eliminado imágenes no utilizadas\nagregar instancia MQTT seleccionar y eliminar estado eliminar",
-        "pl": "README edytował i usuwał nieużywane obrazy\ndodaj instancję MQTT wybierz i usuń stan usuń",
-        "zh-cn": "README编辑和删除未使用的图像\n添加MQTT实例选择并删除状态删除"
-      },
-      "0.1.5-0": {
-        "en": "Update dependabot.yml and test-and-release.yml\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\nCode Optimization\nconfig page style customized",
-        "de": "Aktualisieren Sie dependabot.yml und test-and-release.yml\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\nCode-Optimierung\nKonfigurationsseitenstil angepasst",
-        "ru": "Обновите файл dependsabot.yml и test-and-release.yml.\nОбновления зависимостей\nREADME переработан, добавлена ссылка на документацию и обновлена ЛИЦЕНЗИЯ.\nОптимизация кода\nнастраиваемый стиль страницы конфигурации",
-        "pt": "Atualize dependabot.yml e test-and-release.yml\nAtualizações de dependência\nREADME revisado e adicionado link de documentação e LICENÇA atualizada\nOtimização de Código\nestilo de página de configuração personalizado",
-        "nl": "Werk afhankelijkabot.yml en test-and-release.yml bij\nAfhankelijkheid updates\nREADME herzien en toegevoegd Documentatielink en LICENTIE bijgewerkt\nCode-optimalisatie\nconfig paginastijl aangepast",
-        "fr": "Mettez à jour dependabot.yml et test-and-release.yml\nMises à jour des dépendances\nLISEZMOI révisé et ajouté Lien vers la documentation et LICENCE mis à jour\nOptimisation du code\nstyle de page de configuration personnalisé",
-        "it": "Aggiorna dependabot.yml e test-and-release.yml\nAggiornamenti delle dipendenze\nREADME modificato e aggiunto Collegamento alla documentazione e LICENZA aggiornata\nOttimizzazione del codice\nstile della pagina di configurazione personalizzato",
-        "es": "Actualice dependdabot.yml y test-and-release.yml\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\nOptimización de código\nestilo de página de configuración personalizado",
-        "pl": "Zaktualizuj dependabot.yml i test-and-release.yml\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nOptymalizacja kodu\nconfig dostosowany styl strony",
-        "zh-cn": "更新Dependabot.yml和test-and-release.yml\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\n代码优化\n配置页面样式自定义"
-      },
-      "0.1.4-beta.4": {
-        "en": "README change",
-        "de": "README-Änderung",
-        "ru": "README изменить",
-        "pt": "README mudança",
-        "nl": "README wijzigen",
-        "fr": "Changement README",
-        "it": "Modifica README",
-        "es": "README cambio",
-        "pl": "README zmiana",
-        "zh-cn": "自述更改"
-      },
-      "0.1.4-beta.3": {
-        "en": "Test and Release.yml change",
-        "de": "Test und Release.yml ändern",
-        "ru": "Test и Release.yml изменение",
-        "pt": "Mudança de teste e Release.yml",
-        "nl": "Test en Release.yml wijzigen",
-        "fr": "Modification de Test and Release.yml",
-        "it": "Test e Release.yml cambiamento",
-        "es": "Prueba y cambio Release.yml",
-        "pl": "Test i zmiana Release.yml",
-        "zh-cn": "测试和Release.yml更改"
-      },
-      "0.1.4-beta.2": {
-        "en": "fix display bug",
-        "de": "Anzeigefehler behoben",
-        "ru": "исправить ошибку отображения",
-        "pt": "consertar bug de exibição",
-        "nl": "repareer de weergavefout",
-        "fr": "correction d'un bug d'affichage",
-        "it": "correzione bug di visualizzazione",
-        "es": "corregir error de visualización",
-        "pl": "napraw błąd wyświetlania",
-        "zh-cn": "修复显示错误"
-      }
+    "common": {
+        "name": "wallpanel",
+        "version": "0.2.0-0.0",
+        "news": {
+            "0.2.0-0.0": {
+                "en": "Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencies updated\nSwitching Project from JavaScript to TypeScript\nfixed: issue #270 (wallpanel.0.kueche.lastInfoUpdate\" has to be type \"boolean\" but received type \"number\")",
+                "de": "Automatische Übersetzungen von gulp nach => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev) migriert\nAbhängigkeiten aktualisiert\nProject von JavaScript auf TypeScript umstellen\nBehoben: Issue #270 (wallpanel.0.kueche.lastInfoUpdate“ muss Typ „boolean“ sein, aber empfangener Typ „number“)",
+                "ru": "Автоматические переводы перенесены с gulp на => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nзависимости обновлены\nПереключение проекта с JavaScript на TypeScript\nисправлено: проблема #270 (wallpanel.0.kueche.lastInfoUpdate должен иметь тип \"boolean\", но получен тип \"number\")",
+                "pt": "Traduções automáticas migradas de gulp para => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependências atualizadas\nMudando o projeto de JavaScript para TypeScript\ncorrigido: problema #270 (wallpanel.0.kueche.lastInfoUpdate\" deve ser do tipo \"boolean\", mas recebeu o tipo \"number\")",
+                "nl": "Automatische vertalingen gemigreerd van gulp naar => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nafhankelijkheden bijgewerkt\nProject overschakelen van JavaScript naar TypeScript\nopgelost: probleem #270 (wallpanel.0.kueche.lastInfoUpdate\" moet het type \"boolean\" zijn, maar het type \"nummer\" ontvangen)",
+                "fr": "Traductions automatiques migrées de gulp vers => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndépendances mises à jour\nPassage du projet de JavaScript à TypeScript\ncorrigé : problème #270 (wallpanel.0.kueche.lastInfoUpdate\" doit être de type \"booléen\" mais a reçu le type \"numéro\")",
+                "it": "Traduzioni automatiche migrate da gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndipendenze aggiornate\nPassaggio da un progetto JavaScript a TypeScript\nrisolto: problema n. 270 (wallpanel.0.kueche.lastInfoUpdate\" deve essere di tipo \"boolean\" ma ricevuto di tipo \"number\")",
+                "es": "Las traducciones automáticas migraron de gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencias actualizadas\nCambiar proyecto de JavaScript a TypeScript\nsolucionado: el problema n. ° 270 (wallpanel.0.kueche.lastInfoUpdate\" debe ser del tipo \"booleano\" pero recibió el tipo \"número\")",
+                "pl": "Automatyczne tłumaczenia przeniesione z gulp do => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nzaktualizowano zależności\nPrzełączanie projektu z JavaScript na TypeScript\nnaprawiono: problem #270 (wallpanel.0.kueche.lastInfoUpdate\" musi być typu \"boolean\", ale otrzymany typ \"number\")",
+                "zh-cn": "自动翻译从 gulp 迁移到 => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\n已更新依赖项\n将项目从 JavaScript 切换到 TypeScript\n已修复：问题 #270（wallpanel.0.kueche.lastInfoUpdate”必须是“boolean”类型但接收到“number”类型）"
+            },
+            "0.1.7-0": {
+                "en": "test-and-release.yml update\ndependencies update\ncheck of the created state structure added",
+                "de": "test-and-release.yml-Update\nAbhängigkeiten aktualisieren\nÜberprüfung der erstellten Zustandsstruktur hinzugefügt",
+                "ru": "test-and-release.yml обновить\nобновление зависимостей\nдобавлена проверка созданной государственной структуры",
+                "pt": "atualização test-and-release.yml\natualização de dependências\nverificação da estrutura de estado criada adicionada",
+                "nl": "test-en-release.yml-update\nafhankelijkheden bijwerken\ncontrole van de gecreëerde staatsstructuur toegevoegd",
+                "fr": "mise à jour test-and-release.yml\nmise à jour des dépendances\nvérification de la structure d'état créée ajoutée",
+                "it": "aggiornamento test-and-release.yml\naggiornamento delle dipendenze\naggiunta la verifica della struttura statale creata",
+                "es": "actualización test-and-release.yml\nactualización de dependencias\nverificación de la estructura de estado creada agregada",
+                "pl": "aktualizacja test-and-release.yml\naktualizacja zależności\ndodano sprawdzenie utworzonej struktury stanu",
+                "zh-cn": "test-and-release.yml 更新\n依赖更新\n添加了对创建的状态结构的检查"
+            },
+            "0.1.6-0": {
+                "en": "README edited and deleted unused images\nadd MQTT Instance select and remove state delete",
+                "de": "README bearbeitet und gelöscht nicht verwendete Bilder\nMQTT-Instanz hinzufügen, Status löschen und entfernen",
+                "ru": "README отредактировал и удалил неиспользуемые изображения\nдобавить экземпляр MQTT выбрать и удалить состояние удалить",
+                "pt": "README editou e excluiu imagens não utilizadas\nadicionar instância MQTT, selecionar e remover exclusão de estado",
+                "nl": "README bewerkte en verwijderde ongebruikte afbeeldingen\nMQTT-instantie toevoegen selecteren en status verwijderen verwijderen",
+                "fr": "README a modifié et supprimé les images inutilisées\najouter l'instance MQTT sélectionner et supprimer l'état supprimer",
+                "it": "README ha modificato ed eliminato le immagini inutilizzate\naggiungi istanza MQTT seleziona e rimuovi stato elimina",
+                "es": "README editado y eliminado imágenes no utilizadas\nagregar instancia MQTT seleccionar y eliminar estado eliminar",
+                "pl": "README edytował i usuwał nieużywane obrazy\ndodaj instancję MQTT wybierz i usuń stan usuń",
+                "zh-cn": "README编辑和删除未使用的图像\n添加MQTT实例选择并删除状态删除"
+            },
+            "0.1.5-0": {
+                "en": "Update dependabot.yml and test-and-release.yml\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\nCode Optimization\nconfig page style customized",
+                "de": "Aktualisieren Sie dependabot.yml und test-and-release.yml\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\nCode-Optimierung\nKonfigurationsseitenstil angepasst",
+                "ru": "Обновите файл dependsabot.yml и test-and-release.yml.\nОбновления зависимостей\nREADME переработан, добавлена ссылка на документацию и обновлена ЛИЦЕНЗИЯ.\nОптимизация кода\nнастраиваемый стиль страницы конфигурации",
+                "pt": "Atualize dependabot.yml e test-and-release.yml\nAtualizações de dependência\nREADME revisado e adicionado link de documentação e LICENÇA atualizada\nOtimização de Código\nestilo de página de configuração personalizado",
+                "nl": "Werk afhankelijkabot.yml en test-and-release.yml bij\nAfhankelijkheid updates\nREADME herzien en toegevoegd Documentatielink en LICENTIE bijgewerkt\nCode-optimalisatie\nconfig paginastijl aangepast",
+                "fr": "Mettez à jour dependabot.yml et test-and-release.yml\nMises à jour des dépendances\nLISEZMOI révisé et ajouté Lien vers la documentation et LICENCE mis à jour\nOptimisation du code\nstyle de page de configuration personnalisé",
+                "it": "Aggiorna dependabot.yml e test-and-release.yml\nAggiornamenti delle dipendenze\nREADME modificato e aggiunto Collegamento alla documentazione e LICENZA aggiornata\nOttimizzazione del codice\nstile della pagina di configurazione personalizzato",
+                "es": "Actualice dependdabot.yml y test-and-release.yml\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\nOptimización de código\nestilo de página de configuración personalizado",
+                "pl": "Zaktualizuj dependabot.yml i test-and-release.yml\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nOptymalizacja kodu\nconfig dostosowany styl strony",
+                "zh-cn": "更新Dependabot.yml和test-and-release.yml\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\n代码优化\n配置页面样式自定义"
+            },
+            "0.1.4-beta.4": {
+                "en": "README change",
+                "de": "README-Änderung",
+                "ru": "README изменить",
+                "pt": "README mudança",
+                "nl": "README wijzigen",
+                "fr": "Changement README",
+                "it": "Modifica README",
+                "es": "README cambio",
+                "pl": "README zmiana",
+                "zh-cn": "自述更改"
+            },
+            "0.1.4-beta.3": {
+                "en": "Test and Release.yml change",
+                "de": "Test und Release.yml ändern",
+                "ru": "Test и Release.yml изменение",
+                "pt": "Mudança de teste e Release.yml",
+                "nl": "Test en Release.yml wijzigen",
+                "fr": "Modification de Test and Release.yml",
+                "it": "Test e Release.yml cambiamento",
+                "es": "Prueba y cambio Release.yml",
+                "pl": "Test i zmiana Release.yml",
+                "zh-cn": "测试和Release.yml更改"
+            },
+            "0.1.4-beta.2": {
+                "en": "fix display bug",
+                "de": "Anzeigefehler behoben",
+                "ru": "исправить ошибку отображения",
+                "pt": "consertar bug de exibição",
+                "nl": "repareer de weergavefout",
+                "fr": "correction d'un bug d'affichage",
+                "it": "correzione bug di visualizzazione",
+                "es": "corregir error de visualización",
+                "pl": "napraw błąd wyświetlania",
+                "zh-cn": "修复显示错误"
+            }
+        },
+        "title": "Wallpanel",
+        "titleLang": {
+            "en": "Wallpanel",
+            "de": "Wallpanel"
+        },
+        "desc": {
+            "en": "Wallpanel is a slim Android browser that still provides some information from the tablet via Http and Mqtt.",
+            "de": "Wallpanel ist ein schlanker Android Browser, der noch ein paar Informationen vom Tablet per Http und Mqtt zur Verfügung stellt."
+        },
+        "authors": [
+            "xXBJXx <issi.dev.iobroker@gmail.com>"
+        ],
+        "keywords": [
+            "Wallpanel",
+            "browser",
+            "ioBroker",
+            "Tablet"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "wallpanel.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/main/admin/wallpanel.png",
+        "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "messagebox": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
+            }
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=3.3.18"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.2.1"
+            }
+        ],
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<0.2.0-0.0",
+                        "newVersion>=0.3.0"
+                    ]
+                },
+                "title": {
+                    "en": "Important notice!",
+                    "de": "Wichtiger Hinweis!",
+                    "ru": "Важное замечание!",
+                    "pt": "Notícia importante!",
+                    "nl": "Belangrijke mededeling!",
+                    "fr": "Avis important!",
+                    "it": "Avviso IMPORTANTE!",
+                    "es": "Noticia importante!",
+                    "pl": "Ważna uwaga!",
+                    "zh-cn": "重要通知!"
+                },
+                "text": {
+                    "en": "The new UI is not fully compatible with the old version.\nPlease delete your old wallpanel instance or the tablets that were configured before installing / updating the new UI, otherwise errors may occur.",
+                    "de": "Die Neue UI ist nicht ganz kompatibel mit der alten Version.\nBitte löscht vor der Installation / Update der neuen UI eure alte Wallpanel Instanz oder die Tablets, die konfiguriert wurden, sonst kann es zu Fehlern kommen.",
+                    "ru": "Новый пользовательский интерфейс не полностью совместим со старой версией.\nПожалуйста, удалите старый экземпляр настенной панели или планшеты, которые были настроены перед установкой / обновлением нового пользовательского интерфейса, иначе могут возникнуть ошибки.",
+                    "pt": "A nova IU não é totalmente compatível com a versão antiga.\nFavor apagar a sua antiga instância do painel de parede ou as pastilhas que foram configuradas antes de instalar / actualizar a nova IU, caso contrário podem ocorrer erros.",
+                    "nl": "De nieuwe UI is niet volledig compatibel met de oude versie.\nVerwijder a.u.b. uw oude wandpaneel instantie of de tablets die geconfigureerd waren voordat u de nieuwe UI installeert/bijwerkt, anders kunnen er fouten optreden.",
+                    "fr": "La nouvelle UI n'est pas entièrement compatible avec l'ancienne version.\nAvant d'installer / de mettre à jour la nouvelle UI, veuillez supprimer votre ancienne instance de Wallpanel ou les tablettes qui ont été configurées, sinon des erreurs peuvent se produire.",
+                    "it": "La nuova interfaccia utente non è completamente compatibile con la vecchia versione.\nSi prega di cancellare la vecchia istanza del pannello a parete o i tablet configurati prima di installare/aggiornare la nuova interfaccia utente, altrimenti potrebbero verificarsi degli errori.",
+                    "es": "La nueva interfaz de usuario no es totalmente compatible con la versión antigua.\nPor favor, elimine su antigua instancia de panel de pared o las tabletas que fueron configuradas antes de instalar / actualizar la nueva interfaz de usuario, de lo contrario pueden producirse errores.",
+                    "pl": "Nowy interfejs użytkownika nie jest w pełni kompatybilny ze starą wersją.\nPrzed zainstalowaniem/aktualizacją nowego interfejsu użytkownika należy usunąć starą instancję panelu ściennego lub tablety, które zostały skonfigurowane, w przeciwnym razie mogą wystąpić błędy.",
+                    "zh-cn": "新的用户界面与旧版本不完全兼容。\n在安装/更新新的用户界面之前，请删除你的旧墙板实例或已配置的平板电脑，否则可能会出现错误。"
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
+        ]
     },
-    "title": "Wallpanel",
-    "titleLang": {
-      "en": "Wallpanel",
-      "de": "Wandplatte",
-      "ru": "Настенная панель",
-      "pt": "Painel de parede",
-      "nl": "Wandpaneel",
-      "fr": "Panneau mural",
-      "it": "Pannello murale",
-      "es": "Panel de pared",
-      "pl": "Panel ścienny",
-      "zh-cn": "墙板"
+    "native": {
+        "interval": 30,
+        "devices": [],
+        "enabledMqtt": false,
+        "mqttInstance": "mqtt.0",
+        "mqttInstalled": false
     },
-    "desc": {
-      "en": "wallpanel",
-      "de": "Wandplatte",
-      "ru": "настенная панель",
-      "pt": "painel de parede",
-      "nl": "wandpaneel",
-      "fr": "panneau mural",
-      "it": "pannello a parete",
-      "es": "panel de pared",
-      "pl": "panel ścienny",
-      "zh-cn": "墙板"
-    },
-    "authors": [
-      "xXBJXx <issi.dev.iobroker@gmail.com>"
-    ],
-    "keywords": [
-      "Wallpanel",
-      "browser",
-      "ioBroker",
-      "Tablet"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "wallpanel.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/main/admin/wallpanel.png",
-    "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "general",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "materialize": true,
-    "plugins": {
-      "sentry": {
-        "dsn": "https://59d55ede4d0c4cdbba1bc0538bc5f5ea@o384969.ingest.sentry.io/5408319"
-      }
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "interval": 30,
-    "devices": [],
-    "enabledMqtt": "false",
-    "mqttInstance": "mqtt.0"
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
 }
