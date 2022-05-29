@@ -1,162 +1,33 @@
 /* You can delete those if you want. I just found them very helpful */
 * {
-	box-sizing: border-box;
-	}
-
+	box-sizing: border-box
+}
 .m {
 	/* Don't cut off dropdowns! */
 	overflow: initial;
-	}
+}
+.m.adapter-container,
+.m.adapter-container > div.App {
+	/* Fix layout/scrolling issues with tabs */
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+.m .select-wrapper + label {
+	/* The positioning for dropdown labels is messed up */
+	transform: none !important;
+}
 
-/*logo Section */
-.logo {
-	width: 150px !important;
-	}
+label > i[title] {
+	/* Display the help cursor for the tooltip icons and fix their positioning */
+	cursor: help;
+	margin-left: 0.25em;
+}
 
-.help-link {
-	position: absolute !important;
-	right: 10px !important;
-	}
-
-/*logo Section End */
-
-/* intervals Section */
-#interval {
-	width: 150px !important;
-	text-align: center !important;
-	}
-
-.internal_label {
-	color: black !important;
-	margin-left: -11px !important;
-	}
-
-/* intervals Section End*/
-/* warnMessage Section*/
-
-.warnMessage {
-	color: #ff0000;
-	font-size: 18px !important;
-	position: absolute !important;
-	margin-left:16px !important;
-	margin-top:-16px !important;
-	}
-.marg_auto{
-	margin-right: 0 !important;
-	margin-left: 0 !important;
-	}
-/* warnMessage Section End*/
-
-/* MQTT Adapter Section*/
-
-.MQTTAdapter {
-	font-size: 50px !important;
-	color: #ff0000;
-	text-align: center;
-	position: absolute;
-	}
-
-/* MQTT Adapter Section End*/
+.dropdown-content {
+	/* Don't wrap text in dropdowns */
+	white-space: nowrap;
+}
 
 
-/* address Section */
-/* table button Section */
-.center {
-	margin-left: auto !important;
-	margin-right: auto !important;
-	}
-
-.btn, .m .btn-flat, .m .btn-large, .m .btn-small {
-	border-radius: 20px !important;
-	}
-
-/* table button Section End */
-
-/* address Table Section */
-
-.select {
-	text-align-last: center;
-	}
-
-.values-input {
-	text-align: center !important;
-	font-size: large !important;
-	}
-
-table.table-values th.header {
-	background-color: #59c2f0;
-	color:black !important;
-	font-size: 90%;
-	text-align: center;
-	line-height: 1em;
-	padding: 6px 2px;
-	border-radius: 5px;
-	}
-
-/* address Table Section End*/
-/* address Section End*/
-
-/* checkbox style Section*/
-
-.m [type='checkbox'] + span:not(.lever) {
-	display: inline-block !important;
-	position: relative !important;
-	width: 60px !important;
-	height: 30px !important;
-	margin-left: 4px !important;
-	margin-right: -4px !important;
-	-webkit-appearance: none !important;
-	background: linear-gradient(0deg, #640000, #ff0000) !important;
-	outline: none !important;
-	border-radius: 11px !important;
-	box-shadow: 0 0 2px #ff0000, 0 0 0 4px #353535, 0 0 0 5px #3e3e3e, inset 0 0 10px rgba(0, 0, 0, 1), 0 5px 20px rgba(0, 0, 0, .5), inset 0 0 15px rgba(0, 0, 0, .2) !important;
-	transition: .4s !important;
-	}
-
-.m [type='checkbox']:checked + span:not(.lever) {
-	background: linear-gradient(0deg, #006400, #0bea0b) !important;
-	box-shadow: 0 0 2px #0bea0b, 0 0 0 4px #353535, 0 0 0 5px #3e3e3e, inset 0 0 10px rgba(0, 0, 0, 1), 0 5px 20px rgba(0, 0, 0, .5), inset 0 0 15px rgba(0, 0, 0, .2) !important;
-	transition: .4s !important;
-	}
-
-input[type=checkbox].filled-in + span:not(.lever):before {
-	content: '' !important;
-	position: absolute !important;
-	width: 30px !important;
-	height: 30px !important;
-	border-radius: 11px !important;
-	top: 0 !important;
-	left: 0 !important;
-	background: linear-gradient(0deg, #000, #6b6b6b) !important;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, .2) !important;
-	transform: scale(.98, .96) !important;
-	transition: .3s !important;
-	margin-top: -0.5px !important;
-	border: 0!important;
-	z-index: 0 !important;
-	}
-
-input:checked[type=checkbox].filled-in + span:not(.lever):before {
-
-	left: 29px !important;
-	}
-
-input[type=checkbox].filled-in + span:not(.lever):after {
-	content: '' !important;
-	position: absolute !important;
-	width: 4px !important;
-	height: 4px !important;
-	top: calc(50% - 2px) !important;
-	left: 20px !important;
-	background: linear-gradient(0deg, #960000, #ff0000) !important;
-	box-shadow: 0 0 5px #cf0e0e, 0 0 15px #cf0e0e !important;
-	border-radius: 50% !important;
-	transition: .3s !important;
-	border: 0 !important;
-	}
-
-input:checked[type=checkbox].filled-in + span:not(.lever):after {
-	background: #0bea0b !important;
-	left: 52px !important;
-	box-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00 !important;
-	}
+/* Add your styles here */
