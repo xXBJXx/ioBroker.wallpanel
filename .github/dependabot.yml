@@ -6,7 +6,7 @@ updates:
     interval: monthly
     time: "06:00"
     timezone: Europe/Berlin
-  open-pull-requests-limit: 20
+  open-pull-requests-limit: 30
   assignees:
   - xXBJXx
   versioning-strategy: increase
