@@ -1,8 +1,7 @@
-//TODO: interface ObjectDefinition completle
 interface CommandDefinition {
 	[key: string]: any;
 }
-const object_command_definitions: CommandDefinition = {
+export const object_command_definitions: CommandDefinition = {
 	clearCache: {
 		type: 'state',
 		common: {
@@ -140,37 +139,25 @@ const object_command_definitions: CommandDefinition = {
 		},
 		native: {},
 	},
+	settings: {
+		type: 'state',
+		common: {
+			name: `Opens the settings screen remotely.`,
+			type: `boolean`,
+			role: `button`,
+			def: true,
+			read: true,
+			write: true,
+		},
+		native: {},
+	},
 };
 
 interface InfoDefinitions {
-	lastInfoUpdate: {
-		type: string;
-		common: {
-			name: string;
-			type: string;
-			role: string;
-			def: number;
-			read: boolean;
-			write: boolean;
-		};
-		native: any;
-	};
-	ip: {
-		type: string;
-		common: {
-			name: string;
-			type: string;
-			role: string;
-			def: string;
-			read: boolean;
-			write: boolean;
-		};
-		native: any;
-	};
 	[key: string]: any;
 }
 
-const object_info_definitions: InfoDefinitions = {
+export const object_info_definitions: InfoDefinitions = {
 	lastInfoUpdate: {
 		type: 'state',
 		common: {
@@ -195,12 +182,48 @@ const object_info_definitions: InfoDefinitions = {
 		},
 		native: {},
 	},
+	mjpegStream: {
+		type: 'state',
+		common: {
+			name: `MJPEG stream`,
+			type: `string`,
+			role: `media.url`,
+			def: '',
+			read: true,
+			write: false,
+		},
+		native: {},
+	},
+	connected: {
+		type: 'state',
+		common: {
+			name: `Is the device connected`,
+			type: `boolean`,
+			role: `indicator.connected`,
+			def: false,
+			read: true,
+			write: false,
+		},
+		native: {},
+	},
+	json: {
+		type: 'state',
+		common: {
+			name: `all queried data as JSON`,
+			type: `string`,
+			role: `json`,
+			def: '',
+			read: true,
+			write: false,
+		},
+		native: {},
+	},
 };
 
 interface MqttBatteryDefinition {
 	[key: string]: any;
 }
-const object_mqttBattery_definitions: MqttBatteryDefinition = {
+export const object_mqttBattery_definitions: MqttBatteryDefinition = {
 	battery: {
 		type: 'state',
 		common: {
@@ -251,10 +274,8 @@ const object_mqttBattery_definitions: MqttBatteryDefinition = {
 		native: {},
 	},
 };
-interface MqttLightDefinition {
-	[key: string]: any;
-}
-const object_mqttLight_definitions: MqttLightDefinition = {
+
+export const object_mqttLight_definitions: { [key: string]: any } = {
 	light: {
 		type: 'state',
 		common: {
@@ -281,10 +302,11 @@ const object_mqttLight_definitions: MqttLightDefinition = {
 		native: {},
 	},
 };
+
 interface MqttMagneticFieldDefinition {
 	[key: string]: any;
 }
-const object_mqttMagneticField_definitions: MqttMagneticFieldDefinition = {
+export const object_mqttMagneticField_definitions: MqttMagneticFieldDefinition = {
 	magneticField: {
 		type: 'state',
 		common: {
@@ -298,11 +320,24 @@ const object_mqttMagneticField_definitions: MqttMagneticFieldDefinition = {
 		},
 		native: {},
 	},
+	id: {
+		type: 'state',
+		common: {
+			name: `magneticField id`,
+			type: `string`,
+			role: `text`,
+			def: '',
+			read: true,
+			write: false,
+		},
+		native: {},
+	},
 };
+
 interface MqttPressureDefinition {
 	[key: string]: any;
 }
-const object_mqttPressure_definitions: MqttPressureDefinition = {
+export const object_mqttPressure_definitions: MqttPressureDefinition = {
 	pressure: {
 		type: 'state',
 		common: {
@@ -317,10 +352,11 @@ const object_mqttPressure_definitions: MqttPressureDefinition = {
 		native: {},
 	},
 };
+
 interface MqttTemperatureDefinition {
 	[key: string]: any;
 }
-const object_mqttTemperature_definitions: MqttTemperatureDefinition = {
+export const object_mqttTemperature_definitions: MqttTemperatureDefinition = {
 	temperature: {
 		type: 'state',
 		common: {
@@ -335,10 +371,11 @@ const object_mqttTemperature_definitions: MqttTemperatureDefinition = {
 		native: {},
 	},
 };
+
 interface MqttMotionDefinition {
 	[key: string]: any;
 }
-const object_mqttMotion_definitions: MqttMotionDefinition = {
+export const object_mqttMotion_definitions: MqttMotionDefinition = {
 	motion: {
 		type: 'state',
 		common: {
@@ -352,10 +389,11 @@ const object_mqttMotion_definitions: MqttMotionDefinition = {
 		native: {},
 	},
 };
+
 interface MqttFaceDefinition {
 	[key: string]: any;
 }
-const object_mqttFace_definitions: MqttFaceDefinition = {
+export const object_mqttFace_definitions: MqttFaceDefinition = {
 	face: {
 		type: 'state',
 		common: {
@@ -369,10 +407,11 @@ const object_mqttFace_definitions: MqttFaceDefinition = {
 		native: {},
 	},
 };
+
 interface MqttQrcodeDefinition {
 	[key: string]: any;
 }
-const object_mqttQrcode_definitions: MqttQrcodeDefinition = {
+export const object_mqttQrcode_definitions: MqttQrcodeDefinition = {
 	qrcode: {
 		type: 'state',
 		common: {
@@ -385,17 +424,4 @@ const object_mqttQrcode_definitions: MqttQrcodeDefinition = {
 		},
 		native: {},
 	},
-};
-
-export = {
-	object_command_definitions,
-	object_info_definitions,
-	object_mqttBattery_definitions,
-	object_mqttLight_definitions,
-	object_mqttPressure_definitions,
-	object_mqttTemperature_definitions,
-	object_mqttMotion_definitions,
-	object_mqttFace_definitions,
-	object_mqttQrcode_definitions,
-	object_mqttMagneticField_definitions,
 };

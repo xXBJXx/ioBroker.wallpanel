@@ -6,15 +6,17 @@ declare global {
 		interface Devices {
 			name: string;
 			ip: string;
-			port: string;
-			baseTopic: string;
+			port: number;
+			topic: string;
 			enabled: boolean;
+			mqttEnabled: boolean;
 		}
 		interface AdapterConfig {
 			interval: number;
 			devices: Devices[];
-			enabledMqtt: string;
-			mqttInstance: string | null;
+			enabledMqtt: boolean;
+			mqttInstance: string;
+			mqttInstalled: boolean;
 		}
 	}
 }

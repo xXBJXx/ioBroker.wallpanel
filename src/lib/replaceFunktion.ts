@@ -1,5 +1,5 @@
 /**
- * replase all ä,ö,ü,ß and spaces and dots
+ * replace all ä,ö,ü,ß and spaces and dots
  */
 export async function replaceFunktion(text: string): Promise<string> {
 	let text2 = text.toLowerCase();

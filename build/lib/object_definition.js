@@ -1,3 +1,34 @@
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var object_definition_exports = {};
+__export(object_definition_exports, {
+  object_command_definitions: () => object_command_definitions,
+  object_info_definitions: () => object_info_definitions,
+  object_mqttBattery_definitions: () => object_mqttBattery_definitions,
+  object_mqttFace_definitions: () => object_mqttFace_definitions,
+  object_mqttLight_definitions: () => object_mqttLight_definitions,
+  object_mqttMagneticField_definitions: () => object_mqttMagneticField_definitions,
+  object_mqttMotion_definitions: () => object_mqttMotion_definitions,
+  object_mqttPressure_definitions: () => object_mqttPressure_definitions,
+  object_mqttQrcode_definitions: () => object_mqttQrcode_definitions,
+  object_mqttTemperature_definitions: () => object_mqttTemperature_definitions
+});
+module.exports = __toCommonJS(object_definition_exports);
 const object_command_definitions = {
   clearCache: {
     type: "state",
@@ -135,6 +166,18 @@ const object_command_definitions = {
       write: true
     },
     native: {}
+  },
+  settings: {
+    type: "state",
+    common: {
+      name: `Opens the settings screen remotely.`,
+      type: `boolean`,
+      role: `button`,
+      def: true,
+      read: true,
+      write: true
+    },
+    native: {}
   }
 };
 const object_info_definitions = {
@@ -156,6 +199,42 @@ const object_info_definitions = {
       name: `Ip address of the device `,
       type: `string`,
       role: `info.ip`,
+      def: "",
+      read: true,
+      write: false
+    },
+    native: {}
+  },
+  mjpegStream: {
+    type: "state",
+    common: {
+      name: `MJPEG stream`,
+      type: `string`,
+      role: `media.url`,
+      def: "",
+      read: true,
+      write: false
+    },
+    native: {}
+  },
+  connected: {
+    type: "state",
+    common: {
+      name: `Is the device connected`,
+      type: `boolean`,
+      role: `indicator.connected`,
+      def: false,
+      read: true,
+      write: false
+    },
+    native: {}
+  },
+  json: {
+    type: "state",
+    common: {
+      name: `all queried data as JSON`,
+      type: `string`,
+      role: `json`,
       def: "",
       read: true,
       write: false
@@ -254,6 +333,18 @@ const object_mqttMagneticField_definitions = {
       write: false
     },
     native: {}
+  },
+  id: {
+    type: "state",
+    common: {
+      name: `magneticField id`,
+      type: `string`,
+      role: `text`,
+      def: "",
+      read: true,
+      write: false
+    },
+    native: {}
   }
 };
 const object_mqttPressure_definitions = {
@@ -328,16 +419,17 @@ const object_mqttQrcode_definitions = {
     native: {}
   }
 };
-module.exports = {
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
   object_command_definitions,
   object_info_definitions,
   object_mqttBattery_definitions,
-  object_mqttLight_definitions,
-  object_mqttPressure_definitions,
-  object_mqttTemperature_definitions,
-  object_mqttMotion_definitions,
   object_mqttFace_definitions,
+  object_mqttLight_definitions,
+  object_mqttMagneticField_definitions,
+  object_mqttMotion_definitions,
+  object_mqttPressure_definitions,
   object_mqttQrcode_definitions,
-  object_mqttMagneticField_definitions
-};
+  object_mqttTemperature_definitions
+});
 //# sourceMappingURL=object_definition.js.map

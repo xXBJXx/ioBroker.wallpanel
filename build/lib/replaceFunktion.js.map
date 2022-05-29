@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/replaceFunktion.ts"],
-  "sourcesContent": ["/**\n * replase all \u00E4,\u00F6,\u00FC,\u00DF and spaces and dots\n */\nexport async function replaceFunktion(text: string): Promise<string> {\n\tlet text2 = text.toLowerCase();\n\ttext2 = text2.replace(/\u00E4/g, 'ae');\n\ttext2 = text2.replace(/\u00F6/g, 'oe');\n\ttext2 = text2.replace(/\u00FC/g, 'ue');\n\ttext2 = text2.replace(/\u00DF/g, 'ss');\n\ttext2 = text2.replace(/[^a-z0-9]/g, '_');\n\treturn text2;\n}\n"],
+  "sourcesContent": ["/**\n * replace all \u00E4,\u00F6,\u00FC,\u00DF and spaces and dots\n */\nexport async function replaceFunktion(text: string): Promise<string> {\n\tlet text2 = text.toLowerCase();\n\ttext2 = text2.replace(/\u00E4/g, 'ae');\n\ttext2 = text2.replace(/\u00F6/g, 'oe');\n\ttext2 = text2.replace(/\u00FC/g, 'ue');\n\ttext2 = text2.replace(/\u00DF/g, 'ss');\n\ttext2 = text2.replace(/[^a-z0-9]/g, '_');\n\treturn text2;\n}\n"],
   "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGA,+BAAsC,MAA+B;AACpE,MAAI,QAAQ,KAAK,YAAY;AAC7B,UAAQ,MAAM,QAAQ,MAAM,IAAI;AAChC,UAAQ,MAAM,QAAQ,MAAM,IAAI;AAChC,UAAQ,MAAM,QAAQ,MAAM,IAAI;AAChC,UAAQ,MAAM,QAAQ,MAAM,IAAI;AAChC,UAAQ,MAAM,QAAQ,cAAc,GAAG;AACvC,SAAO;AACR;",
   "names": []
 }
