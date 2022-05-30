@@ -4,14 +4,13 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { Card, CardActions, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
 import { green, orange, red } from '@mui/material/colors';
-import React, { useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
+import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
+import React from 'react';
 
 export interface TabletCardProps {
 	settings: ioBroker.AdapterConfig;
-	item;
-	index;
+	item: ioBroker.Devices;
+	index: number;
 	mqtt: {
 		mqttEnabled: boolean;
 		mqttAvailable: boolean;
@@ -56,7 +55,7 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 		}
 	};
 
-	const handleHeaderColor = (index) => {
+	const handleHeaderColor = (index: number) => {
 		if (settings.devices[index].enabled) {
 			return { backgroundColor: green[800] };
 		} else {
@@ -64,7 +63,7 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 		}
 	};
 
-	const handleMqttEnabled = (index) => {
+	const handleMqttEnabled = (index: number) => {
 		return settings.devices[index].mqttEnabled ? { color: green[800] } : { color: red[800] };
 	};
 

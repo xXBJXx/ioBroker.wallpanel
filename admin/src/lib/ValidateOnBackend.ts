@@ -11,7 +11,7 @@ export interface SentToServer {
 }
 
 export const handeValidateOnServer = async (
-	connection,
+	connection: Connection<Record<string, never>, Record<string, never>>,
 	namespace: string,
 	type: string,
 	row: ioBroker.Devices | { cancel: true },

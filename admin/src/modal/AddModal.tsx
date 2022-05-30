@@ -54,6 +54,8 @@ export const AddModal: React.FC<AddModalProps> = ({ alive, newRow, mqtt, current
 	const { translate: _ } = useI18n();
 
 	const handleAdd = async (typ: string, row: ioBroker.Devices | { cancel: true }): Promise<void> => {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		//@ts-ignore
 		const result: SentToServer | void = await handeValidateOnServer(connection, namespace, typ, row);
 		if (result) {
 			if (result.code === 'canceled') {

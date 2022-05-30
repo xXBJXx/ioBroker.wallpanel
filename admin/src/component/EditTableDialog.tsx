@@ -238,9 +238,7 @@ export const EditTableDialog: React.FC<RowProps> = ({ newRow, valid, oldRow, mqt
 					<FormControl variant="outlined">
 						<Tooltip title={_('tooltipEnabled')} arrow>
 							<FormControl fullWidth sx={{ marginLeft: 2, minWidth: 110 }}>
-								<InputLabel id="tablet-enabled-select-label">
-									{_('tabletEnabled')}
-								</InputLabel>
+								<InputLabel id="tablet-enabled-select-label">{_('tabletEnabled')}</InputLabel>
 								<Select
 									labelId="tablet-enabled-select-label"
 									id="tablet-enabled-select"
