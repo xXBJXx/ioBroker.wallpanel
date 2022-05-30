@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "wallpanel",
-        "version": "0.2.0-0.0",
+        "version": "0.2.0",
         "news": {
             "0.2.0-0.0": {
                 "en": "Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencies updated\nSwitching Project from JavaScript to TypeScript\nfixed: issue #270 (wallpanel.0.kueche.lastInfoUpdate\" has to be type \"boolean\" but received type \"number\")",
