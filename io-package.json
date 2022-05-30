@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "news": {
+      "0.3.2": {
+        "en": "change documentation links",
+        "de": "Dokumentationslinks ändern",
+        "ru": "изменить ссылки на документацию",
+        "pt": "alterar links de documentação",
+        "nl": "documentatielinks wijzigen",
+        "fr": "modifier les liens de la documentation",
+        "it": "modificare i collegamenti alla documentazione",
+        "es": "cambiar enlaces de documentación",
+        "pl": "zmień linki do dokumentacji",
+        "zh-cn": "更改文档链接"
+      },
       "0.3.1": {
         "en": "update Dependencies",
         "de": "Abhängigkeiten aktualisieren",
@@ -74,18 +86,6 @@
         "es": "Actualice dependdabot.yml y test-and-release.yml\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\nOptimización de código\nestilo de página de configuración personalizado",
         "pl": "Zaktualizuj dependabot.yml i test-and-release.yml\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nOptymalizacja kodu\nconfig dostosowany styl strony",
         "zh-cn": "更新Dependabot.yml和test-and-release.yml\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\n代码优化\n配置页面样式自定义"
-      },
-      "0.1.4-beta.4": {
-        "en": "README change",
-        "de": "README-Änderung",
-        "ru": "README изменить",
-        "pt": "README mudança",
-        "nl": "README wijzigen",
-        "fr": "Changement README",
-        "it": "Modifica README",
-        "es": "README cambio",
-        "pl": "README zmiana",
-        "zh-cn": "自述更改"
       }
     },
     "title": "Wallpanel",
