@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "news": {
+      "0.3.4": {
+        "en": "update Changlog an fixed type issues",
+        "de": "Aktualisieren Sie Changlog und Probleme mit behobenen Typen",
+        "ru": "обновить журнал изменений фиксированного типа",
+        "pt": "atualizar Changlog um problema de tipo fixo",
+        "nl": "update Changlog een vast type problemen",
+        "fr": "mettre à jour Changlog et résoudre les problèmes de type",
+        "it": "aggiornamento di Changlog e problemi di tipo fisso",
+        "es": "actualizar Changlog y problemas de tipo fijo",
+        "pl": "zaktualizuj Changloga naprawiono problemy z typem",
+        "zh-cn": "更新 Changlog 一个固定类型问题"
+      },
       "0.3.3": {
         "en": "update Dependencies",
         "de": "Abhängigkeiten aktualisieren",
@@ -74,18 +86,6 @@
         "es": "actualización test-and-release.yml\nactualización de dependencias\nverificación de la estructura de estado creada agregada",
         "pl": "aktualizacja test-and-release.yml\naktualizacja zależności\ndodano sprawdzenie utworzonej struktury stanu",
         "zh-cn": "test-and-release.yml 更新\n依赖更新\n添加了对创建的状态结构的检查"
-      },
-      "0.1.6-0": {
-        "en": "README edited and deleted unused images\nadd MQTT Instance select and remove state delete",
-        "de": "README bearbeitet und gelöscht nicht verwendete Bilder\nMQTT-Instanz hinzufügen, Status löschen und entfernen",
-        "ru": "README отредактировал и удалил неиспользуемые изображения\nдобавить экземпляр MQTT выбрать и удалить состояние удалить",
-        "pt": "README editou e excluiu imagens não utilizadas\nadicionar instância MQTT, selecionar e remover exclusão de estado",
-        "nl": "README bewerkte en verwijderde ongebruikte afbeeldingen\nMQTT-instantie toevoegen selecteren en status verwijderen verwijderen",
-        "fr": "README a modifié et supprimé les images inutilisées\najouter l'instance MQTT sélectionner et supprimer l'état supprimer",
-        "it": "README ha modificato ed eliminato le immagini inutilizzate\naggiungi istanza MQTT seleziona e rimuovi stato elimina",
-        "es": "README editado y eliminado imágenes no utilizadas\nagregar instancia MQTT seleccionar y eliminar estado eliminar",
-        "pl": "README edytował i usuwał nieużywane obrazy\ndodaj instancję MQTT wybierz i usuń stan usuń",
-        "zh-cn": "README编辑和删除未使用的图像\n添加MQTT实例选择并删除状态删除"
       }
     },
     "title": "Wallpanel",
