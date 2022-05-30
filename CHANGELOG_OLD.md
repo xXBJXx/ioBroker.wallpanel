@@ -1,8 +1,4 @@
 # Older changes
-## 0.1.6-0 (2021-02-26)
-* (xXBJXx) README edited and deleted unused images
-* (xXBJXx) add MQTT Instance select and remove state delete
-
 ## 0.1.5-0 (2021-01-27)
 * (xXBJXx) Update dependabot.yml and test-and-release.yml
 * (xXBJXx) Dependency updates
