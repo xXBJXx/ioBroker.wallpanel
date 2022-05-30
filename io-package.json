@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "news": {
+      "0.3.5": {
+        "en": "update Changelog and fixed type issues",
+        "de": "Aktualisierung des Änderungsprotokolls und behobene Typprobleme",
+        "ru": "обновить список изменений и проблемы с фиксированным типом",
+        "pt": "atualizar o registro de alterações e problemas de tipo fixo",
+        "nl": "update Changelog en problemen met opgeloste typen",
+        "fr": "mettre à jour le journal des modifications et résoudre les problèmes de type",
+        "it": "aggiornamento Changelog e problemi di tipo risolti",
+        "es": "actualizar el registro de cambios y los problemas de tipo fijo",
+        "pl": "aktualizacja dziennika zmian i naprawiono problemy z typami",
+        "zh-cn": "更新变更日志并修复类型问题"
+      },
       "0.3.4": {
         "en": "update Changlog an fixed type issues",
         "de": "Aktualisieren Sie Changlog und Probleme mit behobenen Typen",
@@ -74,18 +86,6 @@
         "es": "Las traducciones automáticas migraron de gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencias actualizadas\nCambiar proyecto de JavaScript a TypeScript\nsolucionado: el problema n. ° 270 (wallpanel.0.kueche.lastInfoUpdate\" debe ser del tipo \"booleano\" pero recibió el tipo \"número\")",
         "pl": "Automatyczne tłumaczenia przeniesione z gulp do => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nzaktualizowano zależności\nPrzełączanie projektu z JavaScript na TypeScript\nnaprawiono: problem #270 (wallpanel.0.kueche.lastInfoUpdate\" musi być typu \"boolean\", ale otrzymany typ \"number\")",
         "zh-cn": "自动翻译从 gulp 迁移到 => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\n已更新依赖项\n将项目从 JavaScript 切换到 TypeScript\n已修复：问题 #270（wallpanel.0.kueche.lastInfoUpdate”必须是“boolean”类型但接收到“number”类型）"
-      },
-      "0.1.7-0": {
-        "en": "test-and-release.yml update\ndependencies update\ncheck of the created state structure added",
-        "de": "test-and-release.yml-Update\nAbhängigkeiten aktualisieren\nÜberprüfung der erstellten Zustandsstruktur hinzugefügt",
-        "ru": "test-and-release.yml обновить\nобновление зависимостей\nдобавлена проверка созданной государственной структуры",
-        "pt": "atualização test-and-release.yml\natualização de dependências\nverificação da estrutura de estado criada adicionada",
-        "nl": "test-en-release.yml-update\nafhankelijkheden bijwerken\ncontrole van de gecreëerde staatsstructuur toegevoegd",
-        "fr": "mise à jour test-and-release.yml\nmise à jour des dépendances\nvérification de la structure d'état créée ajoutée",
-        "it": "aggiornamento test-and-release.yml\naggiornamento delle dipendenze\naggiunta la verifica della struttura statale creata",
-        "es": "actualización test-and-release.yml\nactualización de dependencias\nverificación de la estructura de estado creada agregada",
-        "pl": "aktualizacja test-and-release.yml\naktualizacja zależności\ndodano sprawdzenie utworzonej struktury stanu",
-        "zh-cn": "test-and-release.yml 更新\n依赖更新\n添加了对创建的状态结构的检查"
       }
     },
     "title": "Wallpanel",
