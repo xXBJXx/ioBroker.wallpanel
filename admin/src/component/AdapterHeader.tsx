@@ -7,7 +7,7 @@ import React from 'react';
 
 const Url = {
 	issues: 'https://github.com/xXBJXx/ioBroker.wallpanel/issues',
-	doc: 'https://xxbjxx.github.io/language/en/Wallpanel/01.description.html',
+	doc: 'https://xxbjxx.github.io/wallpanel/',
 };
 
 export const AdapterHeader = (): JSX.Element => {
@@ -16,11 +16,7 @@ export const AdapterHeader = (): JSX.Element => {
 	return (
 		<Grid container spacing={0}>
 			<Grid item xs={4}>
-				<img
-					src="wallpanel.png"
-					alt="adapter_icon"
-					style={{ margin: 16, width: 150, height: 150 }}
-				/>
+				<img src="wallpanel.png" alt="adapter_icon" style={{ margin: 16, width: 150, height: 150 }} />
 			</Grid>
 			<Grid
 				item
