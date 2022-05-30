@@ -88,14 +88,30 @@
         "zh-cn": "自动翻译从 gulp 迁移到 => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\n已更新依赖项\n将项目从 JavaScript 切换到 TypeScript\n已修复：问题 #270（wallpanel.0.kueche.lastInfoUpdate”必须是“boolean”类型但接收到“number”类型）"
       }
     },
-    "title": "Wallpanel",
     "titleLang": {
       "en": "Wallpanel",
-      "de": "Wallpanel"
+      "de": "Wallpanel",
+      "ru": "Wallpanel",
+      "pt": "Wallpanel",
+      "nl": "Wallpanel",
+      "fr": "Wallpanel",
+      "it": "Wallpanel",
+      "es": "Wallpanel",
+      "pl": "Wallpanel",
+      "zh-cn": "Wallpanel"
     },
     "desc": {
       "en": "Wallpanel is a slim Android browser that still provides some information from the tablet via Http and Mqtt.",
-      "de": "Wallpanel ist ein schlanker Android Browser, der noch ein paar Informationen vom Tablet per Http und Mqtt zur Verfügung stellt."
+      "de": "Wallpanel ist ein schlanker Android Browser, der noch ein paar Informationen vom Tablet per Http und Mqtt zur Verfügung stellt.",
+      "ru": "Wallpanel - это строгий браузер Android, который все еще предоставляет некоторую информацию о планшете через Http и Mqtt.",
+      "pt": "Wallpanel é um navegador Android slim que ainda fornece algumas informações da mesa via Http e Mqtt.",
+      "nl": "Wallpanel is een slim Android browser die nog steeds enkele informatie van de tablet via Http en Mqtt biedt.",
+      "fr": "Wallpanel est un navigateur Android léger qui encore fournit quelques informations de la tablette via Http et Mqtt.",
+      "it": "Wallpanel è un browser Android leggero che ancora fornisce qualche informazione dalla tablet via Http e Mqtt.",
+      "es": "Wallpanel es un navegador Android ligera que aún proporciona algunas informaciones de la tablet via Http y Mqtt.",
+      "pl": "Wallpanel jest prosty przeglądarka Android, który nadal dostarcza niektóre informacje o tabletce za pośrednictwem Http i Mqtt.",
+      "zh-cn": "Wallpanel 是一个轻量级的 Android 浏览器，它仍然提供了一些信息来自平板的 Http 和 Mqtt。"
+
     },
     "authors": [
       "xXBJXx <issi.dev.iobroker@gmail.com>"
@@ -103,7 +119,6 @@
     "keywords": [
       "Wallpanel",
       "browser",
-      "ioBroker",
       "Tablet"
     ],
     "license": "MIT",
