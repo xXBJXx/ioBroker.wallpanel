@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "news": {
+      "0.3.6": {
+        "en": "preparation for release in Iobroker Repo. Adapter-Check issues processed",
+        "de": "Vorbereitung zur Veröffentlichung in Iobroker Repo. Adapter-Check-Probleme verarbeitet",
+        "ru": "подготовка к выпуску в Iobroker Repo. Проблемы с проверкой адаптера обработаны",
+        "pt": "preparação para lançamento no Iobroker Repo. Problemas de verificação de adaptador processados",
+        "nl": "voorbereiding voor release in Iobroker Repo. Problemen met adaptercontrole verwerkt",
+        "fr": "préparation pour la libération dans Iobroker Repo. Problèmes d'Adapter-Check traités",
+        "it": "preparazione per il rilascio in Iobroker Repo. Problemi di Adapter-Check elaborati",
+        "es": "preparación para el lanzamiento en Iobroker Repo. Problemas de verificación del adaptador procesados",
+        "pl": "przygotowania do wydania w Iobroker Repo. Przetworzono problemy ze sprawdzeniem karty",
+        "zh-cn": "准备在 Iobroker Repo 中发布。已处理的适配器检查问题"
+      },
       "0.3.5": {
         "en": "update Changelog and fixed type issues",
         "de": "Aktualisierung des Änderungsprotokolls und behobene Typprobleme",
@@ -74,18 +86,6 @@
         "es": "Interfaz de usuario de administrador reconstruida a una nueva interfaz de usuario de React\nactualice las dependencias y agregue nuevas dependencias para la nueva interfaz de usuario de React\nLimpieza de código\nagregó una consulta si el adaptador se está ejecutando en modo de depuración para no escribir tanto registro.\nla solicitud de las estadísticas MQTT reelaborada\nnuevo estado agregado [mjpegStream, conectado, json].\nnuevo comando agregado [configuración], con el que puede llamar a la página de configuración en el panel de pared.\nLa creación del estado de MQTT se ajustó un poco, de modo que la carpeta del sensor no se creó cuando MQTT se apagó\nfunción de eliminación agregada para eliminar dispositivos que ya no están configurados\nSe habilitó el código adaptado para la nueva interfaz de usuario de React [onMessage].\nactualizar README y fecha de licencia",
         "pl": "Interfejs administratora przebudowany do nowego interfejsu React\nzaktualizuj Zależności i dodaj nowe zależności dla nowego interfejsu React\nOczyszczanie kodu\ndodano zapytanie, czy adapter działa w trybie debugowania, aby nie zapisywać tak dużo dziennika.\nprośba o przerobienie statystyk MQTT\ndodany nowy stan [mjpegStream, podłączony, json].\ndodano nowe polecenie [ustawienia], za pomocą którego można wywołać stronę ustawień na panelu ściennym.\nTworzenie stanu MQTT zostało nieco dostosowane, aby folder czujnika nie został utworzony po wyłączeniu MQTT\ndodano funkcję usuwania do usuwania urządzeń, które nie są już skonfigurowane\nkod dostosowany do nowego interfejsu React UI [onMessage] został włączony.\nzaktualizuj README i datę licencji",
         "zh-cn": "Admin UI 重建为新的 React UI\n更新 Dependencies 并为新的 React UI 添加新的依赖项\n代码清理\n如果适配器在调试模式下运行，则添加一个查询以不写入太多日志。\n重新处理 MQTT 统计信息的请求\n添加了新状态 [mjpegStream, connected, json]。\n添加了新命令[设置]，您可以使用该命令调用墙板上的设置页面。\nMQTT 状态创建稍作调整，使 MQTT 关闭时未创建传感器文件夹\n添加删除功能以删除不再配置的设备\n启用了适用于新 React UI [onMessage] 的代码。\n更新自述文件和许可日期"
-      },
-      "0.2.0-0.0": {
-        "en": "Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencies updated\nSwitching Project from JavaScript to TypeScript\nfixed: issue #270 (wallpanel.0.kueche.lastInfoUpdate\" has to be type \"boolean\" but received type \"number\")",
-        "de": "Automatische Übersetzungen von gulp nach => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev) migriert\nAbhängigkeiten aktualisiert\nProject von JavaScript auf TypeScript umstellen\nBehoben: Issue #270 (wallpanel.0.kueche.lastInfoUpdate“ muss Typ „boolean“ sein, aber empfangener Typ „number“)",
-        "ru": "Автоматические переводы перенесены с gulp на => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nзависимости обновлены\nПереключение проекта с JavaScript на TypeScript\nисправлено: проблема #270 (wallpanel.0.kueche.lastInfoUpdate должен иметь тип \"boolean\", но получен тип \"number\")",
-        "pt": "Traduções automáticas migradas de gulp para => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependências atualizadas\nMudando o projeto de JavaScript para TypeScript\ncorrigido: problema #270 (wallpanel.0.kueche.lastInfoUpdate\" deve ser do tipo \"boolean\", mas recebeu o tipo \"number\")",
-        "nl": "Automatische vertalingen gemigreerd van gulp naar => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nafhankelijkheden bijgewerkt\nProject overschakelen van JavaScript naar TypeScript\nopgelost: probleem #270 (wallpanel.0.kueche.lastInfoUpdate\" moet het type \"boolean\" zijn, maar het type \"nummer\" ontvangen)",
-        "fr": "Traductions automatiques migrées de gulp vers => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndépendances mises à jour\nPassage du projet de JavaScript à TypeScript\ncorrigé : problème #270 (wallpanel.0.kueche.lastInfoUpdate\" doit être de type \"booléen\" mais a reçu le type \"numéro\")",
-        "it": "Traduzioni automatiche migrate da gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndipendenze aggiornate\nPassaggio da un progetto JavaScript a TypeScript\nrisolto: problema n. 270 (wallpanel.0.kueche.lastInfoUpdate\" deve essere di tipo \"boolean\" ma ricevuto di tipo \"number\")",
-        "es": "Las traducciones automáticas migraron de gulp a => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\ndependencias actualizadas\nCambiar proyecto de JavaScript a TypeScript\nsolucionado: el problema n. ° 270 (wallpanel.0.kueche.lastInfoUpdate\" debe ser del tipo \"booleano\" pero recibió el tipo \"número\")",
-        "pl": "Automatyczne tłumaczenia przeniesione z gulp do => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\nzaktualizowano zależności\nPrzełączanie projektu z JavaScript na TypeScript\nnaprawiono: problem #270 (wallpanel.0.kueche.lastInfoUpdate\" musi być typu \"boolean\", ale otrzymany typ \"number\")",
-        "zh-cn": "自动翻译从 gulp 迁移到 => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)\n已更新依赖项\n将项目从 JavaScript 切换到 TypeScript\n已修复：问题 #270（wallpanel.0.kueche.lastInfoUpdate”必须是“boolean”类型但接收到“number”类型）"
       }
     },
     "titleLang": {
@@ -111,7 +111,6 @@
       "es": "Wallpanel es un navegador Android ligera que aún proporciona algunas informaciones de la tablet via Http y Mqtt.",
       "pl": "Wallpanel jest prosty przeglądarka Android, który nadal dostarcza niektóre informacje o tabletce za pośrednictwem Http i Mqtt.",
       "zh-cn": "Wallpanel 是一个轻量级的 Android 浏览器，它仍然提供了一些信息来自平板的 Http 和 Mqtt。"
-
     },
     "authors": [
       "xXBJXx <issi.dev.iobroker@gmail.com>"

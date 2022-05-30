@@ -53,7 +53,7 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-### __WORK IN PROGRESS__
+### 0.3.6 (2022-05-30)
 * (xXBJXx) preparation for release in Iobroker Repo. Adapter-Check issues processed
 
 ### 0.3.5 (2022-05-30)
@@ -81,11 +81,6 @@ Sentry Reporting is used from js-controller 3.0.
 * (xXBJXx) Switching Project from JavaScript to TypeScript
 * (xXBJXx) fixed: [(issue #270)](https://github.com/xXBJXx/ioBroker.wallpanel/issues/270)
 *
-
-### 0.1.7-0 (2021-09-06)
-* (xXBJXx) test-and-release.yml update
-* (xXBJXx) dependencies update
-* (xXBJXx) check of the created state structure added
 
 ## License
 MIT License

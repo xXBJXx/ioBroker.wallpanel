@@ -1,4 +1,9 @@
 # Older changes
+## 0.1.7-0 (2021-09-06)
+* (xXBJXx) test-and-release.yml update
+* (xXBJXx) dependencies update
+* (xXBJXx) check of the created state structure added
+
 ## 0.1.6-0 (2021-02-26)
 * (xXBJXx) README edited and deleted unused images
 * (xXBJXx) add MQTT Instance select and remove state delete
