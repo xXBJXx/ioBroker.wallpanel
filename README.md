@@ -14,11 +14,11 @@
 **This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
 More details see below! [Sentry](#sentry)**
 
-A detailed description can be found [Adapter Documentation](http://localhost:8080/de/wallpanel)
+## **A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/wallpanel/)**
 
 # Adapter Description
 
-![](admin/media/wallpanelAdapter.png)
+![wallpanelAdapter](admin/media/wallpanelAdapter.png)
 
 With the adapter, you can query a few values such as brightness and about MQTT then still additionally battery level
 and a few more things, <br> query these values written in states and are available.<br>
