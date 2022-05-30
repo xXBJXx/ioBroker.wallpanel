@@ -1,4 +1,11 @@
 # Older changes
+## 0.1.5-0 (2021-01-27)
+* (xXBJXx) Update dependabot.yml and test-and-release.yml
+* (xXBJXx) Dependency updates
+* (xXBJXx) README revised and added Documentation link and LICENSE updated
+* (xXBJXx) Code Optimization
+* (xXBJXx) config page style customized
+
 ## 0.1.4-beta.4 (2020-10-08)
 * (xXBJXx) README change
 

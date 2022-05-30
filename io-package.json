@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "news": {
+      "0.3.1": {
+        "en": "update Dependencies",
+        "de": "Abhängigkeiten aktualisieren",
+        "ru": "обновить зависимости",
+        "pt": "atualizar dependências",
+        "nl": "update afhankelijkheden",
+        "fr": "mettre à jour les dépendances",
+        "it": "aggiornare le dipendenze",
+        "es": "actualizar dependencias",
+        "pl": "zaktualizuj zależności",
+        "zh-cn": "更新依赖"
+      },
       "0.3.0": {
         "en": "Admin UI rebuilt to a new React UI\nupdate Dependencies and add new dependencies for the new React UI\nCode cleanup\nadded a query if the adapter is running in debug mode to not write so much log.\nthe request for the MQTT stats reworked\nnew state added [mjpegStream, connected, json].\nnew command added [settings], with which you can call the settings page on the wallpanel.\nMQTT state creation adjusted a bit, so that the sensor folder not created when MQTT switched off\ndelete function added to delete devices that are not configured anymore\ncode adapted for the new React UI [onMessage] was enabled.\nupdate README and Licence date",
         "de": "Die Admin-Benutzeroberfläche wurde zu einer neuen React-Benutzeroberfläche umgebaut\nAktualisieren Sie Abhängigkeiten und fügen Sie neue Abhängigkeiten für die neue React-Benutzeroberfläche hinzu\nCode-Bereinigung\neine Abfrage hinzugefügt, ob der Adapter im Debug-Modus läuft, um nicht so viel Protokoll zu schreiben.\ndie Anfrage für die MQTT-Statistiken überarbeitet\nNeuer Zustand hinzugefügt [mjpegStream, verbunden, json].\nneuer Befehl hinzugefügt [settings], mit dem man die Einstellungsseite auf dem Wallpanel aufrufen kann.\nDie MQTT-Zustandserstellung wurde etwas angepasst, sodass der Sensorordner nicht erstellt wird, wenn MQTT ausgeschaltet wird\nLöschfunktion hinzugefügt, um nicht mehr konfigurierte Geräte zu löschen\nCode, der für die neue React-Benutzeroberfläche [onMessage] angepasst wurde, wurde aktiviert.\nUpdate README und Lizenzdatum",
@@ -74,18 +86,6 @@
         "es": "README cambio",
         "pl": "README zmiana",
         "zh-cn": "自述更改"
-      },
-      "0.1.4-beta.3": {
-        "en": "Test and Release.yml change",
-        "de": "Test und Release.yml ändern",
-        "ru": "Test и Release.yml изменение",
-        "pt": "Mudança de teste e Release.yml",
-        "nl": "Test en Release.yml wijzigen",
-        "fr": "Modification de Test and Release.yml",
-        "it": "Test e Release.yml cambiamento",
-        "es": "Prueba y cambio Release.yml",
-        "pl": "Test i zmiana Release.yml",
-        "zh-cn": "测试和Release.yml更改"
       }
     },
     "title": "Wallpanel",
