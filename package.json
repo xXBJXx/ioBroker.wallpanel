@@ -54,7 +54,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
-    "iobroker-react": "https://github.com/AlCalzone/iobroker-react",
+    "iobroker-react": "git+https://git@github.com/AlCalzone/iobroker-react.git",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "prettier": "^2.6.2",
