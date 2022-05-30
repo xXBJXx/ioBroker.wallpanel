@@ -2,12 +2,10 @@
   "name": "iobroker.wallpanel",
   "version": "0.3.4",
   "description": "wallpanel",
-  "contributors": [
-    {
+  "author": {
       "name": "xXBJXx",
       "email": "issi.dev.iobroker@gmail.com"
-    }
-  ],
+    },
   "homepage": "https://github.com/xXBJXx/ioBroker.wallpanel",
   "license": "MIT",
   "keywords": [

@@ -19,12 +19,7 @@ export interface MqttProps {
 }
 
 let timeout: NodeJS.Timeout | null = null;
-export const Mqtt: React.FC<MqttProps> = ({
-	onChange,
-	settings,
-	mqttInstance,
-	mqttActive,
-}): JSX.Element => {
+export const Mqtt: React.FC<MqttProps> = ({ onChange, settings, mqttInstance, mqttActive }): JSX.Element => {
 	const { translate: _ } = useI18n();
 	const [mqttAvailable, setMqttAvailable] = useState<boolean>(false);
 	const [selectWidth, setSelectWidth] = useState<number>(170);
@@ -108,9 +103,7 @@ export const Mqtt: React.FC<MqttProps> = ({
 							labelId="mqtt-enabled-select-label"
 							id="mqtt-enabled-select"
 							value={
-								settings.enabledMqtt === undefined
-									? 'false'
-									: settings.enabledMqtt.toString()
+								settings.enabledMqtt === undefined ? 'false' : settings.enabledMqtt.toString()
 							}
 							label={_('enabledMQTT')}
 							sx={{

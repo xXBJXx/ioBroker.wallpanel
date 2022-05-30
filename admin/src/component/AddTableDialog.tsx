@@ -125,9 +125,7 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 		}
 	};
 
-	const handleChangeName = (
-		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-	): void => {
+	const handleChangeName = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
 		const newName: string = event.target.value;
 
 		if (newName !== '') {
@@ -234,9 +232,7 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 					<FormControl variant="outlined">
 						<Tooltip title={_('tooltipEnabled')} arrow placement={'right'}>
 							<FormControl fullWidth sx={{ marginLeft: 2, minWidth: 110 }}>
-								<InputLabel id="tablet-enabled-select-label">
-									{_('tabletEnabled')}
-								</InputLabel>
+								<InputLabel id="tablet-enabled-select-label">{_('tabletEnabled')}</InputLabel>
 								<Select
 									labelId="tablet-enabled-select-label"
 									id="tablet-enabled-select"

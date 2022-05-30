@@ -86,11 +86,7 @@ export const SettingPage: React.FC<SettingPageProps> = ({
 					mqttActive={(value) => setMqttEnabled(value)}
 				/>
 			</Grid>
-			<Grid
-				container
-				spacing={0}
-				sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}
-			>
+			<Grid container spacing={0} sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
 				<React.Fragment>
 					<AddModal
 						alive={alive}

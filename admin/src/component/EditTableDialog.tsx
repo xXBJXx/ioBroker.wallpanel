@@ -41,9 +41,6 @@ export const EditTableDialog: React.FC<RowProps> = ({ newRow, valid, oldRow, mqt
 	const [ip, setIp] = useState<string>(oldRow.ip);
 	const [port, setPort] = useState<number>(oldRow.port);
 	const [topic, setTopic] = useState<string>(oldRow.topic ? oldRow.topic : '');
-	const [topicComplete, setTopicComplete] = useState<string[]>([
-		oldRow.topic ? oldRow.topic : 'wallpanel/',
-	]);
 	const [enabled, setEnabled] = useState<boolean>(oldRow.enabled);
 	const [mqttEnabled, setMqttEnabled] = useState<boolean>(oldRow.mqttEnabled);
 	const [newEditRow, setNewRow] = useState<ioBroker.Devices>(oldRow);
@@ -289,7 +286,8 @@ export const EditTableDialog: React.FC<RowProps> = ({ newRow, valid, oldRow, mqt
 									<Autocomplete
 										id="Edit-mqtt-topic-complete"
 										freeSolo
-										options={topicComplete}
+										//										options={topicComplete}
+										options={[oldRow.topic ? oldRow.topic : 'wallpanel/']}
 										value={topic}
 										renderInput={(params) => (
 											<TextField
