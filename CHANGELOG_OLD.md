@@ -4,7 +4,6 @@
 * (xXBJXx) dependencies updated
 * (xXBJXx) Switching Project from JavaScript to TypeScript
 * (xXBJXx) fixed: [(issue #270)](https://github.com/xXBJXx/ioBroker.wallpanel/issues/270)
-*
 
 ## 0.1.7-0 (2021-09-06)
 * (xXBJXx) test-and-release.yml update

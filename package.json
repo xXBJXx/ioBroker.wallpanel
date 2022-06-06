@@ -19,7 +19,7 @@
     "url": "https://github.com/xXBJXx/ioBroker.wallpanel"
   },
   "engines": {
-    "node": ">=15.0.0"
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0"

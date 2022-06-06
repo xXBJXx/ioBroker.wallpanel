@@ -14,7 +14,7 @@
 **This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
 More details see below! [Sentry](#sentry)**
 
-## The adapter requires a Node.js version >= 15.x
+## The adapter requires a Node.js version >= 16.x
 
 ## **A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/wallpanel/)**
 
@@ -56,7 +56,7 @@ Sentry Reporting is used from js-controller 3.0.
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
 ### 0.3.7 (2022-06-06)
-* (xXBJXx) Node version support set to >= v15.x.x because of new features of Node.js that are needed.
+* (xXBJXx) Node version support set to >= v16.x because of new features of Node.js that are needed.
 * (xXBJXx) fixed mqtt topic Display Direction
 
 ### 0.3.6 (2022-05-30)
