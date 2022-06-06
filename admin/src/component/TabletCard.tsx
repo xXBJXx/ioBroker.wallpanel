@@ -159,6 +159,7 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 					justifyContent: 'center',
 					alignItems: 'center',
 					flexWrap: 'wrap',
+					flexDirection: 'column',
 				}}
 			>
 				{mqtt.mqttEnabled && mqtt.mqttAvailable ? (
