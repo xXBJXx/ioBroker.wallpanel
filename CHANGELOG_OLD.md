@@ -1,4 +1,11 @@
 # Older changes
+## 0.2.0-0.0 (2022-03-28)
+* (xXBJXx) Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)
+* (xXBJXx) dependencies updated
+* (xXBJXx) Switching Project from JavaScript to TypeScript
+* (xXBJXx) fixed: [(issue #270)](https://github.com/xXBJXx/ioBroker.wallpanel/issues/270)
+*
+
 ## 0.1.7-0 (2021-09-06)
 * (xXBJXx) test-and-release.yml update
 * (xXBJXx) dependencies update

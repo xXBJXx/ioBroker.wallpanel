@@ -55,9 +55,9 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-### __WORK IN PROGRESS__
+### 0.3.7 (2022-06-06)
 * (xXBJXx) Node version support set to >= v15.x.x because of new features of Node.js that are needed.
-* (xXBJXx) fixed mqtt topic Display Direction 
+* (xXBJXx) fixed mqtt topic Display Direction
 
 ### 0.3.6 (2022-05-30)
 * (xXBJXx) preparation for release in Iobroker Repo. Adapter-Check issues processed
@@ -80,13 +80,6 @@ Sentry Reporting is used from js-controller 3.0.
     * delete function added to delete devices that are not configured anymore
     * code adapted for the new React UI [onMessage] was enabled.
 * (xXBJXx) update README and Licence date
-
-### 0.2.0-0.0 (2022-03-28)
-* (xXBJXx) Automatic translations migrated from gulp to => [iobroker/adapter-dev](https://github.com/ioBroker/adapter-dev)
-* (xXBJXx) dependencies updated
-* (xXBJXx) Switching Project from JavaScript to TypeScript
-* (xXBJXx) fixed: [(issue #270)](https://github.com/xXBJXx/ioBroker.wallpanel/issues/270)
-*
 
 ## License
 MIT License
