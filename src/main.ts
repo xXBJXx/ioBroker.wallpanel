@@ -39,7 +39,8 @@ const qrcodeObjects = object_mqttQrcode_definitions;
 
 let logLevel: ioBroker.StateValue = 'info';
 let requestTimeout: NodeJS.Timeout | null = null;
-let abortController: AbortController | null = null;
+//let abortController: AbortController | null = null;
+const abortController: AbortController = new AbortController();
 let interval = 30;
 let mqttInstalled = false;
 let mqttEnabled = false;
@@ -1382,7 +1383,7 @@ class Wallpanel extends utils.Adapter {
 			if (typeof obj === 'object' && obj.message) {
 				if (obj.command === 'add' || obj.command === 'edit') {
 					const deviceObj = obj.message as ioBroker.Devices;
-					abortController = new AbortController();
+
 					await axios
 						.get(`http://${deviceObj.ip}:${deviceObj.port}/api/state`, {
 							timeout: 15000,

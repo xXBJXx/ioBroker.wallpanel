@@ -46,7 +46,7 @@ const faceObjects = import_object_definition.object_mqttFace_definitions;
 const qrcodeObjects = import_object_definition.object_mqttQrcode_definitions;
 let logLevel = "info";
 let requestTimeout = null;
-let abortController = null;
+const abortController = new AbortController();
 let interval = 30;
 let mqttInstalled = false;
 let mqttEnabled = false;
@@ -1042,7 +1042,6 @@ class Wallpanel extends utils.Adapter {
       if (typeof obj === "object" && obj.message) {
         if (obj.command === "add" || obj.command === "edit") {
           const deviceObj = obj.message;
-          abortController = new AbortController();
           await import_axios.default.get(`http://${deviceObj.ip}:${deviceObj.port}/api/state`, {
             timeout: 15e3,
             timeoutErrorMessage: `Device: ${deviceObj.name} with ip: ${deviceObj.ip} takes too long to respond to the request => timeout`,
