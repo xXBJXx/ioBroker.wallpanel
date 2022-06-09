@@ -28,7 +28,11 @@ One can also send a few control commands to the tablet, it can e.g., the brightn
 
 Several tablets can be set in the adapter at the same time, which can then queried one after the other and can of course also be controlled.
 
-[Wallpanel app Google Play Store](https://play.google.com/store/apps/details?id=com.thanksmister.iot.wallpanel&hl=de)
+The app is no longer available in the Play Store, but you can still install it from GitHub via an APK
++ original (Play Store version) ⇨ [old version](https://github.com/thecowan/wallpanel-android/releases) is not under further development
++ new version in currently only on GitHub ⇨ [new version](https://github.com/TheTimeWalker/wallpanel-android/releases) is under further development.
+
+### **Attention, if you install an app from GitHub, then you install it "from an unknown source" this can be dangerous under certain circumstances because the app has not been checked for malware by any official source.**
 
 Here is still the forum thread to this Adapter: [Forum Post](https://forum.iobroker.net/topic/36438/test-adapter-wallpanel)
 
@@ -55,6 +59,9 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
+### __WORK IN PROGRESS__
+* (xXBJXx) removed the play Store Link and added the GitHub Link to the new version and add a Warning for the Installer from GitHub.
+
 ### 0.3.7 (2022-06-06)
 * (xXBJXx) Node version support set to >= v16.x because of new features of Node.js that are needed.
 * (xXBJXx) fixed mqtt topic Display Direction
