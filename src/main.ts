@@ -123,6 +123,7 @@ class Wallpanel extends utils.Adapter {
 			}
 
 			if (logLevel === 'debug') this.log.debug(`prepare adapter for initialization`);
+
 			// polling min 10 sec.
 			interval = this.config.interval * 1000;
 			if (interval < 10000) {
@@ -138,93 +139,103 @@ class Wallpanel extends utils.Adapter {
 				(Array.isArray(devices) && devices['length'] !== 0)
 			) {
 				for (const i in devices) {
-					const name = devices[i]['name'];
-					device_ip[i] = devices[i]['ip'];
-					port[i] = devices[i]['port'];
-					deviceEnabled[i] = devices[i]['enabled'];
-					mqttInstalled = this.config.mqttInstalled;
-					mqttEnabled = this.config.enabledMqtt;
-					mqttInstance = this.config.mqttInstance;
-					tabletMqttEnabled[i] = devices[i]['mqttEnabled'];
-					connectionState[i] = false;
-					if (devices[i]['topic'] !== '') {
-						mqttPath[i] = `${mqttInstance}.${devices[i]['topic'].replace('/', '.')}`;
-					} else {
-						mqttPath[i] = 'undefined';
-					}
-
-					if (logLevel === 'debug') this.log.debug(`initialization Ip for ${name}: ${ip[i]}`);
-					if (logLevel === 'debug') this.log.debug(`initialization port for ${name}: ${port[i]}`);
-					if (logLevel === 'debug')
-						this.log.debug(`initialization deviceEnabled for ${name}: ${deviceEnabled[i]}`);
-					if (logLevel === 'debug') this.log.debug(`initialization tabletName: ${name}`);
-					if (logLevel === 'debug')
-						this.log.debug(`initialization mqttInstalled: ${mqttInstalled}`);
-					if (logLevel === 'debug') this.log.debug(`initialization mqttEnabled: ${mqttEnabled}`);
-					if (logLevel === 'debug') this.log.debug(`initialization mqttInstance: ${mqttInstance}`);
-					if (logLevel === 'debug')
-						this.log.debug(`initialization mqttPaths for ${name}: ${mqttPath}`);
-					if (logLevel === 'debug')
-						this.log.debug(
-							`initialization tabletMqttEnabled for ${name}: ${tabletMqttEnabled[i]}`,
-						);
-
-					for (const mqttPathKey in mqttPath) {
-						if (mqttPath[mqttPathKey] !== 'undefined' && tabletMqttEnabled[i]) {
-							this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`);
-							this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.face`);
+					if (devices.hasOwnProperty(i)) {
+						const name = devices[i]['name'];
+						device_ip[i] = devices[i]['ip'];
+						port[i] = devices[i]['port'];
+						deviceEnabled[i] = devices[i]['enabled'];
+						mqttInstalled = this.config.mqttInstalled;
+						mqttEnabled = this.config.enabledMqtt;
+						mqttInstance = this.config.mqttInstance;
+						tabletMqttEnabled[i] = devices[i]['mqttEnabled'];
+						connectionState[i] = false;
+						if (devices[i]['topic'] !== '') {
+							mqttPath[i] = `${mqttInstance}.${devices[i]['topic'].replace('/', '.')}`;
 						} else {
-							if (logLevel === 'debug')
-								this.log.debug(
-									`[ mqttSubscribeMotion ] mqtt Topic for ${name} with ip ${device_ip[i]} is not set`,
-								);
+							mqttPath[i] = 'undefined';
 						}
-					}
 
-					if (logLevel === 'debug')
-						this.log.debug(`Check whether the IP address is available for the ${name}`);
-					deviceEnabled[i] = device_ip[i] !== '' && deviceEnabled[i];
-					if (device_ip[i] === '') this.log.warn(`${name} has no ip address device is not queried`);
-
-					if (device_ip[i] !== undefined || device_ip[i] !== '') {
-						const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/; //regex from https://regex101.com/library/ChFXjy
-
-						if (device_ip[i].match(ipRegex)) {
-							// valid
-							ip[i] = device_ip[i];
-						} else {
-							// invalid
-							this.log.warn('No Permitted Ip Address');
-							deviceEnabled[i] = false;
-						}
-					}
-					requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
-					sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
-
-					if (logLevel === 'debug') this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
-					if (logLevel === 'debug') this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
-
-					if (logLevel === 'debug')
-						this.log.debug(`it is checked whether the name of the device is entered`);
-					// Prepare tablet name
-					if (name !== '') {
+						if (logLevel === 'debug') this.log.debug(`initialization Ip for ${name}: ${ip[i]}`);
 						if (logLevel === 'debug')
-							this.log.debug(`the name of the device is entered and is used --> ${name}`);
-						tabletName[i] = <string>await replaceFunktion(name);
-						adapterIDs[i] = `${this.namespace}.${tabletName[i]}`;
-					} else if (deviceEnabled[i]) {
+							this.log.debug(`initialization port for ${name}: ${port[i]}`);
+						if (logLevel === 'debug')
+							this.log.debug(`initialization deviceEnabled for ${name}: ${deviceEnabled[i]}`);
+						if (logLevel === 'debug') this.log.debug(`initialization tabletName: ${name}`);
+						if (logLevel === 'debug')
+							this.log.debug(`initialization mqttInstalled: ${mqttInstalled}`);
+						if (logLevel === 'debug')
+							this.log.debug(`initialization mqttEnabled: ${mqttEnabled}`);
+						if (logLevel === 'debug')
+							this.log.debug(`initialization mqttInstance: ${mqttInstance}`);
+						if (logLevel === 'debug')
+							this.log.debug(`initialization mqttPaths for ${name}: ${mqttPath}`);
 						if (logLevel === 'debug')
 							this.log.debug(
-								`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`,
+								`initialization tabletMqttEnabled for ${name}: ${tabletMqttEnabled[i]}`,
 							);
-						tabletName[i] = <string>await replaceFunktion(ip[i]);
+
+						for (const mqttPathKey in mqttPath) {
+							if (mqttPath.hasOwnProperty(mqttPathKey)) {
+								if (mqttPath[mqttPathKey] !== 'undefined' && tabletMqttEnabled[i]) {
+									this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`);
+									this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.face`);
+								} else {
+									if (logLevel === 'debug')
+										this.log.debug(
+											`[ mqttSubscribeMotion ] mqtt Topic for ${name} with ip ${device_ip[i]} is not set`,
+										);
+								}
+							}
+						}
+
+						if (logLevel === 'debug')
+							this.log.debug(`Check whether the IP address is available for the ${name}`);
+						deviceEnabled[i] = device_ip[i] !== '' && deviceEnabled[i];
+						if (device_ip[i] === '')
+							this.log.warn(`${name} has no ip address device is not queried`);
+
+						if (device_ip[i] !== undefined || device_ip[i] !== '') {
+							const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/; //regex from https://regex101.com/library/ChFXjy
+
+							if (device_ip[i].match(ipRegex)) {
+								// valid
+								ip[i] = device_ip[i];
+							} else {
+								// invalid
+								this.log.warn('No Permitted Ip Address');
+								deviceEnabled[i] = false;
+							}
+						}
+						requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
+						sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
+
+						if (logLevel === 'debug')
+							this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
+						if (logLevel === 'debug') this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
+
+						if (logLevel === 'debug')
+							this.log.debug(`it is checked whether the name of the device is entered`);
+						// Prepare tablet name
+						if (name !== '') {
+							if (logLevel === 'debug')
+								this.log.debug(`the name of the device is entered and is used --> ${name}`);
+							tabletName[i] = <string>await replaceFunktion(name);
+							adapterIDs[i] = `${this.namespace}.${tabletName[i]}`;
+						} else if (deviceEnabled[i]) {
+							if (logLevel === 'debug')
+								this.log.debug(
+									`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`,
+								);
+							tabletName[i] = <string>await replaceFunktion(ip[i]);
+						}
+						if (logLevel === 'debug')
+							this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
 					}
-					if (logLevel === 'debug')
-						this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
 				}
 
 				this.setState('info.connection', true, true);
 				this.log.info(`Adapter has been fully initialized`);
+				this.log.info(`installed Adapter Version ${this.common.version}`);
 			} else {
 				deviceEnabled[1] = false;
 			}
@@ -242,114 +253,119 @@ class Wallpanel extends utils.Adapter {
 				(Array.isArray(requestUrl) && requestUrl['length'] !== 0)
 			) {
 				for (const i in requestUrl) {
-					if (deviceEnabled[i]) {
-						if (logLevel === 'debug') this.log.debug(`device: ${tabletName[i]} enabled`);
-						if (logLevel === 'debug') this.log.debug(`API request started ...`);
+					if (requestUrl.hasOwnProperty(i)) {
+						if (deviceEnabled[i]) {
+							if (logLevel === 'debug') this.log.debug(`device: ${tabletName[i]} enabled`);
+							if (logLevel === 'debug') this.log.debug(`API request started ...`);
 
-						// Try to reach API and receive data
-						await axios
-							.get(requestUrl[i])
-							.then(async (apiResult: { [x: string]: any }): Promise<void> => {
-								if (apiResult['status'] === 200) {
-									if (logLevel === 'debug')
-										this.log.debug(
-											`API request ended successfully --> result from api Request: ${JSON.stringify(
-												apiResult['data'],
-											)}`,
-										);
+							// Try to reach API and receive data
+							await axios
+								.get(requestUrl[i])
+								.then(async (apiResult: { [x: string]: any }): Promise<void> => {
+									if (apiResult['status'] === 200) {
+										if (logLevel === 'debug')
+											this.log.debug(
+												`API request ended successfully --> result from api Request: ${JSON.stringify(
+													apiResult['data'],
+												)}`,
+											);
 
-									// check if mqtt is turned on and installed, if yes then mqtt data request
-									if (mqttEnabled && mqttInstalled && tabletMqttEnabled[i]) {
-										if (logLevel === 'debug') this.log.debug(`requesting data from mqtt`);
-										await this.mqttRequest(parseInt(i));
-									}
+										// check if mqtt is turned on and installed, if yes then mqtt data request
+										if (mqttEnabled && mqttInstalled && tabletMqttEnabled[i]) {
+											if (logLevel === 'debug')
+												this.log.debug(`requesting data from mqtt`);
+											await this.mqttRequest(parseInt(i));
+										}
 
-									// create an object with the data from the API request and all required objects
-									if (logLevel === 'debug')
-										this.log.debug(
-											`State Create is now running for ${tabletName[i]} ...`,
-										);
-									await this.create_State(apiResult, parseInt(i));
+										// create an object with the data from the API request and all required objects
+										if (logLevel === 'debug')
+											this.log.debug(
+												`State Create is now running for ${tabletName[i]} ...`,
+											);
+										await this.create_State(apiResult, parseInt(i));
 
-									// check if all objects are still needed and delete them if necessary
-									if (logLevel === 'debug')
-										this.log.debug(`checking whether all objects are needed`);
-									await this.deleteFunction();
+										// check if all objects are still needed and delete them if necessary
+										if (logLevel === 'debug')
+											this.log.debug(`checking whether all objects are needed`);
+										await this.deleteFunction();
 
-									// write the data into the created states
+										// write the data into the created states
 
-									await this.state_write(apiResult, parseInt(i));
+										await this.state_write(apiResult, parseInt(i));
 
-									// set the last request time
-									await this.setStateAsync(`${tabletName[i]}.lastInfoUpdate`, {
-										val: Date.now(),
-										ack: true,
-									});
-									if (logLevel === 'debug')
-										this.log.debug(`The last update of the state was on: ${Date.now()}`);
+										// set the last request time
+										await this.setStateAsync(`${tabletName[i]}.lastInfoUpdate`, {
+											val: Date.now(),
+											ack: true,
+										});
+										if (logLevel === 'debug')
+											this.log.debug(
+												`The last update of the state was on: ${Date.now()}`,
+											);
 
-									// set the connection state to true
-									await this.setStateAsync(`${tabletName[i]}.connected`, {
-										val: true,
-										ack: true,
-									});
-									connectionState[i] = true;
-									if (logLevel === 'debug')
-										this.log.debug(`The connection state was set to true`);
+										// set the connection state to true
+										await this.setStateAsync(`${tabletName[i]}.connected`, {
+											val: true,
+											ack: true,
+										});
+										connectionState[i] = true;
+										if (logLevel === 'debug')
+											this.log.debug(`The connection state was set to true`);
 
-									// clear log message timer
-									if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
-									if (logLevel === 'debug')
-										this.log.debug(
-											`logMessageTimer for ${tabletName[i]} will be deleted`,
-										);
-									logMessage[i] = false;
-									if (logLevel === 'debug')
-										this.log.debug(
-											`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
-										);
-								}
-							})
-							.catch(async (error: any): Promise<void> => {
-								if (!logMessage[i]) {
-									logMessage[i] = true;
-									if (logLevel === 'debug')
-										this.log.debug(
-											`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
-										);
-									// set connection state to false
-									this.setState(`${tabletName[i]}.connected`, {
-										val: false,
-										ack: true,
-									});
-									connectionState[i] = false;
-									this.log.error(
-										`[Request] ${tabletName[i]} Unable to contact: ${error} | ${error}`,
-									);
-								} else if (!logMessageTimer[i]) {
-									if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
-									if (logLevel === 'debug')
-										this.log.debug(
-											`logMessageTimer for ${tabletName[i]} will be deleted`,
-										);
-
-									if (logLevel === 'debug')
-										this.log.debug(
-											`set logMessageTimer for ${tabletName[i]} to ${
-												3600000 / 60000
-											} min`,
-										);
-									logMessageTimer[i] = setTimeout(async () => {
+										// clear log message timer
+										if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
+										if (logLevel === 'debug')
+											this.log.debug(
+												`logMessageTimer for ${tabletName[i]} will be deleted`,
+											);
 										logMessage[i] = false;
 										if (logLevel === 'debug')
 											this.log.debug(
 												`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
 											);
-									}, 3600000);
-								}
-							});
-					} else {
-						await this.deleteFunction();
+									}
+								})
+								.catch(async (error: any): Promise<void> => {
+									if (!logMessage[i]) {
+										logMessage[i] = true;
+										if (logLevel === 'debug')
+											this.log.debug(
+												`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
+											);
+										// set connection state to false
+										this.setState(`${tabletName[i]}.connected`, {
+											val: false,
+											ack: true,
+										});
+										connectionState[i] = false;
+										this.log.error(
+											`[Request] ${tabletName[i]} Unable to contact: ${error} | ${error}`,
+										);
+									} else if (!logMessageTimer[i]) {
+										if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
+										if (logLevel === 'debug')
+											this.log.debug(
+												`logMessageTimer for ${tabletName[i]} will be deleted`,
+											);
+
+										if (logLevel === 'debug')
+											this.log.debug(
+												`set logMessageTimer for ${tabletName[i]} to ${
+													3600000 / 60000
+												} min`,
+											);
+										logMessageTimer[i] = setTimeout(async () => {
+											logMessage[i] = false;
+											if (logLevel === 'debug')
+												this.log.debug(
+													`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
+												);
+										}, 3600000);
+									}
+								});
+						} else {
+							await this.deleteFunction();
+						}
 					}
 				}
 				if (logLevel === 'debug') this.log.debug(`set requestTimeout to ${interval / 1000} sec`);
@@ -374,25 +390,27 @@ class Wallpanel extends utils.Adapter {
 		mqttObj = [];
 
 		for (const i in mqttAttribute) {
-			if (mqttPath[index] !== 'undefined') {
-				const mqttState: ioBroker.State | null | undefined = await this.getForeignStateAsync(
-					`${mqttPath[index]}.sensor.${mqttAttribute[i]}`,
-				);
+			if (mqttAttribute.hasOwnProperty(i)) {
+				if (mqttPath[index] !== 'undefined') {
+					const mqttState: ioBroker.State | null | undefined = await this.getForeignStateAsync(
+						`${mqttPath[index]}.sensor.${mqttAttribute[i]}`,
+					);
 
-				if (mqttState) {
-					if (mqttObj) {
-						if (typeof mqttState.val === 'string') {
-							mqttObj.push(<{ [key: string]: any }>{
-								[`${mqttAttribute[i]}`]: JSON.parse(mqttState.val),
-							});
+					if (mqttState) {
+						if (mqttObj) {
+							if (typeof mqttState.val === 'string') {
+								mqttObj.push(<{ [key: string]: any }>{
+									[`${mqttAttribute[i]}`]: JSON.parse(mqttState.val),
+								});
+							}
 						}
 					}
+				} else {
+					if (logLevel === 'debug')
+						this.log.debug(
+							`[ mqttRequest ] mqtt Topic for ${tabletName[index]} with ip ${device_ip[index]} is not set`,
+						);
 				}
-			} else {
-				if (logLevel === 'debug')
-					this.log.debug(
-						`[ mqttRequest ] mqtt Topic for ${tabletName[index]} with ip ${device_ip[index]} is not set`,
-					);
 			}
 		}
 		if (logLevel === 'debug') this.log.debug(`MQTT states were obtained`);
@@ -405,11 +423,13 @@ class Wallpanel extends utils.Adapter {
 				this.log.debug(`Preparation for the state write for ${tabletName[index]} ....`);
 			if (logLevel === 'debug') this.log.debug(`stats are written now`);
 			let mqttJsonObj = {};
-			for (const Key in res.data) {
-				await this.setStateAsync(`${tabletName[index]}.${Key}`, {
-					val: res.data[Key],
-					ack: true,
-				});
+			for (const key in res.data) {
+				if (res.data.hasOwnProperty(key)) {
+					await this.setStateAsync(`${tabletName[index]}.${key}`, {
+						val: res.data[key],
+						ack: true,
+					});
+				}
 			}
 			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[1]}`, {
 				val: ip[index],
@@ -421,11 +441,13 @@ class Wallpanel extends utils.Adapter {
 			});
 
 			for (const mqttObjKey in mqttObj) {
-				mqttJsonObj = {
-					...mqttJsonObj,
-					[`${Object.keys(mqttObj[mqttObjKey])[0]}`]:
-						mqttObj[mqttObjKey][Object.keys(mqttObj[mqttObjKey])[0]],
-				};
+				if (mqttObj.hasOwnProperty(mqttObjKey)) {
+					mqttJsonObj = {
+						...mqttJsonObj,
+						[`${Object.keys(mqttObj[mqttObjKey])[0]}`]:
+							mqttObj[mqttObjKey][Object.keys(mqttObj[mqttObjKey])[0]],
+					};
+				}
 			}
 
 			let jsonObj = {
@@ -452,29 +474,38 @@ class Wallpanel extends utils.Adapter {
 				if (logLevel === 'debug')
 					this.log.debug(`MQTT state is written now for ${tabletName[index]} ....`);
 				for (const mqttObjKey in mqttObj) {
-					for (const mqttAttributeKey of mqttAttribute) {
-						if (Object.keys(mqttObj[mqttObjKey]).includes(mqttAttributeKey)) {
-							for (const key in Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])) {
-								if (Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key] !== 'unit') {
-									// extract on the object the attributes
-									const attribute: string = Object.keys(
-										mqttObj[mqttObjKey][mqttAttributeKey],
-									)[key];
-									// create a state name from the attributes
-									const state: string =
-										Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key] === 'value'
-											? Object.keys(mqttObj[mqttObjKey])[0]
-											: Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key];
-									// extract on the object the value
-									const value = mqttObj[mqttObjKey][mqttAttributeKey][attribute];
+					if (mqttObj.hasOwnProperty(mqttObjKey)) {
+						for (const mqttAttributeKey of mqttAttribute) {
+							if (Object.keys(mqttObj[mqttObjKey]).includes(mqttAttributeKey)) {
+								for (const key in Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])) {
+									if (
+										Object.keys(mqttObj[mqttObjKey][mqttAttributeKey]).hasOwnProperty(key)
+									) {
+										if (
+											Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key] !== 'unit'
+										) {
+											// extract on the object the attributes
+											const attribute: string = Object.keys(
+												mqttObj[mqttObjKey][mqttAttributeKey],
+											)[key];
+											// create a state name from the attributes
+											const state: string =
+												Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key] ===
+												'value'
+													? Object.keys(mqttObj[mqttObjKey])[0]
+													: Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key];
+											// extract on the object the value
+											const value = mqttObj[mqttObjKey][mqttAttributeKey][attribute];
 
-									await this.setStateAsync(
-										`${tabletName[index]}.sensor.${mqttAttributeKey}.${state}`,
-										{
-											val: value,
-											ack: true,
-										},
-									);
+											await this.setStateAsync(
+												`${tabletName[index]}.sensor.${mqttAttributeKey}.${state}`,
+												{
+													val: value,
+													ack: true,
+												},
+											);
+										}
+									}
 								}
 							}
 						}
@@ -852,7 +883,9 @@ class Wallpanel extends utils.Adapter {
 				this.log.debug(`Read the state name from the apiResult: ${requestStates}`);
 
 			for (const t in requestStates) {
-				requestStatesType[t] = typeof Object.values(res['data'])[t];
+				if (requestStates.hasOwnProperty(t)) {
+					requestStatesType[t] = typeof Object.values(res['data'])[t];
+				}
 			}
 			if (logLevel === 'debug')
 				this.log.debug(`Read the state Type from the apiResult: ${requestStatesType}`);
@@ -871,36 +904,40 @@ class Wallpanel extends utils.Adapter {
 
 			// create channel folder
 			for (const f in folder) {
-				await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
-					type: 'channel',
-					common: {
-						name: `${folder[f]}`,
-					},
-					native: {},
-				});
+				if (folder.hasOwnProperty(f)) {
+					await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
+						type: 'channel',
+						common: {
+							name: `${folder[f]}`,
+						},
+						native: {},
+					});
+				}
 			}
 
 			// create commandStates
 			for (const obj in commandObjects) {
-				await this.setObjectNotExistsAsync(
-					`${tabletName[index]}.command.${obj}`,
-					commandObjects[obj],
-				);
-				this.subscribeStates(`${tabletName[index]}.command.${obj}`);
+				if (commandObjects.hasOwnProperty(obj)) {
+					await this.setObjectNotExistsAsync(
+						`${tabletName[index]}.command.${obj}`,
+						commandObjects[obj],
+					);
+					this.subscribeStates(`${tabletName[index]}.command.${obj}`);
 
-				let Objects = null;
-				Objects = await this.getObjectAsync(`${tabletName[index]}.command.${obj}`);
-				if (Objects !== null && Objects !== undefined) {
-					for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-						if (commandObjects[obj].common[valueKey] !== KeyValue) {
-							const common = commandObjects[obj].common;
-							await this.extendObjectAsync(`${tabletName[index]}.command.${obj}`, {
-								type: 'state',
-								common,
-							});
-							this.log.info(
-								`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-							);
+					let Objects = null;
+					Objects = await this.getObjectAsync(`${tabletName[index]}.command.${obj}`);
+					if (Objects !== null && Objects !== undefined) {
+						for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+							if (commandObjects[obj].common[valueKey] !== KeyValue) {
+								const common = commandObjects[obj].common;
+								await this.extendObjectAsync(`${tabletName[index]}.command.${obj}`, {
+									type: 'state',
+									common,
+								});
+								this.log.info(
+									`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+								);
+							}
 						}
 					}
 				}
@@ -908,20 +945,22 @@ class Wallpanel extends utils.Adapter {
 
 			// create infoStates
 			for (const obj in infoObjects) {
-				await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
-				let Objects = null;
-				Objects = await this.getObjectAsync(`${tabletName[index]}.${obj}`);
-				if (Objects !== null && Objects !== undefined) {
-					for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-						if (infoObjects[obj].common[valueKey] !== KeyValue) {
-							const common = infoObjects[obj].common;
-							await this.extendObjectAsync(`${tabletName[index]}.${obj}`, {
-								type: 'state',
-								common,
-							});
-							this.log.info(
-								`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-							);
+				if (infoObjects.hasOwnProperty(obj)) {
+					await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
+					let Objects = null;
+					Objects = await this.getObjectAsync(`${tabletName[index]}.${obj}`);
+					if (Objects !== null && Objects !== undefined) {
+						for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
+							if (infoObjects[obj].common[valueKey] !== KeyValue) {
+								const common = infoObjects[obj].common;
+								await this.extendObjectAsync(`${tabletName[index]}.${obj}`, {
+									type: 'state',
+									common,
+								});
+								this.log.info(
+									`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+								);
+							}
 						}
 					}
 				}
@@ -941,300 +980,340 @@ class Wallpanel extends utils.Adapter {
 
 					// create all mqttStates
 					for (const mqttObjKey in mqttObj) {
-						const Obj = Object.keys(mqttObj[mqttObjKey]);
+						if (mqttObj.hasOwnProperty(mqttObjKey)) {
+							const Obj = Object.keys(mqttObj[mqttObjKey]);
 
-						if (Obj[0] === 'battery') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery`, {
-								type: 'channel',
-								common: {
-									name: `battery Sensor`,
-								},
-								native: {},
-							});
+							if (Obj[0] === 'battery') {
+								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery`, {
+									type: 'channel',
+									common: {
+										name: `battery Sensor`,
+									},
+									native: {},
+								});
 
-							for (const obj in batteryObjects) {
-								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.battery.${obj}`,
-									batteryObjects[obj],
-								);
+								for (const obj in batteryObjects) {
+									if (batteryObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.battery.${obj}`,
+											batteryObjects[obj],
+										);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.battery.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (batteryObjects[obj].common[valueKey] !== KeyValue) {
-											const common = batteryObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.battery.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.battery.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (batteryObjects[obj].common[valueKey] !== KeyValue) {
+													const common = batteryObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.battery.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'light') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light`, {
-								type: 'channel',
-								common: {
-									name: `light Sensor`,
-								},
-								native: {},
-							});
+							} else if (Obj[0] === 'light') {
+								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light`, {
+									type: 'channel',
+									common: {
+										name: `light Sensor`,
+									},
+									native: {},
+								});
 
-							for (const key in lightObjects) {
-								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.light.${key}`,
-									lightObjects[key],
-								);
+								for (const key in lightObjects) {
+									if (lightObjects.hasOwnProperty(key)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.light.${key}`,
+											lightObjects[key],
+										);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.light.${key}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (lightObjects[key].common[valueKey] !== KeyValue) {
-											const common = lightObjects[key].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.light.${key}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.light.${key}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (lightObjects[key].common[valueKey] !== KeyValue) {
+													const common = lightObjects[key].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.light.${key}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'magneticField') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.magneticField`, {
-								type: 'channel',
-								common: {
-									name: `magneticField Sensor`,
-								},
-								native: {},
-							});
-
-							for (const obj in magneticFieldObjects) {
+							} else if (Obj[0] === 'magneticField') {
 								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.magneticField.${obj}`,
-									magneticFieldObjects[obj],
+									`${tabletName[index]}.sensor.magneticField`,
+									{
+										type: 'channel',
+										common: {
+											name: `magneticField Sensor`,
+										},
+										native: {},
+									},
 								);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.magneticField.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (magneticFieldObjects[obj].common[valueKey] !== KeyValue) {
-											const common = magneticFieldObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.magneticField.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+								for (const obj in magneticFieldObjects) {
+									if (magneticFieldObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.magneticField.${obj}`,
+											magneticFieldObjects[obj],
+										);
+
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.magneticField.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (magneticFieldObjects[obj].common[valueKey] !== KeyValue) {
+													const common = magneticFieldObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.magneticField.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'pressure') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure`, {
-								type: 'channel',
-								common: {
-									name: `pressure Sensor`,
-								},
-								native: {},
-							});
+							} else if (Obj[0] === 'pressure') {
+								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure`, {
+									type: 'channel',
+									common: {
+										name: `pressure Sensor`,
+									},
+									native: {},
+								});
 
-							for (const obj in pressureObjects) {
-								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.pressure.${obj}`,
-									pressureObjects[obj],
-								);
+								for (const obj in pressureObjects) {
+									if (pressureObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.pressure.${obj}`,
+											pressureObjects[obj],
+										);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.pressure.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (pressureObjects[obj].common[valueKey] !== KeyValue) {
-											const common = pressureObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.pressure.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.pressure.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (pressureObjects[obj].common[valueKey] !== KeyValue) {
+													const common = pressureObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.pressure.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'temperature') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.temperature`, {
-								type: 'channel',
-								common: {
-									name: `temperature Sensor`,
-								},
-								native: {},
-							});
-
-							for (const obj in temperatureObjects) {
+							} else if (Obj[0] === 'temperature') {
 								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.temperature.${obj}`,
-									temperatureObjects[obj],
+									`${tabletName[index]}.sensor.temperature`,
+									{
+										type: 'channel',
+										common: {
+											name: `temperature Sensor`,
+										},
+										native: {},
+									},
 								);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.temperature.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (temperatureObjects[obj].common[valueKey] !== KeyValue) {
-											const common = temperatureObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.temperature.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+								for (const obj in temperatureObjects) {
+									if (temperatureObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.temperature.${obj}`,
+											temperatureObjects[obj],
+										);
+
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.temperature.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (temperatureObjects[obj].common[valueKey] !== KeyValue) {
+													const common = temperatureObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.temperature.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'motion') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion`, {
-								type: 'channel',
-								common: {
-									name: `motion Sensor`,
-								},
-								native: {},
-							});
+							} else if (Obj[0] === 'motion') {
+								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion`, {
+									type: 'channel',
+									common: {
+										name: `motion Sensor`,
+									},
+									native: {},
+								});
 
-							for (const obj in motionObjects) {
-								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.motion.${obj}`,
-									motionObjects[obj],
-								);
+								for (const obj in motionObjects) {
+									if (motionObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.motion.${obj}`,
+											motionObjects[obj],
+										);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.motion.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (motionObjects[obj].common[valueKey] !== KeyValue) {
-											const common = motionObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.motion.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.motion.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (motionObjects[obj].common[valueKey] !== KeyValue) {
+													const common = motionObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.motion.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'face') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face`, {
-								type: 'channel',
-								common: {
-									name: `face Sensor`,
-								},
-								native: {},
-							});
+							} else if (Obj[0] === 'face') {
+								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face`, {
+									type: 'channel',
+									common: {
+										name: `face Sensor`,
+									},
+									native: {},
+								});
 
-							for (const obj in faceObjects) {
-								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.face.${obj}`,
-									faceObjects[obj],
-								);
+								for (const obj in faceObjects) {
+									if (faceObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.face.${obj}`,
+											faceObjects[obj],
+										);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.face.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (faceObjects[obj].common[valueKey] !== KeyValue) {
-											const common = faceObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.face.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.face.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (faceObjects[obj].common[valueKey] !== KeyValue) {
+													const common = faceObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.face.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
-							}
-						} else if (Obj[0] === 'qrcode') {
-							await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode`, {
-								type: 'channel',
-								common: {
-									name: `qrcode Sensor`,
-								},
-								native: {},
-							});
+							} else if (Obj[0] === 'qrcode') {
+								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode`, {
+									type: 'channel',
+									common: {
+										name: `qrcode Sensor`,
+									},
+									native: {},
+								});
 
-							for (const obj in qrcodeObjects) {
-								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.qrcode.${obj}`,
-									qrcodeObjects[obj],
-								);
+								for (const obj in qrcodeObjects) {
+									if (qrcodeObjects.hasOwnProperty(obj)) {
+										await this.setObjectNotExistsAsync(
+											`${tabletName[index]}.sensor.qrcode.${obj}`,
+											qrcodeObjects[obj],
+										);
 
-								let Objects = null;
-								Objects = await this.getObjectAsync(
-									`${tabletName[index]}.sensor.qrcode.${obj}`,
-								);
-								if (Objects !== null && Objects !== undefined) {
-									for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
-										if (qrcodeObjects[obj].common[valueKey] !== KeyValue) {
-											const common = qrcodeObjects[obj].common;
-											await this.extendObjectAsync(
-												`${tabletName[index]}.sensor.qrcode.${obj}`,
-												{
-													type: 'state',
-													common,
-												},
-											);
-											this.log.info(
-												`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
-											);
+										let Objects = null;
+										Objects = await this.getObjectAsync(
+											`${tabletName[index]}.sensor.qrcode.${obj}`,
+										);
+										if (Objects !== null && Objects !== undefined) {
+											for (const [valueKey, KeyValue] of Object.entries(
+												Objects[`common`],
+											)) {
+												if (qrcodeObjects[obj].common[valueKey] !== KeyValue) {
+													const common = qrcodeObjects[obj].common;
+													await this.extendObjectAsync(
+														`${tabletName[index]}.sensor.qrcode.${obj}`,
+														{
+															type: 'state',
+															common,
+														},
+													);
+													this.log.info(
+														`the state ${Objects._id} has a wrong object structure and was adapted to the new one`,
+													);
+												}
+											}
 										}
 									}
 								}
@@ -1246,17 +1325,19 @@ class Wallpanel extends utils.Adapter {
 
 			// create requestState
 			for (const r in requestStates) {
-				await this.setObjectNotExistsAsync(`${tabletName[index]}.${requestStates[r]}`, {
-					type: 'state',
-					common: {
-						name: `${requestStates[r]}`,
-						type: requestStatesType[r],
-						role: `state`,
-						read: true,
-						write: false,
-					},
-					native: {},
-				});
+				if (requestStates.hasOwnProperty(r)) {
+					await this.setObjectNotExistsAsync(`${tabletName[index]}.${requestStates[r]}`, {
+						type: 'state',
+						common: {
+							name: `${requestStates[r]}`,
+							type: requestStatesType[r],
+							role: `state`,
+							read: true,
+							write: false,
+						},
+						native: {},
+					});
+				}
 			}
 			if (logLevel === 'debug')
 				this.log.debug(`subscribe to all stats in the command folder for ${tabletName[index]}`);
@@ -1275,8 +1356,10 @@ class Wallpanel extends utils.Adapter {
 			const tabletDeviceId: string[] = [];
 			const currentAdapterObjects = await this.getAdapterObjectsAsync();
 			for (const currentAdapterObjectsKey in currentAdapterObjects) {
-				if (currentAdapterObjects[currentAdapterObjectsKey].type === 'device') {
-					tabletDeviceId.push(currentAdapterObjects[currentAdapterObjectsKey]._id);
+				if (currentAdapterObjects.hasOwnProperty(currentAdapterObjectsKey)) {
+					if (currentAdapterObjects[currentAdapterObjectsKey].type === 'device') {
+						tabletDeviceId.push(currentAdapterObjects[currentAdapterObjectsKey]._id);
+					}
 				}
 			}
 			if (tabletDeviceId.length === 0) {
@@ -1286,20 +1369,24 @@ class Wallpanel extends utils.Adapter {
 
 			const deleteId: string[] = [];
 			for (const currentIDKey in tabletDeviceId) {
-				if (adapterIDs.find((element: string) => element === tabletDeviceId[currentIDKey])) {
-					if (logLevel === 'debug')
-						this.log.debug(
-							`The device with the name ${tabletDeviceId[currentIDKey]} is already registered`,
-						);
-				} else {
-					deleteId.push(tabletDeviceId[currentIDKey]);
+				if (tabletDeviceId.hasOwnProperty(currentIDKey)) {
+					if (adapterIDs.find((element: string) => element === tabletDeviceId[currentIDKey])) {
+						if (logLevel === 'debug')
+							this.log.debug(
+								`The device with the name ${tabletDeviceId[currentIDKey]} is already registered`,
+							);
+					} else {
+						deleteId.push(tabletDeviceId[currentIDKey]);
+					}
 				}
 			}
 
 			for (const deleteIdKey in deleteId) {
-				if (logLevel === 'debug')
-					this.log.debug(`delete the device with the ID: ${deleteId[deleteIdKey]}`);
-				await this.delObjectAsync(deleteId[deleteIdKey], { recursive: true });
+				if (deleteId.hasOwnProperty(deleteIdKey)) {
+					if (logLevel === 'debug')
+						this.log.debug(`delete the device with the ID: ${deleteId[deleteIdKey]}`);
+					await this.delObjectAsync(deleteId[deleteIdKey], { recursive: true });
+				}
 			}
 			if (logLevel === 'debug')
 				this.log.debug('all tablet objects that are no longer needed have been deleted');
@@ -1316,9 +1403,11 @@ class Wallpanel extends utils.Adapter {
 			// Here you must clear all timeouts or intervals that may still be active
 			if (requestTimeout) clearTimeout(requestTimeout);
 			for (const Unl in tabletName) {
-				if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
-				if (commandRequestTimeout[Unl]) clearTimeout(commandRequestTimeout[Unl]);
-				if (deviceEnabled[Unl]) this.setState(`${tabletName[Unl]}.connected`, false, true);
+				if (tabletName.hasOwnProperty(Unl)) {
+					if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
+					if (commandRequestTimeout[Unl]) clearTimeout(commandRequestTimeout[Unl]);
+					if (deviceEnabled[Unl]) this.setState(`${tabletName[Unl]}.connected`, false, true);
+				}
 			}
 			if (logLevel === 'debug')
 				this.log.debug(`All timers are canceled because the adapter has been switched off`);
@@ -1338,28 +1427,37 @@ class Wallpanel extends utils.Adapter {
 			if (state) {
 				// The state was changed
 				for (const change in tabletName) {
-					if (deviceEnabled[change] && tabletMqttEnabled[change]) {
-						if (state.from === `system.adapter.${mqttInstance}`) {
-							await this.request();
-							if (logLevel === 'debug')
-								this.log.debug(`state ${id} changed: ${state.val} from: ${this.namespace}`);
-							break;
+					if (tabletName.hasOwnProperty(change)) {
+						if (deviceEnabled[change] && tabletMqttEnabled[change]) {
+							if (state.from === `system.adapter.${mqttInstance}`) {
+								await this.request();
+								if (logLevel === 'debug')
+									this.log.debug(
+										`state ${id} changed: ${state.val} from: ${this.namespace}`,
+									);
+								break;
+							}
 						}
 					}
 				}
 
 				for (const change in tabletName) {
-					if (deviceEnabled[change] && !state.ack) {
-						for (const i in commandStates) {
-							if (
-								id === `${this.namespace}.${tabletName[change]}.command.${commandStates[i]}`
-							) {
-								if (logLevel === 'debug')
-									this.log.debug(
-										`state ${id} changed: ${state.val} from: ${this.namespace}`,
-									);
-								await this.sendCommand(id, state, parseInt(change), commandStates[i]);
-								break;
+					if (tabletName.hasOwnProperty(change)) {
+						if (deviceEnabled[change] && !state.ack) {
+							for (const i in commandStates) {
+								if (commandStates.hasOwnProperty(i)) {
+									if (
+										id ===
+										`${this.namespace}.${tabletName[change]}.command.${commandStates[i]}`
+									) {
+										if (logLevel === 'debug')
+											this.log.debug(
+												`state ${id} changed: ${state.val} from: ${this.namespace}`,
+											);
+										await this.sendCommand(id, state, parseInt(change), commandStates[i]);
+										break;
+									}
+								}
 							}
 						}
 					}

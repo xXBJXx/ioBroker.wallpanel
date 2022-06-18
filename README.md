@@ -61,6 +61,7 @@ Sentry Reporting is used from js-controller 3.0.
  -->
 ### __WORK IN PROGRESS__
 * (xXBJXx) removed the play Store Link and added the GitHub Link to the new version and add a Warning for the Installer from GitHub.
+* (xXBJXx) optimized the code
 
 ### 0.3.7 (2022-06-06)
 * (xXBJXx) Node version support set to >= v16.x because of new features of Node.js that are needed.

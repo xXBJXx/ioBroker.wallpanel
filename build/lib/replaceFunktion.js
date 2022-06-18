@@ -22,11 +22,16 @@ __export(replaceFunktion_exports, {
 module.exports = __toCommonJS(replaceFunktion_exports);
 async function replaceFunktion(text) {
   let text2 = text.toLowerCase();
-  text2 = text2.replace(/ä/g, "ae");
-  text2 = text2.replace(/ö/g, "oe");
-  text2 = text2.replace(/ü/g, "ue");
-  text2 = text2.replace(/ß/g, "ss");
-  text2 = text2.replace(/[^a-z0-9]/g, "_");
+  const replaceArray = [
+    { search: "\xE4", replace: "ae" },
+    { search: "\xF6", replace: "oe" },
+    { search: "\xFC", replace: "ue" },
+    { search: "\xDF", replace: "ss" },
+    { search: "[^a-z0-9]", replace: "_" }
+  ];
+  for (const replace of replaceArray) {
+    text2 = text2.replace(new RegExp(replace.search, "gu"), replace.replace);
+  }
   return text2;
 }
 // Annotate the CommonJS export names for ESM import in node:

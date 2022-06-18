@@ -1,12 +1,18 @@
 /**
- * replace all ä,ö,ü,ß and spaces and dots
+ * @description replace all ä,ö,ü,ß and all other special characters
  */
 export async function replaceFunktion(text: string): Promise<string> {
 	let text2 = text.toLowerCase();
-	text2 = text2.replace(/ä/g, 'ae');
-	text2 = text2.replace(/ö/g, 'oe');
-	text2 = text2.replace(/ü/g, 'ue');
-	text2 = text2.replace(/ß/g, 'ss');
-	text2 = text2.replace(/[^a-z0-9]/g, '_');
+	const replaceArray = [
+		{ search: 'ä', replace: 'ae' },
+		{ search: 'ö', replace: 'oe' },
+		{ search: 'ü', replace: 'ue' },
+		{ search: 'ß', replace: 'ss' },
+		{ search: '[^a-z0-9]', replace: '_' },
+	];
+
+	for (const replace of replaceArray) {
+		text2 = text2.replace(new RegExp(replace.search, 'gu'), replace.replace);
+	}
 	return text2;
 }
