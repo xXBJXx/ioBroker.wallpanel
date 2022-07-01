@@ -31,7 +31,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.8.1",
     "@iobroker/adapter-dev": "^1.0.0",
-    "@iobroker/adapter-react": "2.1.0",
+    "@iobroker/adapter-react": "2.2.4",
     "@iobroker/socket-client": "^1.1.8",
     "@iobroker/testing": "^3.0.2",
     "@mui/icons-material": "^5.8.2",
