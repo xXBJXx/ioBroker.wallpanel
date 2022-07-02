@@ -163,7 +163,7 @@ export const EditTableDialog: React.FC<RowProps> = ({ newRow, valid, oldRow, mqt
 		}
 	};
 
-	const handleCheckbox = (event: SelectChangeEvent): void => {
+	const handleEnabled = (event: SelectChangeEvent): void => {
 		setEnabled(JSON.parse(event.target.value));
 		setNewRow({ ...newEditRow, enabled: JSON.parse(event.target.value) });
 	};
@@ -241,7 +241,7 @@ export const EditTableDialog: React.FC<RowProps> = ({ newRow, valid, oldRow, mqt
 						onChange={(value) => handeleNumber('port', value)}
 					/>
 					<FormControl variant="outlined">
-						<Tooltip title={_('tooltipEnabled')} arrow>
+						<Tooltip title={_('tooltipEnabled')} arrow placement={'right'}>
 							<FormControl fullWidth sx={{ marginLeft: 2, minWidth: 110 }}>
 								<InputLabel id="tablet-enabled-select-label">{_('tabletEnabled')}</InputLabel>
 								<Select
@@ -249,7 +249,7 @@ export const EditTableDialog: React.FC<RowProps> = ({ newRow, valid, oldRow, mqt
 									id="tablet-enabled-select"
 									value={JSON.stringify(enabled)}
 									label={_('tabletEnabled')}
-									onChange={handleCheckbox}
+									onChange={handleEnabled}
 								>
 									<MenuItem value={'true'} key={'true'}>
 										{_('tabletOn')}
