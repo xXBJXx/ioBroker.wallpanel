@@ -1,12 +1,7 @@
 /**
  * Created by alex-issi on 05.05.22
  */
-import { Tooltip } from '@mui/material';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { AlertComponent } from './component/AlertComponent';

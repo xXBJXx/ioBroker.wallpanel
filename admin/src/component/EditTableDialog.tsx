@@ -1,10 +1,18 @@
 /**
  * Created by issi on 31.10.21
  */
-import { Autocomplete, Box, FormControl, Grid, TextField, Tooltip } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {
+	Autocomplete,
+	Box,
+	FormControl,
+	Grid,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	TextField,
+	Tooltip,
+} from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { Valid } from '../type/Interfaces';

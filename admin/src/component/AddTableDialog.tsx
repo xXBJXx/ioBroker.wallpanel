@@ -1,10 +1,18 @@
 /**
  * Created by issi on 31.10.21
  */
-import { Autocomplete, Box, FormControl, Grid, TextField, Tooltip } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {
+	Autocomplete,
+	Box,
+	FormControl,
+	Grid,
+	TextField,
+	Tooltip,
+	MenuItem,
+	InputLabel,
+	Select,
+	SelectChangeEvent,
+} from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { Valid } from '../type/Interfaces';
@@ -35,7 +43,6 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 	const [ip, setIp] = useState<string>('');
 	const [port, setPort] = useState<number>(2971);
 	const [topic, setTopic] = useState<string>('');
-	//	const [topicComplete, setTopicComplete] = useState<string[]>(['wallpanel/']);
 	const [enabled, setEnabled] = useState<boolean>(true);
 	const [mqttEnabled, setMqttEnabled] = useState<boolean>(false);
 	const [newRow, setRow] = useState<ioBroker.Devices>({
@@ -50,7 +57,6 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 	useEffect(() => {
 		addRow(newRow);
 		valid(validConfig);
-		//		console.log('AddTableDialog: useEffect', validConfig);
 	}, [newRow]);
 
 	const handleTopicChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -132,12 +138,10 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 			setName(newName);
 			setRow({ ...newRow, name: newName });
 			setValidConfig({ ...validConfig, name: true });
-			//			setTopicComplete([`wallpanel/${newName}`]);
 		} else {
 			setName('');
 			setRow({ ...newRow, name: '' });
 			setValidConfig({ ...validConfig, name: false });
-			//			setTopicComplete([`wallpanel/`]);
 		}
 	};
 

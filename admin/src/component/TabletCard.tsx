@@ -68,7 +68,6 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 	};
 
 	return (
-		//    <React.Fragment>
 		<Card
 			sx={{
 				margin: '10px',
@@ -253,11 +252,6 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 					<IconButton
 						onClick={() => {
 							editModal({ open: true, index, oldRow: item });
-							//							setEditModal({
-							//								index: index,
-							//								open: true,
-							//								oldRow: item,
-							//							});
 						}}
 						size="small"
 						color="primary"
@@ -269,13 +263,7 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 						sx={{
 							color: red[500],
 						}}
-						onClick={
-							() => deleteModal({ open: true, name: item.name })
-							//							setShowConfirmDialog({
-							//								open: true,
-							//								name: item.name,
-							//							})
-						}
+						onClick={() => deleteModal({ open: true, name: item.name })}
 						aria-label={_('delete')}
 					>
 						<Delete />
@@ -283,6 +271,5 @@ export const TabletCard: React.FC<TabletCardProps> = ({
 				</React.Fragment>
 			</CardActions>
 		</Card>
-		//	</React.Fragment>
 	);
 };
