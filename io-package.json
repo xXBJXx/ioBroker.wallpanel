@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "news": {
+      "0.3.8": {
+        "en": "removed the play Store Link and added the GitHub Link to the new version and add a Warning for the Installer from GitHub.\noptimized the code\ndepandencies updated\nLeave the device switched off when creating Problem solved",
+        "de": "entfernte den Play Store Link und fügte den GitHub Link zur neuen Version hinzu und füge eine Warnung für den Installer von GitHub hinzu.\noptimiert den code\ndepanden aktualisiert\nLassen Sie das Gerät ausgeschaltet, wenn das Problem gelöst wird",
+        "ru": "удалили play Store Link и добавил GitHub Link в новую версию и добавить Предупреждение для установщика из GitHub.\nоптимизирован код\nобновлённые депандеции\nОставьте устройство выключается при создании проблемы решена",
+        "pt": "removeu a play Store Link e adicionou o GitHub Link para a nova versão e adicione um aviso para o instalador do GitHub.\notimizado o código\ndepandencies atualizado\nDeixe o dispositivo desligado ao criar problema resolvido",
+        "nl": "verwijderde het toneelstuk en voegde de GitHub Link toe aan de nieuwe versie en voegde een waarschuwing toe voor de Installer van GitHub.\nde code is optimistisch\nvertaling:\nLaat het apparaat uitschakelen als het probleem opgelost is",
+        "fr": "a supprimé le jeu Store Link et ajouté le lien GitHub à la nouvelle version et ajouter un avertissement pour l'installateur de GitHub.\noptimisé le code\nmises à jour\nLaisser l'appareil éteint lors de la création du problème résolu",
+        "it": "rimosso il play Store Link e aggiunto il GitHub Link alla nuova versione e aggiungere un avviso per l'installatore da GitHub.\nottimizzato il codice\ndeprezzamento aggiornato\nLasciare il dispositivo spento quando si crea Problema risolto",
+        "es": "retirar el juego Store Link y agregar el GitHub Link a la nueva versión y añadir un Aviso para el Installer de GitHub.\noptimizado el código\ninformes actualizados\nDeja el dispositivo apagado al crear Problema resuelto",
+        "pl": "usunął grę Store Link i dodał GitHub Link do nowej wersji i dodał Warning for the Installer from GitHub.\noptymizował kod\ndepanda\nUrządzenie zmieniło się, gdy tworzenie problemu rozwinęło się",
+        "zh-cn": "删除了Se Store的链接,并增加了GitHub链接到新版本,并为GitHub的Installer增添了警告。.\n完善守则\n最新资料\n装置在创建问题解决时退出"
+      },
       "0.3.7": {
         "en": "Node version support set to >= v15.x.x because of new features of Node.js that are needed.\nfixed mqtt topic Display Direction",
         "de": "Node-Versionsunterstützung auf >= v15.x.x festgelegt, da neue Funktionen von Node.js benötigt werden.\nAnzeigerichtung des mqtt-Themas behoben",
@@ -74,18 +86,6 @@
         "es": "cambiar enlaces de documentación",
         "pl": "zmień linki do dokumentacji",
         "zh-cn": "更改文档链接"
-      },
-      "0.3.1": {
-        "en": "update Dependencies",
-        "de": "Abhängigkeiten aktualisieren",
-        "ru": "обновить зависимости",
-        "pt": "atualizar dependências",
-        "nl": "update afhankelijkheden",
-        "fr": "mettre à jour les dépendances",
-        "it": "aggiornare le dipendenze",
-        "es": "actualizar dependencias",
-        "pl": "zaktualizuj zależności",
-        "zh-cn": "更新依赖"
       }
     },
     "titleLang": {

@@ -59,7 +59,7 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-### __WORK IN PROGRESS__
+### 0.3.8 (2022-07-02)
 * (xXBJXx) removed the play Store Link and added the GitHub Link to the new version and add a Warning for the Installer from GitHub.
 * (xXBJXx) optimized the code
 * (xXBJXx) depandencies updated
@@ -77,19 +77,6 @@ Sentry Reporting is used from js-controller 3.0.
 
 ### 0.3.3 (2022-05-30)
 * (xXBJXx) update Dependencies
-
-### 0.3.0 (2022-05-30)
-* (xXBJXx) Admin UI rebuilt to a new React UI
-* (xXBJXx) update Dependencies and add new dependencies for the new React UI
-* (xXBJXx) Code cleanup
-    * added a query if the adapter is running in debug mode to not write so much log.
-    * the request for the MQTT stats reworked
-    * new state added [mjpegStream, connected, json].
-    * new command added [settings], with which you can call the settings page on the wallpanel.
-    * MQTT state creation adjusted a bit, so that the sensor folder not created when MQTT switched off
-    * delete function added to delete devices that are not configured anymore
-    * code adapted for the new React UI [onMessage] was enabled.
-* (xXBJXx) update README and Licence date
 
 ## License
 MIT License
