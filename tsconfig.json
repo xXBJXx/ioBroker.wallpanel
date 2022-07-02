@@ -32,8 +32,8 @@
 	// Uncomment this if you want the old behavior of catch variables being `any`
 	 "useUnknownInCatchVariables": false,
 
-	// Consider targetting es2019 or higher if you only support Node.js 12+
-	"target": "es2021",
+	// Consider targetting es2022 or higher if you only support Node.js 12+
+	"target": "es2022",
 	"jsx": "react",
 	"sourceMap": true,
 	"inlineSourceMap": false,
