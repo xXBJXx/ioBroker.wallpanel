@@ -145,6 +145,11 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 		}
 	};
 
+	const handleEnabled = (event: SelectChangeEvent): void => {
+		setEnabled(JSON.parse(event.target.value));
+		setRow({ ...newRow, enabled: JSON.parse(event.target.value) });
+	};
+
 	const handleChangeMqttOn = (event: SelectChangeEvent) => {
 		setMqttEnabled(JSON.parse(event.target.value));
 		setRow({ ...newRow, mqttEnabled: JSON.parse(event.target.value) });
@@ -243,7 +248,7 @@ export const AddTableDialog: React.FC<RowProps> = ({ addRow, valid, mqtt }): JSX
 									value={JSON.stringify(enabled)}
 									label={_('tabletEnabled')}
 									onChange={(event) => {
-										setEnabled(JSON.parse(event.target.value));
+										handleEnabled(event);
 									}}
 								>
 									<MenuItem value={'true'} key={'true'}>
