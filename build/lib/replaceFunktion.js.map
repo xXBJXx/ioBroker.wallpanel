@@ -2,6 +2,6 @@
   "version": 3,
   "sources": ["../../src/lib/replaceFunktion.ts"],
   "sourcesContent": ["/**\n * @description replace all \u00E4,\u00F6,\u00FC,\u00DF and all other special characters\n */\nexport async function replaceFunktion(text: string): Promise<string> {\n\tlet text2 = text.toLowerCase();\n\tconst replaceArray = [\n\t\t{ search: '\u00E4', replace: 'ae' },\n\t\t{ search: '\u00F6', replace: 'oe' },\n\t\t{ search: '\u00FC', replace: 'ue' },\n\t\t{ search: '\u00DF', replace: 'ss' },\n\t\t{ search: '[^a-z0-9]', replace: '_' },\n\t];\n\n\tfor (const replace of replaceArray) {\n\t\ttext2 = text2.replace(new RegExp(replace.search, 'gu'), replace.replace);\n\t}\n\treturn text2;\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGA,+BAAsC,MAA+B;AACpE,MAAI,QAAQ,KAAK,YAAY;AAC7B,QAAM,eAAe;AAAA,IACpB,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,aAAa,SAAS,IAAI;AAAA,EACrC;AAEA,aAAW,WAAW,cAAc;AACnC,YAAQ,MAAM,QAAQ,IAAI,OAAO,QAAQ,QAAQ,IAAI,GAAG,QAAQ,OAAO;AAAA,EACxE;AACA,SAAO;AACR;",
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGA,eAAsB,gBAAgB,MAA+B;AACpE,MAAI,QAAQ,KAAK,YAAY;AAC7B,QAAM,eAAe;AAAA,IACpB,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,QAAK,SAAS,KAAK;AAAA,IAC7B,EAAE,QAAQ,aAAa,SAAS,IAAI;AAAA,EACrC;AAEA,aAAW,WAAW,cAAc;AACnC,YAAQ,MAAM,QAAQ,IAAI,OAAO,QAAQ,QAAQ,IAAI,GAAG,QAAQ,OAAO;AAAA,EACxE;AACA,SAAO;AACR;",
   "names": []
 }
