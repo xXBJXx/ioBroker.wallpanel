@@ -1,12 +1,18 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: monthly
-    time: "06:00"
-    timezone: Europe/Berlin
-  open-pull-requests-limit: 30
-  assignees:
-  - xXBJXx
-  versioning-strategy: increase
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "04:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+  
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "04:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 5
