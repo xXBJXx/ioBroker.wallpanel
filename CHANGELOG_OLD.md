@@ -1,4 +1,7 @@
 # Older changes
+## 0.3.3 (2022-05-30)
+* (xXBJXx) update Dependencies
+
 ## 0.3.0 (2022-05-30)
 * (xXBJXx) Admin UI rebuilt to a new React UI
 * (xXBJXx) update Dependencies and add new dependencies for the new React UI

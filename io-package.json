@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.8",
+    "version": "0.3.9",
     "news": {
+      "0.3.9": {
+        "en": "dependencies updated \nMoved global variable to constructor",
+        "de": "Abhängigkeiten aktualisiert \nGlobale Variablen in den Konstruktor verschoben",
+        "ru": "обновленные зависимости \nГлобальные переменные перенесены в конструктор",
+        "pt": "dependências actualizadas \nVariáveis globais movidas para construtor",
+        "nl": "afhankelijkheden bijgewerkt \nGlobale variabelen verplaatst naar constructor",
+        "fr": "Dépendances mises à jour \nVariables globales déplacées dans le constructeur",
+        "it": "dipendenze aggiornate \nVariabili globali spostate nel costruttore",
+        "es": "dependencias actualizadas \nVariables globales trasladadas al constructor",
+        "pl": "aktualizacje zależności \nZmienne globalne przeniesione do konstruktora",
+        "zh-cn": "更新了依赖关系 \n全局变量移入构造函数"
+      },
       "0.3.8": {
         "en": "removed the play Store Link and added the GitHub Link to the new version and add a Warning for the Installer from GitHub.\noptimized the code\ndepandencies updated\nLeave the device switched off when creating Problem solved",
         "de": "entfernte den Play Store Link und fügte den GitHub Link zur neuen Version hinzu und füge eine Warnung für den Installer von GitHub hinzu.\noptimiert den code\ndepanden aktualisiert\nLassen Sie das Gerät ausgeschaltet, wenn das Problem gelöst wird",
@@ -74,18 +86,6 @@
         "es": "actualizar dependencias",
         "pl": "zaktualizuj zależności",
         "zh-cn": "更新依赖"
-      },
-      "0.3.2": {
-        "en": "change documentation links",
-        "de": "Dokumentationslinks ändern",
-        "ru": "изменить ссылки на документацию",
-        "pt": "alterar links de documentação",
-        "nl": "documentatielinks wijzigen",
-        "fr": "modifier les liens de la documentation",
-        "it": "modificare i collegamenti alla documentazione",
-        "es": "cambiar enlaces de documentación",
-        "pl": "zmień linki do dokumentacji",
-        "zh-cn": "更改文档链接"
       }
     },
     "titleLang": {

@@ -59,7 +59,7 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-### __WORK IN PROGRESS__
+### 0.3.9 (2022-10-02)
 * (xXBJXx) dependencies updated 
 * (xXBJXx) Moved global variable to constructor
 
@@ -78,9 +78,6 @@ Sentry Reporting is used from js-controller 3.0.
 
 ### 0.3.5 (2022-05-30)
 * (xXBJXx) update Changelog and fixed type issues
-
-### 0.3.3 (2022-05-30)
-* (xXBJXx) update Dependencies
 
 ## License
 MIT License
