@@ -37,56 +37,34 @@ const motionObjects = object_mqttMotion_definitions;
 const faceObjects = object_mqttFace_definitions;
 const qrcodeObjects = object_mqttQrcode_definitions;
 
-let logLevel: ioBroker.StateValue = 'info';
-let requestTimeout: NodeJS.Timeout | null = null;
-//let abortController: AbortController | null = null;
-const abortController: AbortController = new AbortController();
-let interval = 30;
-let mqttInstalled = false;
-let mqttEnabled = false;
-const tabletMqttEnabled: boolean[] = [];
-let mqttInstance: string | null = null;
-const mqttPath: string[] = [];
-let mqttObj: { [key: string]: any }[] = [];
-const mqttAttribute = [
-	'battery',
-	'light',
-	'motion',
-	'face',
-	'qrcode',
-	'magneticField',
-	'pressure',
-	'temperature',
-];
-const ip: string[] = [];
-const device_ip: string[] = [];
-const port: number[] = [];
-const connectionState: boolean[] = [];
-const tabletName: string[] = [];
-const requestUrl: string[] = [];
-const sendUrl: string[] = [];
-const logMessage: boolean[] = [];
-const deviceEnabled: boolean[] = [];
-const logMessageTimer: NodeJS.Timeout[] = [];
-const folder: string[] = [`command`];
-const commandRequestTimeout: NodeJS.Timeout[] = [];
-const commandStates: string[] = [
-	`clearCache`,
-	`relaunch`,
-	`reload`,
-	`wake`,
-	`camera`,
-	`brightness`,
-	`volume`,
-	`url`,
-	`urlAudio`,
-	`speak`,
-	`eval`,
-	'settings',
-];
-//const tabletDeviceId: string[] = [];
-const adapterIDs: string[] = [];
 class Wallpanel extends utils.Adapter {
+	//timeout
+	private readonly commandRequestTimeout: NodeJS.Timeout[];
+	private readonly logMessageTimer: NodeJS.Timeout[];
+	private requestTimeout: NodeJS.Timeout | null = null;
+	//variable
+	private readonly adapterIDs: string[];
+	private readonly commandStates: string[];
+	private readonly folder: string[];
+	private readonly deviceEnabled: boolean[];
+	private readonly ip: string[];
+	private readonly device_ip: string[];
+	private readonly port: number[];
+	private readonly connectionState: boolean[];
+	private readonly tabletName: string[];
+	private readonly requestUrl: string[];
+	private readonly sendUrl: string[];
+	private readonly logMessage: boolean[];
+	private readonly mqttAttribute: string[];
+	private mqttObj: { [key: string]: any }[];
+	private readonly mqttPath: any[];
+	private mqttInstance: string | null;
+	private readonly tabletMqttEnabled: boolean[];
+	private interval: number;
+	private mqttInstalled: boolean;
+	private mqttEnabled: boolean;
+	private readonly abortController: AbortController;
+	private logLevel: ioBroker.StateValue;
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -96,6 +74,53 @@ class Wallpanel extends utils.Adapter {
 		this.on('stateChange', this.onStateChange.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 		this.on('message', this.onMessage.bind(this));
+		this.abortController = new AbortController();
+		this.logLevel = 'info';
+		this.ip = [];
+		this.device_ip = [];
+		this.port = [];
+		this.connectionState = [];
+		this.tabletName = [];
+		this.requestUrl = [];
+		this.sendUrl = [];
+		this.logMessage = [];
+		this.adapterIDs = [];
+		this.deviceEnabled = [];
+		this.folder = [`command`];
+		this.commandRequestTimeout = [];
+		this.logMessageTimer = [];
+		this.requestTimeout = null;
+		this.mqttObj = [];
+		this.mqttPath = [];
+		this.mqttInstance = null;
+		this.tabletMqttEnabled = [];
+		this.interval = 30;
+		this.mqttInstalled = false;
+		this.mqttEnabled = false;
+		this.commandStates = [
+			`clearCache`,
+			`relaunch`,
+			`reload`,
+			`wake`,
+			`camera`,
+			`brightness`,
+			`volume`,
+			`url`,
+			`urlAudio`,
+			`speak`,
+			`eval`,
+			'settings',
+		];
+		this.mqttAttribute = [
+			'battery',
+			'light',
+			'motion',
+			'face',
+			'qrcode',
+			'magneticField',
+			'pressure',
+			'temperature',
+		];
 	}
 
 	/**
@@ -115,22 +140,22 @@ class Wallpanel extends utils.Adapter {
 			// Check if the log output from the adapter is in debug mode.
 			const logLevelObj = await this.getForeignStateAsync(`system.adapter.${this.namespace}.logLevel`);
 			if (logLevelObj === undefined) {
-				logLevel = 'info';
+				this.logLevel = 'info';
 			} else {
 				if (logLevelObj !== null) {
-					logLevel = logLevelObj.val;
+					this.logLevel = logLevelObj.val;
 				}
 			}
 
-			if (logLevel === 'debug') this.log.debug(`prepare adapter for initialization`);
+			if (this.logLevel === 'debug') this.log.debug(`prepare adapter for initialization`);
 
 			// polling min 10 sec.
-			interval = this.config.interval * 1000;
-			if (interval < 10000) {
-				interval = 10000;
+			this.interval = this.config.interval * 1000;
+			if (this.interval < 10000) {
+				this.interval = 10000;
 			}
-			if (logLevel === 'debug')
-				this.log.debug(`Adapter config for interval readout --> ${interval} ms`);
+			if (this.logLevel === 'debug')
+				this.log.debug(`Adapter config for interval readout --> ${this.interval} ms`);
 
 			// ip and port
 			const devices = this.config.devices;
@@ -141,95 +166,104 @@ class Wallpanel extends utils.Adapter {
 				for (const i in devices) {
 					if (devices.hasOwnProperty(i)) {
 						const name = devices[i]['name'];
-						device_ip[i] = devices[i]['ip'];
-						port[i] = devices[i]['port'];
-						deviceEnabled[i] = devices[i]['enabled'];
-						mqttInstalled = this.config.mqttInstalled;
-						mqttEnabled = this.config.enabledMqtt;
-						mqttInstance = this.config.mqttInstance;
-						tabletMqttEnabled[i] = devices[i]['mqttEnabled'];
-						connectionState[i] = false;
+						this.device_ip[i] = devices[i]['ip'];
+						this.port[i] = devices[i]['port'];
+						this.deviceEnabled[i] = devices[i]['enabled'];
+						this.mqttInstalled = this.config.mqttInstalled;
+						this.mqttEnabled = this.config.enabledMqtt;
+						this.mqttInstance = this.config.mqttInstance;
+						this.tabletMqttEnabled[i] = devices[i]['mqttEnabled'];
+						this.connectionState[i] = false;
 						if (devices[i]['topic'] !== '') {
-							mqttPath[i] = `${mqttInstance}.${devices[i]['topic'].replace('/', '.')}`;
+							this.mqttPath[i] = `${this.mqttInstance}.${devices[i]['topic'].replace(
+								'/',
+								'.',
+							)}`;
 						} else {
-							mqttPath[i] = 'undefined';
+							this.mqttPath[i] = 'undefined';
 						}
 
-						if (logLevel === 'debug') this.log.debug(`initialization Ip for ${name}: ${ip[i]}`);
-						if (logLevel === 'debug')
-							this.log.debug(`initialization port for ${name}: ${port[i]}`);
-						if (logLevel === 'debug')
-							this.log.debug(`initialization deviceEnabled for ${name}: ${deviceEnabled[i]}`);
-						if (logLevel === 'debug') this.log.debug(`initialization tabletName: ${name}`);
-						if (logLevel === 'debug')
-							this.log.debug(`initialization mqttInstalled: ${mqttInstalled}`);
-						if (logLevel === 'debug')
-							this.log.debug(`initialization mqttEnabled: ${mqttEnabled}`);
-						if (logLevel === 'debug')
-							this.log.debug(`initialization mqttInstance: ${mqttInstance}`);
-						if (logLevel === 'debug')
-							this.log.debug(`initialization mqttPaths for ${name}: ${mqttPath}`);
-						if (logLevel === 'debug')
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization Ip for ${name}: ${this.ip[i]}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization port for ${name}: ${this.port[i]}`);
+						if (this.logLevel === 'debug')
 							this.log.debug(
-								`initialization tabletMqttEnabled for ${name}: ${tabletMqttEnabled[i]}`,
+								`initialization deviceEnabled for ${name}: ${this.deviceEnabled[i]}`,
+							);
+						if (this.logLevel === 'debug') this.log.debug(`initialization tabletName: ${name}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization mqttInstalled: ${this.mqttInstalled}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization mqttEnabled: ${this.mqttEnabled}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization mqttInstance: ${this.mqttInstance}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization mqttPaths for ${name}: ${this.mqttPath}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(
+								`initialization tabletMqttEnabled for ${name}: ${this.tabletMqttEnabled[i]}`,
 							);
 
-						for (const mqttPathKey in mqttPath) {
-							if (mqttPath.hasOwnProperty(mqttPathKey)) {
-								if (mqttPath[mqttPathKey] !== 'undefined' && tabletMqttEnabled[i]) {
-									this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.motion`);
-									this.subscribeForeignStates(`${mqttPath[mqttPathKey]}.sensor.face`);
+						for (const mqttPathKey in this.mqttPath) {
+							if (this.mqttPath.hasOwnProperty(mqttPathKey)) {
+								if (this.mqttPath[mqttPathKey] !== 'undefined' && this.tabletMqttEnabled[i]) {
+									this.subscribeForeignStates(
+										`${this.mqttPath[mqttPathKey]}.sensor.motion`,
+									);
+									this.subscribeForeignStates(`${this.mqttPath[mqttPathKey]}.sensor.face`);
 								} else {
-									if (logLevel === 'debug')
+									if (this.logLevel === 'debug')
 										this.log.debug(
-											`[ mqttSubscribeMotion ] mqtt Topic for ${name} with ip ${device_ip[i]} is not set`,
+											`[ mqttSubscribeMotion ] mqtt Topic for ${name} with ip ${this.device_ip[i]} is not set`,
 										);
 								}
 							}
 						}
 
-						if (logLevel === 'debug')
+						if (this.logLevel === 'debug')
 							this.log.debug(`Check whether the IP address is available for the ${name}`);
-						deviceEnabled[i] = device_ip[i] !== '' && deviceEnabled[i];
-						if (device_ip[i] === '')
+						this.deviceEnabled[i] = this.device_ip[i] !== '' && this.deviceEnabled[i];
+						if (this.device_ip[i] === '')
 							this.log.warn(`${name} has no ip address device is not queried`);
 
-						if (device_ip[i] !== undefined || device_ip[i] !== '') {
+						if (this.device_ip[i] !== undefined || this.device_ip[i] !== '') {
 							const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/; //regex from https://regex101.com/library/ChFXjy
 
-							if (device_ip[i].match(ipRegex)) {
+							if (this.device_ip[i].match(ipRegex)) {
 								// valid
-								ip[i] = device_ip[i];
+								this.ip[i] = this.device_ip[i];
 							} else {
 								// invalid
 								this.log.warn('No Permitted Ip Address');
-								deviceEnabled[i] = false;
+								this.deviceEnabled[i] = false;
 							}
 						}
-						requestUrl[i] = `http://${ip[i]}:${port[i]}/api/state`;
-						sendUrl[i] = `http://${ip[i]}:${port[i]}/api/command`;
+						this.requestUrl[i] = `http://${this.ip[i]}:${this.port[i]}/api/state`;
+						this.sendUrl[i] = `http://${this.ip[i]}:${this.port[i]}/api/command`;
 
-						if (logLevel === 'debug')
-							this.log.debug(`initialization requestUrl: ${requestUrl[i]}`);
-						if (logLevel === 'debug') this.log.debug(`initialization sendUrl: ${sendUrl[i]}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization requestUrl: ${this.requestUrl[i]}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`initialization sendUrl: ${this.sendUrl[i]}`);
 
-						if (logLevel === 'debug')
+						if (this.logLevel === 'debug')
 							this.log.debug(`it is checked whether the name of the device is entered`);
 						// Prepare tablet name
 						if (name !== '') {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(`the name of the device is entered and is used --> ${name}`);
-							tabletName[i] = <string>await replaceFunktion(name);
-							adapterIDs[i] = `${this.namespace}.${tabletName[i]}`;
-						} else if (deviceEnabled[i]) {
-							if (logLevel === 'debug')
+							this.tabletName[i] = <string>await replaceFunktion(name);
+							this.adapterIDs[i] = `${this.namespace}.${this.tabletName[i]}`;
+						} else if (this.deviceEnabled[i]) {
+							if (this.logLevel === 'debug')
 								this.log.debug(
-									`The name of the device is not entered; the IP address is used for the name --> ${ip[i]}`,
+									`The name of the device is not entered; the IP address is used for the name --> ${this.ip[i]}`,
 								);
-							tabletName[i] = <string>await replaceFunktion(ip[i]);
+							this.tabletName[i] = <string>await replaceFunktion(this.ip[i]);
 						}
-						if (logLevel === 'debug')
-							this.log.debug(`Tablet name is being prepared: ${tabletName[i]}`);
+						if (this.logLevel === 'debug')
+							this.log.debug(`Tablet name is being prepared: ${this.tabletName[i]}`);
 					}
 				}
 
@@ -237,7 +271,7 @@ class Wallpanel extends utils.Adapter {
 				this.log.info(`Adapter has been fully initialized`);
 				this.log.info(`installed Adapter Version ${this.common.version}`);
 			} else {
-				deviceEnabled[1] = false;
+				this.deviceEnabled[1] = false;
 			}
 		} catch (error) {
 			this.setState('info.connection', false, true);
@@ -247,23 +281,24 @@ class Wallpanel extends utils.Adapter {
 
 	async request(): Promise<void> {
 		try {
-			if (requestTimeout) clearTimeout(requestTimeout);
+			if (this.requestTimeout) clearTimeout(this.requestTimeout);
 			if (
-				(!requestUrl && Array.isArray(requestUrl) && requestUrl['length'] !== 0) ||
-				(Array.isArray(requestUrl) && requestUrl['length'] !== 0)
+				(!this.requestUrl && Array.isArray(this.requestUrl) && this.requestUrl['length'] !== 0) ||
+				(Array.isArray(this.requestUrl) && this.requestUrl['length'] !== 0)
 			) {
-				for (const i in requestUrl) {
-					if (requestUrl.hasOwnProperty(i)) {
-						if (deviceEnabled[i]) {
-							if (logLevel === 'debug') this.log.debug(`device: ${tabletName[i]} enabled`);
-							if (logLevel === 'debug') this.log.debug(`API request started ...`);
+				for (const i in this.requestUrl) {
+					if (this.requestUrl.hasOwnProperty(i)) {
+						if (this.deviceEnabled[i]) {
+							if (this.logLevel === 'debug')
+								this.log.debug(`device: ${this.tabletName[i]} enabled`);
+							if (this.logLevel === 'debug') this.log.debug(`API request started ...`);
 
 							// Try to reach API and receive data
 							await axios
-								.get(requestUrl[i])
+								.get(this.requestUrl[i])
 								.then(async (apiResult: { [x: string]: any }): Promise<void> => {
 									if (apiResult['status'] === 200) {
-										if (logLevel === 'debug')
+										if (this.logLevel === 'debug')
 											this.log.debug(
 												`API request ended successfully --> result from api Request: ${JSON.stringify(
 													apiResult['data'],
@@ -271,21 +306,25 @@ class Wallpanel extends utils.Adapter {
 											);
 
 										// check if mqtt is turned on and installed, if yes then mqtt data request
-										if (mqttEnabled && mqttInstalled && tabletMqttEnabled[i]) {
-											if (logLevel === 'debug')
+										if (
+											this.mqttEnabled &&
+											this.mqttInstalled &&
+											this.tabletMqttEnabled[i]
+										) {
+											if (this.logLevel === 'debug')
 												this.log.debug(`requesting data from mqtt`);
 											await this.mqttRequest(parseInt(i));
 										}
 
 										// create an object with the data from the API request and all required objects
-										if (logLevel === 'debug')
+										if (this.logLevel === 'debug')
 											this.log.debug(
-												`State Create is now running for ${tabletName[i]} ...`,
+												`State Create is now running for ${this.tabletName[i]} ...`,
 											);
 										await this.create_State(apiResult, parseInt(i));
 
 										// check if all objects are still needed and delete them if necessary
-										if (logLevel === 'debug')
+										if (this.logLevel === 'debug')
 											this.log.debug(`checking whether all objects are needed`);
 										await this.deleteFunction();
 
@@ -294,71 +333,71 @@ class Wallpanel extends utils.Adapter {
 										await this.state_write(apiResult, parseInt(i));
 
 										// set the last request time
-										await this.setStateAsync(`${tabletName[i]}.lastInfoUpdate`, {
+										await this.setStateAsync(`${this.tabletName[i]}.lastInfoUpdate`, {
 											val: Date.now(),
 											ack: true,
 										});
-										if (logLevel === 'debug')
+										if (this.logLevel === 'debug')
 											this.log.debug(
 												`The last update of the state was on: ${Date.now()}`,
 											);
 
 										// set the connection state to true
-										await this.setStateAsync(`${tabletName[i]}.connected`, {
+										await this.setStateAsync(`${this.tabletName[i]}.connected`, {
 											val: true,
 											ack: true,
 										});
-										connectionState[i] = true;
-										if (logLevel === 'debug')
+										this.connectionState[i] = true;
+										if (this.logLevel === 'debug')
 											this.log.debug(`The connection state was set to true`);
 
 										// clear log message timer
-										if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
-										if (logLevel === 'debug')
+										if (this.logMessageTimer[i]) clearTimeout(this.logMessageTimer[i]);
+										if (this.logLevel === 'debug')
 											this.log.debug(
-												`logMessageTimer for ${tabletName[i]} will be deleted`,
+												`logMessageTimer for ${this.tabletName[i]} will be deleted`,
 											);
-										logMessage[i] = false;
-										if (logLevel === 'debug')
+										this.logMessage[i] = false;
+										if (this.logLevel === 'debug')
 											this.log.debug(
-												`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
+												`logMessage set to ${this.logMessage[i]} for ${this.tabletName[i]}`,
 											);
 									}
 								})
 								.catch(async (error: any): Promise<void> => {
-									if (!logMessage[i]) {
-										logMessage[i] = true;
-										if (logLevel === 'debug')
+									if (!this.logMessage[i]) {
+										this.logMessage[i] = true;
+										if (this.logLevel === 'debug')
 											this.log.debug(
-												`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
+												`logMessage set to ${this.logMessage[i]} for ${this.tabletName[i]}`,
 											);
 										// set connection state to false
-										this.setState(`${tabletName[i]}.connected`, {
+										this.setState(`${this.tabletName[i]}.connected`, {
 											val: false,
 											ack: true,
 										});
-										connectionState[i] = false;
+										this.connectionState[i] = false;
 										this.log.error(
-											`[Request] ${tabletName[i]} Unable to contact: ${error} | ${error}`,
+											`[Request] ${this.tabletName[i]} Unable to contact: ${error} | ${error}`,
 										);
-									} else if (!logMessageTimer[i]) {
-										if (logMessageTimer[i]) clearTimeout(logMessageTimer[i]);
-										if (logLevel === 'debug')
+									} else if (!this.logMessageTimer[i]) {
+										if (this.logMessageTimer[i]) clearTimeout(this.logMessageTimer[i]);
+										if (this.logLevel === 'debug')
 											this.log.debug(
-												`logMessageTimer for ${tabletName[i]} will be deleted`,
+												`logMessageTimer for ${this.tabletName[i]} will be deleted`,
 											);
 
-										if (logLevel === 'debug')
+										if (this.logLevel === 'debug')
 											this.log.debug(
-												`set logMessageTimer for ${tabletName[i]} to ${
+												`set logMessageTimer for ${this.tabletName[i]} to ${
 													3600000 / 60000
 												} min`,
 											);
-										logMessageTimer[i] = setTimeout(async () => {
-											logMessage[i] = false;
-											if (logLevel === 'debug')
+										this.logMessageTimer[i] = setTimeout(async () => {
+											this.logMessage[i] = false;
+											if (this.logLevel === 'debug')
 												this.log.debug(
-													`logMessage set to ${logMessage[i]} for ${tabletName[i]}`,
+													`logMessage set to ${this.logMessage[i]} for ${this.tabletName[i]}`,
 												);
 										}, 3600000);
 									}
@@ -368,14 +407,15 @@ class Wallpanel extends utils.Adapter {
 						}
 					}
 				}
-				if (logLevel === 'debug') this.log.debug(`set requestTimeout to ${interval / 1000} sec`);
-				requestTimeout = setTimeout(async () => {
-					if (logLevel === 'debug') this.log.debug(`request is restarted`);
+				if (this.logLevel === 'debug')
+					this.log.debug(`set requestTimeout to ${this.interval / 1000} sec`);
+				this.requestTimeout = setTimeout(async () => {
+					if (this.logLevel === 'debug') this.log.debug(`request is restarted`);
 					await this.request();
-				}, interval);
+				}, this.interval);
 			} else {
 				// start the delete function if no tablets are configured
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(
 						`no tablets are configured --> delete function will be started for all objects`,
 					);
@@ -387,118 +427,127 @@ class Wallpanel extends utils.Adapter {
 	}
 
 	async mqttRequest(index: number): Promise<void> {
-		mqttObj = [];
+		this.mqttObj = [];
 
-		for (const i in mqttAttribute) {
-			if (mqttAttribute.hasOwnProperty(i)) {
-				if (mqttPath[index] !== 'undefined') {
+		for (const i in this.mqttAttribute) {
+			if (this.mqttAttribute.hasOwnProperty(i)) {
+				if (this.mqttPath[index] !== 'undefined') {
 					const mqttState: ioBroker.State | null | undefined = await this.getForeignStateAsync(
-						`${mqttPath[index]}.sensor.${mqttAttribute[i]}`,
+						`${this.mqttPath[index]}.sensor.${this.mqttAttribute[i]}`,
 					);
 
 					if (mqttState) {
-						if (mqttObj) {
+						if (this.mqttObj) {
 							if (typeof mqttState.val === 'string') {
-								mqttObj.push(<{ [key: string]: any }>{
-									[`${mqttAttribute[i]}`]: JSON.parse(mqttState.val),
+								this.mqttObj.push(<{ [key: string]: any }>{
+									[`${this.mqttAttribute[i]}`]: JSON.parse(mqttState.val),
 								});
 							}
 						}
 					}
 				} else {
-					if (logLevel === 'debug')
+					if (this.logLevel === 'debug')
 						this.log.debug(
-							`[ mqttRequest ] mqtt Topic for ${tabletName[index]} with ip ${device_ip[index]} is not set`,
+							`[ mqttRequest ] mqtt Topic for ${this.tabletName[index]} with ip ${this.device_ip[index]} is not set`,
 						);
 				}
 			}
 		}
-		if (logLevel === 'debug') this.log.debug(`MQTT states were obtained`);
-		if (logLevel === 'debug') this.log.debug(`MQTT states are: ${JSON.stringify(mqttObj)}`);
+		if (this.logLevel === 'debug') this.log.debug(`MQTT states were obtained`);
+		if (this.logLevel === 'debug') this.log.debug(`MQTT states are: ${JSON.stringify(this.mqttObj)}`);
 	}
 
 	async state_write(res: { [x: string]: any; data?: any }, index: number): Promise<void> {
 		try {
-			if (logLevel === 'debug')
-				this.log.debug(`Preparation for the state write for ${tabletName[index]} ....`);
-			if (logLevel === 'debug') this.log.debug(`stats are written now`);
+			if (this.logLevel === 'debug')
+				this.log.debug(`Preparation for the state write for ${this.tabletName[index]} ....`);
+			if (this.logLevel === 'debug') this.log.debug(`stats are written now`);
 			let mqttJsonObj = {};
 			for (const key in res.data) {
 				if (res.data.hasOwnProperty(key)) {
-					await this.setStateAsync(`${tabletName[index]}.${key}`, {
+					await this.setStateAsync(`${this.tabletName[index]}.${key}`, {
 						val: res.data[key],
 						ack: true,
 					});
 				}
 			}
-			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[1]}`, {
-				val: ip[index],
+			await this.setStateAsync(`${this.tabletName[index]}.${Object.keys(infoObjects)[1]}`, {
+				val: this.ip[index],
 				ack: true,
 			});
-			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[2]}`, {
-				val: `http://${ip[index]}:${port[index]}/camera/stream`,
+			await this.setStateAsync(`${this.tabletName[index]}.${Object.keys(infoObjects)[2]}`, {
+				val: `http://${this.ip[index]}:${this.port[index]}/camera/stream`,
 				ack: true,
 			});
 
-			for (const mqttObjKey in mqttObj) {
-				if (mqttObj.hasOwnProperty(mqttObjKey)) {
+			for (const mqttObjKey in this.mqttObj) {
+				if (this.mqttObj.hasOwnProperty(mqttObjKey)) {
 					mqttJsonObj = {
 						...mqttJsonObj,
-						[`${Object.keys(mqttObj[mqttObjKey])[0]}`]:
-							mqttObj[mqttObjKey][Object.keys(mqttObj[mqttObjKey])[0]],
+						[`${Object.keys(this.mqttObj[mqttObjKey])[0]}`]:
+							this.mqttObj[mqttObjKey][Object.keys(this.mqttObj[mqttObjKey])[0]],
 					};
 				}
 			}
 
 			let jsonObj = {
 				[`${Object.keys(infoObjects)[0]}`]: Date.now(),
-				[`${Object.keys(infoObjects)[1]}`]: ip[index],
-				[`${Object.keys(infoObjects)[2]}`]: `http://${ip[index]}:${port[index]}/camera/stream`,
-				[`${Object.keys(infoObjects)[3]}`]: connectionState[index],
+				[`${Object.keys(infoObjects)[1]}`]: this.ip[index],
+				[`${
+					Object.keys(infoObjects)[2]
+				}`]: `http://${this.ip[index]}:${this.port[index]}/camera/stream`,
+				[`${Object.keys(infoObjects)[3]}`]: this.connectionState[index],
 				...res.data,
 			};
-			if (tabletMqttEnabled[index]) {
+			if (this.tabletMqttEnabled[index]) {
 				jsonObj = {
 					...jsonObj,
 					...mqttJsonObj,
 				};
 			}
-			if (logLevel === 'debug') this.log.debug(`JSON object is: ${JSON.stringify(jsonObj)}`);
-			await this.setStateAsync(`${tabletName[index]}.${Object.keys(infoObjects)[4]}`, {
+			if (this.logLevel === 'debug') this.log.debug(`JSON object is: ${JSON.stringify(jsonObj)}`);
+			await this.setStateAsync(`${this.tabletName[index]}.${Object.keys(infoObjects)[4]}`, {
 				val: JSON.stringify(jsonObj),
 				ack: true,
 			});
 
 			// Check if mqtt is installed and switched on in the Config
-			if (mqttEnabled && mqttInstalled && tabletMqttEnabled[index]) {
-				if (logLevel === 'debug')
-					this.log.debug(`MQTT state is written now for ${tabletName[index]} ....`);
-				for (const mqttObjKey in mqttObj) {
-					if (mqttObj.hasOwnProperty(mqttObjKey)) {
-						for (const mqttAttributeKey of mqttAttribute) {
-							if (Object.keys(mqttObj[mqttObjKey]).includes(mqttAttributeKey)) {
-								for (const key in Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])) {
+			if (this.mqttEnabled && this.mqttInstalled && this.tabletMqttEnabled[index]) {
+				if (this.logLevel === 'debug')
+					this.log.debug(`MQTT state is written now for ${this.tabletName[index]} ....`);
+				for (const mqttObjKey in this.mqttObj) {
+					if (this.mqttObj.hasOwnProperty(mqttObjKey)) {
+						for (const mqttAttributeKey of this.mqttAttribute) {
+							if (Object.keys(this.mqttObj[mqttObjKey]).includes(mqttAttributeKey)) {
+								for (const key in Object.keys(this.mqttObj[mqttObjKey][mqttAttributeKey])) {
 									if (
-										Object.keys(mqttObj[mqttObjKey][mqttAttributeKey]).hasOwnProperty(key)
+										Object.keys(
+											this.mqttObj[mqttObjKey][mqttAttributeKey],
+										).hasOwnProperty(key)
 									) {
 										if (
-											Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key] !== 'unit'
+											Object.keys(this.mqttObj[mqttObjKey][mqttAttributeKey])[key] !==
+											'unit'
 										) {
 											// extract on the object the attributes
 											const attribute: string = Object.keys(
-												mqttObj[mqttObjKey][mqttAttributeKey],
+												this.mqttObj[mqttObjKey][mqttAttributeKey],
 											)[key];
 											// create a state name from the attributes
 											const state: string =
-												Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key] ===
-												'value'
-													? Object.keys(mqttObj[mqttObjKey])[0]
-													: Object.keys(mqttObj[mqttObjKey][mqttAttributeKey])[key];
+												Object.keys(this.mqttObj[mqttObjKey][mqttAttributeKey])[
+													key
+												] === 'value'
+													? Object.keys(this.mqttObj[mqttObjKey])[0]
+													: Object.keys(this.mqttObj[mqttObjKey][mqttAttributeKey])[
+															key
+													  ];
 											// extract on the object the value
-											const value = mqttObj[mqttObjKey][mqttAttributeKey][attribute];
+											const value =
+												this.mqttObj[mqttObjKey][mqttAttributeKey][attribute];
 
 											await this.setStateAsync(
-												`${tabletName[index]}.sensor.${mqttAttributeKey}.${state}`,
+												`${this.tabletName[index]}.sensor.${mqttAttributeKey}.${state}`,
 												{
 													val: value,
 													ack: true,
@@ -511,7 +560,7 @@ class Wallpanel extends utils.Adapter {
 						}
 					}
 				}
-				if (logLevel === 'debug') this.log.debug(`MQTT states were written`);
+				if (this.logLevel === 'debug') this.log.debug(`MQTT states were written`);
 			}
 		} catch (error) {
 			this.log.error(`state_write has a problem: ${error.message}, stack: ${error.stack}`);
@@ -521,20 +570,20 @@ class Wallpanel extends utils.Adapter {
 	async sendCommand(id: string, state: ioBroker.State, index: number, cmd: string): Promise<void> {
 		let value = state.val;
 		switch (cmd) {
-			case `${commandStates[0]}`:
+			case `${this.commandStates[0]}`:
 				if (value === false) {
 					value = true;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [clearCache] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { clearCache: value })
+					.post(this.sendUrl[index], { clearCache: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[clearCache] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -547,20 +596,20 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[1]}`:
+			case `${this.commandStates[1]}`:
 				if (value === false) {
 					value = true;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [relaunch] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { relaunch: value })
+					.post(this.sendUrl[index], { relaunch: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[relaunch] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -573,20 +622,20 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[2]}`:
+			case `${this.commandStates[2]}`:
 				if (value === false) {
 					value = true;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [reload] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { reload: value })
+					.post(this.sendUrl[index], { reload: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[reload] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -599,20 +648,22 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[3]}`:
-				if (logLevel === 'debug') this.log.debug(`command [wake] is being sent with value: ${value}`);
+			case `${this.commandStates[3]}`:
+				if (this.logLevel === 'debug')
+					this.log.debug(`command [wake] is being sent with value: ${value}`);
 
 				await axios
-					.post(sendUrl[index], { wake: value })
+					.post(this.sendUrl[index], { wake: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (commandRequestTimeout[index]) clearTimeout(commandRequestTimeout[index]);
-							if (logLevel === 'debug')
+							if (this.commandRequestTimeout[index])
+								clearTimeout(this.commandRequestTimeout[index]);
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[wake] command was sent successfully Status: ${result['statusText']}`,
 								);
 
-							commandRequestTimeout[index] = setTimeout(async () => {
+							this.commandRequestTimeout[index] = setTimeout(async () => {
 								await this.request();
 							}, 1500);
 							await this.setState(id, value, true);
@@ -625,20 +676,20 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[4]}`:
+			case `${this.commandStates[4]}`:
 				if (value === false) {
 					value = true;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [ camera ] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { camera: value })
+					.post(this.sendUrl[index], { camera: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[camera] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -651,7 +702,7 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[5]}`:
+			case `${this.commandStates[5]}`:
 				if (value !== null) {
 					if (value <= 0) {
 						value = 1;
@@ -671,20 +722,21 @@ class Wallpanel extends utils.Adapter {
 					}
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [brightness] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { brightness: value })
+					.post(this.sendUrl[index], { brightness: value })
 
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (commandRequestTimeout[index]) clearTimeout(commandRequestTimeout[index]);
-							if (logLevel === 'debug')
+							if (this.commandRequestTimeout[index])
+								clearTimeout(this.commandRequestTimeout[index]);
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[brightness] command was sent successfully Status: ${result['statusText']}`,
 								);
 
-							commandRequestTimeout[index] = setTimeout(async () => {
+							this.commandRequestTimeout[index] = setTimeout(async () => {
 								await this.request();
 							}, 1500);
 							await this.setStateAsync(id, value, true);
@@ -697,7 +749,7 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[6]}`:
+			case `${this.commandStates[6]}`:
 				if (value !== null) {
 					if (value >= 100) {
 						value = 100;
@@ -717,13 +769,13 @@ class Wallpanel extends utils.Adapter {
 					}
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [volume] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { volume: value })
+					.post(this.sendUrl[index], { volume: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[volume] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -737,19 +789,20 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[7]}`:
+			case `${this.commandStates[7]}`:
 				if (value === 0) {
 					value = 1;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug') this.log.debug(`command [url] is being sent with value: ${value}`);
+				if (this.logLevel === 'debug')
+					this.log.debug(`command [url] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { url: value })
+					.post(this.sendUrl[index], { url: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[url] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -763,20 +816,20 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[8]}`:
+			case `${this.commandStates[8]}`:
 				if (value === 0) {
 					value = 1;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [urlAudio] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { audio: value })
+					.post(this.sendUrl[index], { audio: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[urlAudio] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -790,21 +843,21 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[9]}`:
+			case `${this.commandStates[9]}`:
 				if (value === 0) {
 					value = 1;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [speak] is being sent with value: ${value}`);
 
 				await axios
-					.post(sendUrl[index], { speak: value })
+					.post(this.sendUrl[index], { speak: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[speak] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -818,20 +871,21 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[10]}`:
+			case `${this.commandStates[10]}`:
 				if (value === 0) {
 					value = 1;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug') this.log.debug(`command [eval] is being sent with value: ${value}`);
+				if (this.logLevel === 'debug')
+					this.log.debug(`command [eval] is being sent with value: ${value}`);
 
 				await axios
-					.post(sendUrl[index], { eval: value })
+					.post(this.sendUrl[index], { eval: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[eval] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -845,20 +899,20 @@ class Wallpanel extends utils.Adapter {
 					});
 				break;
 
-			case `${commandStates[11]}`: {
+			case `${this.commandStates[11]}`: {
 				if (value === false) {
 					value = true;
 				} else {
 					value = state.val;
 				}
 
-				if (logLevel === 'debug')
+				if (this.logLevel === 'debug')
 					this.log.debug(`command [ settings ] is being sent with value: ${value}`);
 				await axios
-					.post(sendUrl[index], { settings: value })
+					.post(this.sendUrl[index], { settings: value })
 					.then(async (result) => {
 						if (result['status'] === 200) {
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(
 									`[ settings ] command was sent successfully Status: ${result['statusText']}`,
 								);
@@ -876,10 +930,10 @@ class Wallpanel extends utils.Adapter {
 
 	async create_State(res: { [x: string]: any }, index: number): Promise<void> {
 		try {
-			if (logLevel === 'debug') this.log.debug(`preparation for the statesCreate...`);
+			if (this.logLevel === 'debug') this.log.debug(`preparation for the statesCreate...`);
 			const requestStatesType: any[] = [];
 			const requestStates = Object.keys(res['data']);
-			if (logLevel === 'debug')
+			if (this.logLevel === 'debug')
 				this.log.debug(`Read the state name from the apiResult: ${requestStates}`);
 
 			for (const t in requestStates) {
@@ -887,14 +941,14 @@ class Wallpanel extends utils.Adapter {
 					requestStatesType[t] = typeof Object.values(res['data'])[t];
 				}
 			}
-			if (logLevel === 'debug')
+			if (this.logLevel === 'debug')
 				this.log.debug(`Read the state Type from the apiResult: ${requestStatesType}`);
-			if (logLevel === 'debug') this.log.debug(`Start the stateCreate for the requestStates`);
-			if (logLevel === 'debug')
+			if (this.logLevel === 'debug') this.log.debug(`Start the stateCreate for the requestStates`);
+			if (this.logLevel === 'debug')
 				this.log.debug(`Start the stateCreate for the commandStates and subscribeStates`);
 
 			// create device folder
-			await this.setObjectNotExistsAsync(`${tabletName[index]}`, {
+			await this.setObjectNotExistsAsync(`${this.tabletName[index]}`, {
 				type: 'device',
 				common: {
 					name: `${this.config.devices[index].name}`,
@@ -903,12 +957,12 @@ class Wallpanel extends utils.Adapter {
 			});
 
 			// create channel folder
-			for (const f in folder) {
-				if (folder.hasOwnProperty(f)) {
-					await this.setObjectNotExistsAsync(`${tabletName[index]}.${folder[f]}`, {
+			for (const f in this.folder) {
+				if (this.folder.hasOwnProperty(f)) {
+					await this.setObjectNotExistsAsync(`${this.tabletName[index]}.${this.folder[f]}`, {
 						type: 'channel',
 						common: {
-							name: `${folder[f]}`,
+							name: `${this.folder[f]}`,
 						},
 						native: {},
 					});
@@ -919,18 +973,18 @@ class Wallpanel extends utils.Adapter {
 			for (const obj in commandObjects) {
 				if (commandObjects.hasOwnProperty(obj)) {
 					await this.setObjectNotExistsAsync(
-						`${tabletName[index]}.command.${obj}`,
+						`${this.tabletName[index]}.command.${obj}`,
 						commandObjects[obj],
 					);
-					this.subscribeStates(`${tabletName[index]}.command.${obj}`);
+					this.subscribeStates(`${this.tabletName[index]}.command.${obj}`);
 
 					let Objects = null;
-					Objects = await this.getObjectAsync(`${tabletName[index]}.command.${obj}`);
+					Objects = await this.getObjectAsync(`${this.tabletName[index]}.command.${obj}`);
 					if (Objects !== null && Objects !== undefined) {
 						for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
 							if (commandObjects[obj].common[valueKey] !== KeyValue) {
 								const common = commandObjects[obj].common;
-								await this.extendObjectAsync(`${tabletName[index]}.command.${obj}`, {
+								await this.extendObjectAsync(`${this.tabletName[index]}.command.${obj}`, {
 									type: 'state',
 									common,
 								});
@@ -946,14 +1000,14 @@ class Wallpanel extends utils.Adapter {
 			// create infoStates
 			for (const obj in infoObjects) {
 				if (infoObjects.hasOwnProperty(obj)) {
-					await this.setObjectNotExistsAsync(`${tabletName[index]}.${obj}`, infoObjects[obj]);
+					await this.setObjectNotExistsAsync(`${this.tabletName[index]}.${obj}`, infoObjects[obj]);
 					let Objects = null;
-					Objects = await this.getObjectAsync(`${tabletName[index]}.${obj}`);
+					Objects = await this.getObjectAsync(`${this.tabletName[index]}.${obj}`);
 					if (Objects !== null && Objects !== undefined) {
 						for (const [valueKey, KeyValue] of Object.entries(Objects[`common`])) {
 							if (infoObjects[obj].common[valueKey] !== KeyValue) {
 								const common = infoObjects[obj].common;
-								await this.extendObjectAsync(`${tabletName[index]}.${obj}`, {
+								await this.extendObjectAsync(`${this.tabletName[index]}.${obj}`, {
 									type: 'state',
 									common,
 								});
@@ -967,10 +1021,10 @@ class Wallpanel extends utils.Adapter {
 			}
 
 			// check if the mqtt is enabled
-			if (mqttEnabled && mqttInstalled) {
-				if (mqttPath[index] !== 'undefined' && mqttObj.length !== 0) {
+			if (this.mqttEnabled && this.mqttInstalled) {
+				if (this.mqttPath[index] !== 'undefined' && this.mqttObj.length !== 0) {
 					// create mqttChannels
-					await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor`, {
+					await this.setObjectNotExistsAsync(`${this.tabletName[index]}.sensor`, {
 						type: 'channel',
 						common: {
 							name: `Sensor values`,
@@ -979,29 +1033,32 @@ class Wallpanel extends utils.Adapter {
 					});
 
 					// create all mqttStates
-					for (const mqttObjKey in mqttObj) {
-						if (mqttObj.hasOwnProperty(mqttObjKey)) {
-							const Obj = Object.keys(mqttObj[mqttObjKey]);
+					for (const mqttObjKey in this.mqttObj) {
+						if (this.mqttObj.hasOwnProperty(mqttObjKey)) {
+							const Obj = Object.keys(this.mqttObj[mqttObjKey]);
 
 							if (Obj[0] === 'battery') {
-								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.battery`, {
-									type: 'channel',
-									common: {
-										name: `battery Sensor`,
+								await this.setObjectNotExistsAsync(
+									`${this.tabletName[index]}.sensor.battery`,
+									{
+										type: 'channel',
+										common: {
+											name: `battery Sensor`,
+										},
+										native: {},
 									},
-									native: {},
-								});
+								);
 
 								for (const obj in batteryObjects) {
 									if (batteryObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.battery.${obj}`,
+											`${this.tabletName[index]}.sensor.battery.${obj}`,
 											batteryObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.battery.${obj}`,
+											`${this.tabletName[index]}.sensor.battery.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1010,7 +1067,7 @@ class Wallpanel extends utils.Adapter {
 												if (batteryObjects[obj].common[valueKey] !== KeyValue) {
 													const common = batteryObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.battery.${obj}`,
+														`${this.tabletName[index]}.sensor.battery.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1025,7 +1082,7 @@ class Wallpanel extends utils.Adapter {
 									}
 								}
 							} else if (Obj[0] === 'light') {
-								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.light`, {
+								await this.setObjectNotExistsAsync(`${this.tabletName[index]}.sensor.light`, {
 									type: 'channel',
 									common: {
 										name: `light Sensor`,
@@ -1036,13 +1093,13 @@ class Wallpanel extends utils.Adapter {
 								for (const key in lightObjects) {
 									if (lightObjects.hasOwnProperty(key)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.light.${key}`,
+											`${this.tabletName[index]}.sensor.light.${key}`,
 											lightObjects[key],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.light.${key}`,
+											`${this.tabletName[index]}.sensor.light.${key}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1051,7 +1108,7 @@ class Wallpanel extends utils.Adapter {
 												if (lightObjects[key].common[valueKey] !== KeyValue) {
 													const common = lightObjects[key].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.light.${key}`,
+														`${this.tabletName[index]}.sensor.light.${key}`,
 														{
 															type: 'state',
 															common,
@@ -1067,7 +1124,7 @@ class Wallpanel extends utils.Adapter {
 								}
 							} else if (Obj[0] === 'magneticField') {
 								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.magneticField`,
+									`${this.tabletName[index]}.sensor.magneticField`,
 									{
 										type: 'channel',
 										common: {
@@ -1080,13 +1137,13 @@ class Wallpanel extends utils.Adapter {
 								for (const obj in magneticFieldObjects) {
 									if (magneticFieldObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.magneticField.${obj}`,
+											`${this.tabletName[index]}.sensor.magneticField.${obj}`,
 											magneticFieldObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.magneticField.${obj}`,
+											`${this.tabletName[index]}.sensor.magneticField.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1095,7 +1152,7 @@ class Wallpanel extends utils.Adapter {
 												if (magneticFieldObjects[obj].common[valueKey] !== KeyValue) {
 													const common = magneticFieldObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.magneticField.${obj}`,
+														`${this.tabletName[index]}.sensor.magneticField.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1110,24 +1167,27 @@ class Wallpanel extends utils.Adapter {
 									}
 								}
 							} else if (Obj[0] === 'pressure') {
-								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.pressure`, {
-									type: 'channel',
-									common: {
-										name: `pressure Sensor`,
+								await this.setObjectNotExistsAsync(
+									`${this.tabletName[index]}.sensor.pressure`,
+									{
+										type: 'channel',
+										common: {
+											name: `pressure Sensor`,
+										},
+										native: {},
 									},
-									native: {},
-								});
+								);
 
 								for (const obj in pressureObjects) {
 									if (pressureObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.pressure.${obj}`,
+											`${this.tabletName[index]}.sensor.pressure.${obj}`,
 											pressureObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.pressure.${obj}`,
+											`${this.tabletName[index]}.sensor.pressure.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1136,7 +1196,7 @@ class Wallpanel extends utils.Adapter {
 												if (pressureObjects[obj].common[valueKey] !== KeyValue) {
 													const common = pressureObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.pressure.${obj}`,
+														`${this.tabletName[index]}.sensor.pressure.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1152,7 +1212,7 @@ class Wallpanel extends utils.Adapter {
 								}
 							} else if (Obj[0] === 'temperature') {
 								await this.setObjectNotExistsAsync(
-									`${tabletName[index]}.sensor.temperature`,
+									`${this.tabletName[index]}.sensor.temperature`,
 									{
 										type: 'channel',
 										common: {
@@ -1165,13 +1225,13 @@ class Wallpanel extends utils.Adapter {
 								for (const obj in temperatureObjects) {
 									if (temperatureObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.temperature.${obj}`,
+											`${this.tabletName[index]}.sensor.temperature.${obj}`,
 											temperatureObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.temperature.${obj}`,
+											`${this.tabletName[index]}.sensor.temperature.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1180,7 +1240,7 @@ class Wallpanel extends utils.Adapter {
 												if (temperatureObjects[obj].common[valueKey] !== KeyValue) {
 													const common = temperatureObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.temperature.${obj}`,
+														`${this.tabletName[index]}.sensor.temperature.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1195,24 +1255,27 @@ class Wallpanel extends utils.Adapter {
 									}
 								}
 							} else if (Obj[0] === 'motion') {
-								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.motion`, {
-									type: 'channel',
-									common: {
-										name: `motion Sensor`,
+								await this.setObjectNotExistsAsync(
+									`${this.tabletName[index]}.sensor.motion`,
+									{
+										type: 'channel',
+										common: {
+											name: `motion Sensor`,
+										},
+										native: {},
 									},
-									native: {},
-								});
+								);
 
 								for (const obj in motionObjects) {
 									if (motionObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.motion.${obj}`,
+											`${this.tabletName[index]}.sensor.motion.${obj}`,
 											motionObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.motion.${obj}`,
+											`${this.tabletName[index]}.sensor.motion.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1221,7 +1284,7 @@ class Wallpanel extends utils.Adapter {
 												if (motionObjects[obj].common[valueKey] !== KeyValue) {
 													const common = motionObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.motion.${obj}`,
+														`${this.tabletName[index]}.sensor.motion.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1236,7 +1299,7 @@ class Wallpanel extends utils.Adapter {
 									}
 								}
 							} else if (Obj[0] === 'face') {
-								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.face`, {
+								await this.setObjectNotExistsAsync(`${this.tabletName[index]}.sensor.face`, {
 									type: 'channel',
 									common: {
 										name: `face Sensor`,
@@ -1247,13 +1310,13 @@ class Wallpanel extends utils.Adapter {
 								for (const obj in faceObjects) {
 									if (faceObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.face.${obj}`,
+											`${this.tabletName[index]}.sensor.face.${obj}`,
 											faceObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.face.${obj}`,
+											`${this.tabletName[index]}.sensor.face.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1262,7 +1325,7 @@ class Wallpanel extends utils.Adapter {
 												if (faceObjects[obj].common[valueKey] !== KeyValue) {
 													const common = faceObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.face.${obj}`,
+														`${this.tabletName[index]}.sensor.face.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1277,24 +1340,27 @@ class Wallpanel extends utils.Adapter {
 									}
 								}
 							} else if (Obj[0] === 'qrcode') {
-								await this.setObjectNotExistsAsync(`${tabletName[index]}.sensor.qrcode`, {
-									type: 'channel',
-									common: {
-										name: `qrcode Sensor`,
+								await this.setObjectNotExistsAsync(
+									`${this.tabletName[index]}.sensor.qrcode`,
+									{
+										type: 'channel',
+										common: {
+											name: `qrcode Sensor`,
+										},
+										native: {},
 									},
-									native: {},
-								});
+								);
 
 								for (const obj in qrcodeObjects) {
 									if (qrcodeObjects.hasOwnProperty(obj)) {
 										await this.setObjectNotExistsAsync(
-											`${tabletName[index]}.sensor.qrcode.${obj}`,
+											`${this.tabletName[index]}.sensor.qrcode.${obj}`,
 											qrcodeObjects[obj],
 										);
 
 										let Objects = null;
 										Objects = await this.getObjectAsync(
-											`${tabletName[index]}.sensor.qrcode.${obj}`,
+											`${this.tabletName[index]}.sensor.qrcode.${obj}`,
 										);
 										if (Objects !== null && Objects !== undefined) {
 											for (const [valueKey, KeyValue] of Object.entries(
@@ -1303,7 +1369,7 @@ class Wallpanel extends utils.Adapter {
 												if (qrcodeObjects[obj].common[valueKey] !== KeyValue) {
 													const common = qrcodeObjects[obj].common;
 													await this.extendObjectAsync(
-														`${tabletName[index]}.sensor.qrcode.${obj}`,
+														`${this.tabletName[index]}.sensor.qrcode.${obj}`,
 														{
 															type: 'state',
 															common,
@@ -1326,7 +1392,7 @@ class Wallpanel extends utils.Adapter {
 			// create requestState
 			for (const r in requestStates) {
 				if (requestStates.hasOwnProperty(r)) {
-					await this.setObjectNotExistsAsync(`${tabletName[index]}.${requestStates[r]}`, {
+					await this.setObjectNotExistsAsync(`${this.tabletName[index]}.${requestStates[r]}`, {
 						type: 'state',
 						common: {
 							name: `${requestStates[r]}`,
@@ -1339,9 +1405,9 @@ class Wallpanel extends utils.Adapter {
 					});
 				}
 			}
-			if (logLevel === 'debug')
-				this.log.debug(`subscribe to all stats in the command folder for ${tabletName[index]}`);
-			if (logLevel === 'debug') this.log.debug(`State Create was carried out`);
+			if (this.logLevel === 'debug')
+				this.log.debug(`subscribe to all stats in the command folder for ${this.tabletName[index]}`);
+			if (this.logLevel === 'debug') this.log.debug(`State Create was carried out`);
 		} catch (error) {
 			this.log.error(`stateCreate has a problem: ${error.message}, stack: ${error.stack}`);
 		}
@@ -1363,15 +1429,15 @@ class Wallpanel extends utils.Adapter {
 				}
 			}
 			if (tabletDeviceId.length === 0) {
-				if (logLevel === 'debug') this.log.debug('no tablets found in adapter');
+				if (this.logLevel === 'debug') this.log.debug('no tablets found in adapter');
 				return;
 			}
 
 			const deleteId: string[] = [];
 			for (const currentIDKey in tabletDeviceId) {
 				if (tabletDeviceId.hasOwnProperty(currentIDKey)) {
-					if (adapterIDs.find((element: string) => element === tabletDeviceId[currentIDKey])) {
-						if (logLevel === 'debug')
+					if (this.adapterIDs.find((element: string) => element === tabletDeviceId[currentIDKey])) {
+						if (this.logLevel === 'debug')
 							this.log.debug(
 								`The device with the name ${tabletDeviceId[currentIDKey]} is already registered`,
 							);
@@ -1383,12 +1449,12 @@ class Wallpanel extends utils.Adapter {
 
 			for (const deleteIdKey in deleteId) {
 				if (deleteId.hasOwnProperty(deleteIdKey)) {
-					if (logLevel === 'debug')
+					if (this.logLevel === 'debug')
 						this.log.debug(`delete the device with the ID: ${deleteId[deleteIdKey]}`);
 					await this.delObjectAsync(deleteId[deleteIdKey], { recursive: true });
 				}
 			}
-			if (logLevel === 'debug')
+			if (this.logLevel === 'debug')
 				this.log.debug('all tablet objects that are no longer needed have been deleted');
 		} catch (error) {
 			this.log.error(`deleteFunction has a problem: ${error.message}, stack: ${error.stack}`);
@@ -1401,15 +1467,16 @@ class Wallpanel extends utils.Adapter {
 	private onUnload(callback: () => void): void {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
-			if (requestTimeout) clearTimeout(requestTimeout);
-			for (const Unl in tabletName) {
-				if (tabletName.hasOwnProperty(Unl)) {
-					if (logMessageTimer[Unl]) clearTimeout(logMessageTimer[Unl]);
-					if (commandRequestTimeout[Unl]) clearTimeout(commandRequestTimeout[Unl]);
-					if (deviceEnabled[Unl]) this.setState(`${tabletName[Unl]}.connected`, false, true);
+			if (this.requestTimeout) clearTimeout(this.requestTimeout);
+			for (const Unl in this.tabletName) {
+				if (this.tabletName.hasOwnProperty(Unl)) {
+					if (this.logMessageTimer[Unl]) clearTimeout(this.logMessageTimer[Unl]);
+					if (this.commandRequestTimeout[Unl]) clearTimeout(this.commandRequestTimeout[Unl]);
+					if (this.deviceEnabled[Unl])
+						this.setState(`${this.tabletName[Unl]}.connected`, false, true);
 				}
 			}
-			if (logLevel === 'debug')
+			if (this.logLevel === 'debug')
 				this.log.debug(`All timers are canceled because the adapter has been switched off`);
 			this.setState('info.connection', false, true);
 
@@ -1426,12 +1493,12 @@ class Wallpanel extends utils.Adapter {
 		try {
 			if (state) {
 				// The state was changed
-				for (const change in tabletName) {
-					if (tabletName.hasOwnProperty(change)) {
-						if (deviceEnabled[change] && tabletMqttEnabled[change]) {
-							if (state.from === `system.adapter.${mqttInstance}`) {
+				for (const change in this.tabletName) {
+					if (this.tabletName.hasOwnProperty(change)) {
+						if (this.deviceEnabled[change] && this.tabletMqttEnabled[change]) {
+							if (state.from === `system.adapter.${this.mqttInstance}`) {
 								await this.request();
-								if (logLevel === 'debug')
+								if (this.logLevel === 'debug')
 									this.log.debug(
 										`state ${id} changed: ${state.val} from: ${this.namespace}`,
 									);
@@ -1441,20 +1508,25 @@ class Wallpanel extends utils.Adapter {
 					}
 				}
 
-				for (const change in tabletName) {
-					if (tabletName.hasOwnProperty(change)) {
-						if (deviceEnabled[change] && !state.ack) {
-							for (const i in commandStates) {
-								if (commandStates.hasOwnProperty(i)) {
+				for (const change in this.tabletName) {
+					if (this.tabletName.hasOwnProperty(change)) {
+						if (this.deviceEnabled[change] && !state.ack) {
+							for (const i in this.commandStates) {
+								if (this.commandStates.hasOwnProperty(i)) {
 									if (
 										id ===
-										`${this.namespace}.${tabletName[change]}.command.${commandStates[i]}`
+										`${this.namespace}.${this.tabletName[change]}.command.${this.commandStates[i]}`
 									) {
-										if (logLevel === 'debug')
+										if (this.logLevel === 'debug')
 											this.log.debug(
 												`state ${id} changed: ${state.val} from: ${this.namespace}`,
 											);
-										await this.sendCommand(id, state, parseInt(change), commandStates[i]);
+										await this.sendCommand(
+											id,
+											state,
+											parseInt(change),
+											this.commandStates[i],
+										);
 										break;
 									}
 								}
@@ -1464,7 +1536,7 @@ class Wallpanel extends utils.Adapter {
 				}
 			} else {
 				// The state was deleted
-				if (logLevel === 'debug') this.log.debug(`state ${id} deleted`);
+				if (this.logLevel === 'debug') this.log.debug(`state ${id} deleted`);
 			}
 		} catch (error) {
 			this.log.error(`[onStateChane ${id}] error: ${error.message}, stack: ${error.stack}`);
@@ -1486,7 +1558,7 @@ class Wallpanel extends utils.Adapter {
 						.get(`http://${deviceObj.ip}:${deviceObj.port}/api/state`, {
 							timeout: 15000,
 							timeoutErrorMessage: `Device: ${deviceObj.name} with ip: ${deviceObj.ip} takes too long to respond to the request => timeout`,
-							signal: abortController.signal,
+							signal: this.abortController.signal,
 						})
 						.then(async (response) => {
 							if (response.status === 200) {
@@ -1499,19 +1571,19 @@ class Wallpanel extends utils.Adapter {
 								};
 
 								this.sendTo(obj.from, obj.command, deviceOnline, obj.callback);
-								if (logLevel === 'debug')
+								if (this.logLevel === 'debug')
 									this.log.debug(`Device ${deviceObj.name} with ${deviceObj.ip} added`);
 							}
 						})
 						.catch((error) => {
 							const errorMessage = { code: error.code, message: error.message };
 							this.sendTo(obj.from, obj.command, errorMessage, obj.callback);
-							if (logLevel === 'debug')
+							if (this.logLevel === 'debug')
 								this.log.debug(`[ add New Device request ] error: ${error.message}`);
 						});
 				}
 				if (obj.command === 'cancel') {
-					if (abortController) abortController.abort();
+					if (this.abortController) this.abortController.abort();
 				}
 			}
 		} catch (error) {
