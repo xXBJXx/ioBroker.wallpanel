@@ -59,10 +59,14 @@ Sentry Reporting is used from js-controller 3.0.
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
+### __WORK IN PROGRESS__
+* (xXBJXx) dependencies updated 
+* (xXBJXx) Moved global variable to constructor
+
 ### 0.3.8 (2022-07-02)
 * (xXBJXx) removed the play Store Link and added the GitHub Link to the new version and add a Warning for the Installer from GitHub.
 * (xXBJXx) optimized the code
-* (xXBJXx) depandencies updated
+* (xXBJXx) dependencies updated
 * (xXBJXx) Leave the device switched off when creating Problem solved
 
 ### 0.3.7 (2022-06-06)
@@ -70,7 +74,7 @@ Sentry Reporting is used from js-controller 3.0.
 * (xXBJXx) fixed mqtt topic Display Direction
 
 ### 0.3.6 (2022-05-30)
-* (xXBJXx) preparation for release in Iobroker Repo. Adapter-Check issues processed
+* (xXBJXx) preparation for release in ioBroker Repo. Adapter-Check issues processed
 
 ### 0.3.5 (2022-05-30)
 * (xXBJXx) update Changelog and fixed type issues
