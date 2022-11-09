@@ -1,4 +1,4 @@
-import { Connection } from '@iobroker/socket-client';
+import { Connection } from 'iobroker-react/socket-client';
 
 export interface SentToServer {
 	alert: { message: string; open: boolean };

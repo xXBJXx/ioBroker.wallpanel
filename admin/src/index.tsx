@@ -1,7 +1,4 @@
-import Utils from '@iobroker/adapter-react/Components/Utils';
-import theme from '@iobroker/adapter-react/Theme';
 // UI elements are imported from Material-UI
-import { ThemeProvider } from '@mui/material/styles';
 // import from iobroker-react docu page => https://github.com/AlCalzone/iobroker-react
 import { SettingsApp } from 'iobroker-react/app';
 import { useConnection, useSettings } from 'iobroker-react/hooks';
@@ -10,10 +7,6 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AdapterHeader } from './component/AdapterHeader';
 import { SettingPage } from './SettingPage';
-
-// Components are imported here
-
-const themeName = Utils.getThemeName();
 
 // eslint-disable-next-line react/display-name
 const SettingsPageContent: React.FC = React.memo(() => {
@@ -112,11 +105,9 @@ const translations: Translations = {
 
 const Root: React.FC = () => {
 	return (
-		<ThemeProvider theme={theme(themeName)}>
-			<SettingsApp name="Wallpanel" afterLoad={migrateSettings} translations={translations}>
-				<SettingsPageContent />
-			</SettingsApp>
-		</ThemeProvider>
+		<SettingsApp name="Wallpanel" afterLoad={migrateSettings} translations={translations}>
+			<SettingsPageContent />
+		</SettingsApp>
 	);
 };
 
