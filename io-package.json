@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.9",
+    "version": "0.3.10",
     "news": {
+      "0.3.10": {
+        "en": "update dependencies\nupdate to new React library for UI",
+        "de": "Abhängigkeiten aktualisieren\nUpdate auf neue React-Bibliothek für UI",
+        "ru": "обновление зависимостей\nобновление до новой библиотеки React для пользовательского интерфейса",
+        "pt": "actualizar as dependências\nactualização da nova biblioteca React para a UI",
+        "nl": "afhankelijkheden bijwerken\nupdate naar nieuwe React-bibliotheek voor UI",
+        "fr": "mise à jour des dépendances\nmise à jour vers la nouvelle bibliothèque React pour l'interface utilisateur",
+        "it": "mise à jour des dépendances\nmise à jour vers la nouvelle bibliothèque React pour l'interface utilisateur",
+        "es": "actualizar dependencias\nactualización a la nueva biblioteca React para UI",
+        "pl": "aktualizować zależności\naktualizacja do nowej biblioteki React dla UI",
+        "uk": "оновлення залежностей\nоновлення до нової бібліотеки React для UI",
+        "zh-cn": "更新依赖性\n更新到用于UI的新React库"
+      },
       "0.3.9": {
         "en": "dependencies updated \nMoved global variable to constructor",
         "de": "Abhängigkeiten aktualisiert \nGlobale Variablen in den Konstruktor verschoben",
@@ -74,18 +87,6 @@
         "es": "actualizar Changlog y problemas de tipo fijo",
         "pl": "zaktualizuj Changloga naprawiono problemy z typem",
         "zh-cn": "更新 Changlog 一个固定类型问题"
-      },
-      "0.3.3": {
-        "en": "update Dependencies",
-        "de": "Abhängigkeiten aktualisieren",
-        "ru": "обновить зависимости",
-        "pt": "atualizar dependências",
-        "nl": "update afhankelijkheden",
-        "fr": "mettre à jour les dépendances",
-        "it": "aggiornare le dipendenze",
-        "es": "actualizar dependencias",
-        "pl": "zaktualizuj zależności",
-        "zh-cn": "更新依赖"
       }
     },
     "titleLang": {

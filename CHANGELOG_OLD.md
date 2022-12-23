@@ -1,4 +1,7 @@
 # Older changes
+## 0.3.5 (2022-05-30)
+* (xXBJXx) update Changelog and fixed type issues
+
 ## 0.3.3 (2022-05-30)
 * (xXBJXx) update Dependencies
 
