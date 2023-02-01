@@ -35,7 +35,7 @@
     "@iobroker/testing": "^4.1.0",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.1",
-    "@mui/styles": "^5.11.2",
+    "@mui/styles": "^5.11.7",
     "@types/chai": "^4.3.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^10.0.1",
