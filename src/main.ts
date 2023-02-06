@@ -21,7 +21,9 @@ import {
 } from './lib/object_definition';
 
 import { replaceFunktion } from './lib/replaceFunktion';
+import sourceMapSupport from 'source-map-support';
 
+sourceMapSupport.install();
 // Global variables here
 //rest API Obj
 const commandObjects = object_command_definitions;
