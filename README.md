@@ -67,7 +67,7 @@ Several tablets can be set in the adapter at the same time, which can then queri
 ## License
 MIT License
 
-Copyright (c) 2020-2022 xXBJXx <issi.dev.iobroker@gmail.com>
+Copyright (c) 2020-2023 xXBJXx <issi.dev.iobroker@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
