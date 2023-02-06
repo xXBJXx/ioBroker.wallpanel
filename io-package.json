@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "wallpanel",
-    "version": "0.3.10",
+    "version": "0.3.11",
     "news": {
+      "0.3.11": {
+        "en": "Dependencies updated",
+        "de": "Abhängigkeiten aktualisiert",
+        "ru": "Зависимости обновлены",
+        "pt": "Dependências atualizadas",
+        "nl": "Afhankelijkheden bijgewerkt",
+        "fr": "Dépendances mises à jour",
+        "it": "Dipendenze aggiornate",
+        "es": "Dependencias actualizadas",
+        "pl": "Zależności zaktualizowane",
+        "uk": "Залежності оновлено",
+        "zh-cn": "依赖关系已更新"
+      },
       "0.3.10": {
         "en": "update dependencies\nupdate to new React library for UI",
         "de": "Abhängigkeiten aktualisieren\nUpdate auf neue React-Bibliothek für UI",
@@ -75,18 +88,6 @@
         "es": "actualizar el registro de cambios y los problemas de tipo fijo",
         "pl": "aktualizacja dziennika zmian i naprawiono problemy z typami",
         "zh-cn": "更新变更日志并修复类型问题"
-      },
-      "0.3.4": {
-        "en": "update Changlog an fixed type issues",
-        "de": "Aktualisieren Sie Changlog und Probleme mit behobenen Typen",
-        "ru": "обновить журнал изменений фиксированного типа",
-        "pt": "atualizar Changlog um problema de tipo fixo",
-        "nl": "update Changlog een vast type problemen",
-        "fr": "mettre à jour Changlog et résoudre les problèmes de type",
-        "it": "aggiornamento di Changlog e problemi di tipo fisso",
-        "es": "actualizar Changlog y problemas de tipo fijo",
-        "pl": "zaktualizuj Changloga naprawiono problemy z typem",
-        "zh-cn": "更新 Changlog 一个固定类型问题"
       }
     },
     "titleLang": {

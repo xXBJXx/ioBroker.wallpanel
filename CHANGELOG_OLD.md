@@ -1,4 +1,7 @@
 # Older changes
+## 0.3.6 (2022-05-30)
+* (xXBJXx) preparation for release in ioBroker Repo. Adapter-Check issues processed
+
 ## 0.3.5 (2022-05-30)
 * (xXBJXx) update Changelog and fixed type issues
 

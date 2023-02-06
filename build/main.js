@@ -21,6 +21,8 @@ var utils = __toESM(require("@iobroker/adapter-core"));
 var import_axios = __toESM(require("axios"));
 var import_object_definition = require("./lib/object_definition");
 var import_replaceFunktion = require("./lib/replaceFunktion");
+var import_source_map_support = __toESM(require("source-map-support"));
+import_source_map_support.default.install();
 const commandObjects = import_object_definition.object_command_definitions;
 const infoObjects = import_object_definition.object_info_definitions;
 const batteryObjects = import_object_definition.object_mqttBattery_definitions;

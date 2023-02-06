@@ -41,8 +41,9 @@ Several tablets can be set in the adapter at the same time, which can then queri
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
-### __WORK IN PROGRESS__
+### 0.3.11 (2023-02-06)
 * (xXBJXx) Dependencies updated
+
 ### 0.3.10 (2022-12-23)
 * (xXBJXx) update dependencies
 * (xXBJXx) update to new React library for UI
@@ -60,9 +61,6 @@ Several tablets can be set in the adapter at the same time, which can then queri
 ### 0.3.7 (2022-06-06)
 * (xXBJXx) Node version support set to >= v16.x because of new features of Node.js that are needed.
 * (xXBJXx) fixed mqtt topic Display Direction
-
-### 0.3.6 (2022-05-30)
-* (xXBJXx) preparation for release in ioBroker Repo. Adapter-Check issues processed
 
 ## License
 MIT License
