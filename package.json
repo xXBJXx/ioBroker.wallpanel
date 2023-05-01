@@ -34,7 +34,7 @@
     "@emotion/styled": "^11.10.5",
     "@iobroker/adapter-dev": "^1.2.0",
     "@iobroker/testing": "^4.1.0",
-    "@mui/icons-material": "^5.11.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.7",
     "@mui/styles": "^5.11.13",
     "@types/chai": "^4.3.4",
