@@ -31,7 +31,7 @@
     "@alcalzone/release-script-plugin-license": "^3.5.9",
     "@alcalzone/release-script-plugin-manual-review": "^3.5.9",
     "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.5",
+    "@emotion/styled": "^11.11.0",
     "@iobroker/adapter-dev": "^1.2.0",
     "@iobroker/testing": "^4.1.0",
     "@mui/icons-material": "^5.11.16",
