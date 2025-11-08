@@ -130,6 +130,7 @@
     "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.wallpanel/main/admin/wallpanel.png",
     "readme": "https://github.com/xXBJXx/ioBroker.wallpanel/blob/main/README.md",
     "loglevel": "info",
+    "tier": 2,
     "mode": "daemon",
     "type": "hardware",
     "compact": true,
