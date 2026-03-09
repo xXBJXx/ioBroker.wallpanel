@@ -37,6 +37,9 @@ Several tablets can be set in the adapter at the same time, which can then queri
 ### **Attention, if you install an app from GitHub, then you install it "from an unknown source" this can be dangerous under certain circumstances because the app has not been checked for malware by any official source.**
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+- (iobroker-bot) Adapter requires node.js >= 20 now.
  <!--
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
