@@ -41,6 +41,10 @@ Several tablets can be set in the adapter at the same time, which can then queri
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ (- falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben)
  -->
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 0.3.11 (2023-02-06)
 * (xXBJXx) Dependencies updated
 
